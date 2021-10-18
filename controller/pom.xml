@@ -1,0 +1,59 @@
+<project>
+
+    <parent>
+        <groupId>com.jwd</groupId>
+        <artifactId>JWD_MMM_project</artifactId>
+        <version>1</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>controller</artifactId>
+    <version>1</version>
+
+
+    <packaging>war</packaging>
+
+    <properties>
+        <output>/Users/arina/study/epam_course/project/dev/29_08/apache-tomcat-8.5.70/webapps</output>
+    </properties>
+
+    <build>
+        <finalName>controller</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <outputDirectory>${output}</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jwd</groupId>
+            <artifactId>service</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jwd</groupId>
+            <artifactId>dao</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+</project>
