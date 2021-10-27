@@ -1,5 +1,8 @@
 package com.jwd.service.serviceLogic;
 
+import com.jwd.dao.entity.User;
+import com.jwd.dao.repository.UserDao;
+import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.impl.LoginDaoImpl;
 import com.jwd.dao.repository.impl.UserDaoImpl;
 import com.jwd.dao.exception.DaoException;
@@ -17,8 +20,8 @@ public class LoginService {
     public static boolean checkLoginAndPassword(String login, String password) {
         logger.info("Start checkLoginAndPassword(String login, String password).");
         boolean result;
-        LoginDaoImpl loginDaoImpl = new LoginDaoImpl();
-        result = loginDaoImpl.isLoginAndPasswordExist(login, password);
+        LoginDao loginDao = new LoginDaoImpl();
+        result = loginDao.isLoginAndPasswordExist(login, password);
         if (result) {
             logger.info("Correct login and password.");
         }  else {
@@ -31,9 +34,9 @@ public class LoginService {
     public static String getUserNameByLogin(String login) throws ServiceException {
         logger.info("Start getClientNameByLogin(String login). Login = " + login);
         String name;
-        UserDaoImpl clientDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl();
         try {
-            name = clientDao.findNameByLogin(login);
+            name = userDao.findNameByLogin(login);
         }
          catch (DaoException e) {
              logger.error("Client name with login = " + login + " was not found.");
@@ -47,14 +50,28 @@ public class LoginService {
         logger.info("Start getIdClientByLogin(String login). Login = " + login);
         Long idClient;
         try {
-            LoginDaoImpl loginDaoImpl = new LoginDaoImpl();
-            idClient = loginDaoImpl.findIdByLogin(login);
+            LoginDao loginDao = new LoginDaoImpl();
+            idClient = loginDao.findIdByLogin(login);
         } catch (DaoException e) {
             logger.error("Client id with login = " + login + " was not found.");
             throw new ServiceException(e);
         }
         logger.info("Client id with login = " + login + " was found. Id = " + idClient);
         return idClient;
+    }
+
+    public static User getUserById(Long idUser) throws ServiceException {
+        logger.info("Start User getIdUserById(Long idUser). idUser = " + idUser);
+        User user  = new User();
+        try {
+            UserDao userDao = new UserDaoImpl();
+            user = userDao.getUserById(idUser);
+        } catch (DaoException e) {
+            logger.error("Client with idUser = " + idUser + " was not found.");
+            throw new ServiceException(e);
+        }
+        logger.info("Client with idUser = " + idUser + " was found. Id = " + idUser);
+        return user;
     }
 
 }
