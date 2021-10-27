@@ -4,7 +4,7 @@
     <Properties>
         <property name="pattern_file">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</property>
         <property name="pattern_console">%relative [%t] %-5level %logger{36} - %msg%n</property>
-        <property name="LOG_DIR">/Users/arina/study/epam_course/project/JWD_project/logger</property>
+        <property name="LOG_DIR">/Users/arina/study/epam_course/project/JWD_MMM_project/logger</property>
     </Properties>
 
 

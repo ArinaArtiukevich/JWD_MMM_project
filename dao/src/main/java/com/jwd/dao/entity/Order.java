@@ -12,6 +12,8 @@ public class Order {
     private ServiceType serviceType;
     private ServiceStatus status;
 
+    private Long idWorker;
+
     public Order() {
     }
 
@@ -32,14 +34,15 @@ public class Order {
         this.status = status;
     }
 
-    public Order(Long idService, String description, String address, ServiceType serviceType, ServiceStatus status) {
+    public Order(Long idService, Long idClient, String description, String address, ServiceType serviceType, ServiceStatus status, Long idWorker) {
         this.idService = idService;
+        this.idClient = idClient;
         this.description = description;
         this.address = address;
         this.serviceType = serviceType;
         this.status = status;
+        this.idWorker = idWorker;
     }
-
 
     public Long getIdService() {
         return idService;
@@ -49,12 +52,6 @@ public class Order {
         this.idService = idService;
     }
 
-//    public synchronized Integer getNextId() {
-//        this.setServiceId(nextId);
-//        nextId++;
-//        return nextId;
-//    }
-
     public long getIdClient() {
         return idClient;
     }
@@ -62,7 +59,6 @@ public class Order {
     public void setIdClient(Long idClient) {
         this.idClient = idClient;
     }
-
 
     public String getDescription() {
         return description;
@@ -96,6 +92,15 @@ public class Order {
         this.status = status;
     }
 
+    public Long getIdWorker() {
+        return idWorker;
+    }
+
+    public void setIdWorker(Long idWorker) {
+        this.idWorker = idWorker;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,7 +115,9 @@ public class Order {
                 address != null &&
                 address.equals(order.address) &&
                 serviceType == order.serviceType &&
-                status == order.status;
+                status == order.status &&
+                idWorker != null &&
+                idWorker.equals(order.idWorker);
     }
 
     @Override
@@ -122,18 +129,20 @@ public class Order {
         hash = hash * 31 + (address == null ? 0 : address.hashCode());
         hash = hash * 31 + (serviceType == null ? 0 : serviceType.hashCode());
         hash = hash * 31 + (status == null ? 0 : status.hashCode());
+        hash = hash * 31 + (idWorker == null ? 0 : idWorker.hashCode());
         return hash;
     }
 
     @Override
     public String toString() {
-        return "Service{" +
+        return "Order{" +
                 "idService=" + idService +
                 ", idClient=" + idClient +
                 ", description='" + description + '\'' +
                 ", address='" + address + '\'' +
                 ", serviceType=" + serviceType +
                 ", status=" + status +
+                ", idWorker=" + idWorker +
                 '}';
     }
 }

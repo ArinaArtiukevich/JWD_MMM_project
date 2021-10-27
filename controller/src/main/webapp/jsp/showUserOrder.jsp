@@ -4,14 +4,14 @@
 
 <html>
     <head>
-        <title>${title_showUserOrders}</title>
+        <title>${title_find_worker_response}</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="title.showUserOrders" var="title_showUserOrders"/>
+        <fmt:message bundle="${loc}" key="title.find.worker.response" var="title_find_worker_response"/>
         <fmt:message bundle="${loc}" key="work.add.order" var="work_add_service"/>
         <fmt:message bundle="${loc}" key="show.user.orders" var="show_user_orders"/>
 
@@ -35,7 +35,7 @@
             <h1 style="color:red;">id : ${sessionScope.userId}</h1>
             <h1 style="color:red;">login : ${sessionScope.login}</h1>
         </div>
-        <form method="POST" action="${pageContext.request.contextPath}/controller">
+        <form method="GET" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="show_user_orders">
             <div id="menu">
                 <button>

@@ -43,7 +43,7 @@
 
 <form method="POST" action="${pageContext.request.contextPath}/controller">
     <input type="hidden" name="command" value="registration"/>
-    <input type="hidden" name="userId" value="${sessionScope.userId}"/>
+<%--    <input type="hidden" name="userId" value="${sessionScope.userId}"/>--%>
     <div class="row mb-3">
         <label for="firstNameInput" class="col-sm-2 col-form-label form-control-lg">${registration_firstName}</label>
         <div class="col-sm-10">
@@ -121,9 +121,9 @@
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="userRole" id="executorRadios" value="executor"/>
-                <label class="form-check-label" for="executorRadios">
-                    Executor
+                <input class="form-check-input" type="radio" name="userRole" id="workerRadios" value="worker"/>
+                <label class="form-check-label" for="workerRadios">
+                    Worker
                 </label>
             </div>
         </div>

@@ -14,6 +14,8 @@
         <fmt:message bundle="${loc}" key="work.title" var="work_title"/>
         <fmt:message bundle="${loc}" key="work.add.order" var="work_add_service"/>
         <fmt:message bundle="${loc}" key="work.show.user.all.order" var="work_show_user_all_order"/>
+        <fmt:message bundle="${loc}" key="work.find.worker.response" var="work_find_worker_response"/>
+        <fmt:message bundle="${loc}" key="work.find.client.response" var="work_find_client_response"/>
         <fmt:message bundle="${loc}" key="show.user.orders" var="show_user_orders"/>
 
     </head>
@@ -29,18 +31,47 @@
             <h1 style="color:red;">login : ${sessionScope.login}</h1>
         </div>
 
-        <form name="userForm" method="POST" action="${pageContext.request.contextPath}/controller">
-            <input type="hidden" name="command" value="work"/>
+        <div id="error">
+            <h1 style="color:red;"> ${errorWorkMessage}</h1>
+        </div>
+        <c:if test="${sessionScope.userId ne null}">
+            <form name="userForm" method="POST" action="${pageContext.request.contextPath}/controller">
+                <input type="hidden" name="command" value="work"/>
 
-            <div id="menu">
-                <button type="submit" name="work_action" value="addService">
-                    ${work_add_service}
-                </button><br/>
-                <button type="submit" name="work_action" value="showUserOrder">
-                    ${work_show_user_all_order}
-                </button><br/>
-            </div>
-        </form>
+                <div id="menu">
+
+                    <c:if test="${sessionScope.userRole eq 'client'}">
+                        <button type="submit" name="work_action" value="addService">
+                                ${work_add_service}
+                        </button><br/>
+
+                        <button type="submit" name="work_action" value="showUserOrder">
+                                ${work_show_user_all_order}
+                        </button><br/>
+                        <div>
+                            <a class="btn btn-primary" href="/controller?command=find_client_response&idClient=${sessionScope.userId}">
+                                    ${work_find_client_response}
+                            </a><br/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${sessionScope.userRole eq 'worker'}">
+                        <div>
+                            <a class="btn btn-primary" href="/controller?command=find_worker_response&idWorker=${sessionScope.userId}">
+                                    ${work_find_worker_response}
+                            </a><br/>
+                        </div>
+                    </c:if>
+
+                </div>
+            </form>
+        </c:if>
+        <c:if test="${sessionScope.userId eq null}">
+            <a href="../jsp/authorization.jsp">
+                <h1>Please login or register</h1>>
+            </a>
+        </c:if>
+
     </body>
 </html>
 

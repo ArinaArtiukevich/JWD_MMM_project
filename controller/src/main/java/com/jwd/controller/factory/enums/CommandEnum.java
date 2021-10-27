@@ -1,6 +1,5 @@
 package com.jwd.controller.factory.enums;
 
-
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.impl.*;
 
@@ -8,6 +7,11 @@ public enum CommandEnum {
     LOGIN {
         {
             this.command = new LoginCommandImpl();
+        }
+    },
+    LOGOUT{
+        {
+            this.command = new LogoutImpl();
         }
     },
     REGISTRATION {
@@ -39,9 +43,38 @@ public enum CommandEnum {
         {
             this.command = new FindUserOrdersImpl();
         }
-    }
+    },
+    FIND_ORDER_INFO {
+        {
+            this.command = new FindOrderInfoImpl();
+        }
+    },
+    TAKE_ORDER {
+        {
+            this.command = new TakeOrderImpl();
+        }
+    },
+    CLOSE_ORDER {
+        {
+            this.command = new CloseOrderImpl();
+        }
+    },
+    APPROVE_ORDER {
+        {
+            this.command = new ApproveOrderImpl();
+        }
+    },
+    FIND_WORKER_RESPONSE {
+        {
+            this.command = new FindWorkerResponseImpl();
+        }
+    },
+    FIND_CLIENT_RESPONSE {
+        {
+            this.command = new FindClientResponseImpl();
+        }
+    },
     ;
-
 
     Command command;
 

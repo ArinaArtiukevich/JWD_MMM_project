@@ -1,6 +1,7 @@
 package com.jwd.service.serviceLogic;
 
 import com.jwd.dao.entity.User;
+import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.impl.LoginDaoImpl;
@@ -10,11 +11,11 @@ import com.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LoginService {
+public class UserService {
 
-    private static final Logger logger = LogManager.getLogger(LoginService.class);
+    private static final Logger logger = LogManager.getLogger(UserService.class);
 
-    public LoginService() {
+    public UserService() {
     }
 
     public static boolean checkLoginAndPassword(String login, String password) {
@@ -29,7 +30,6 @@ public class LoginService {
         }
         return result;
     }
-
 
     public static String getUserNameByLogin(String login) throws ServiceException {
         logger.info("Start getClientNameByLogin(String login). Login = " + login);
@@ -74,4 +74,17 @@ public class LoginService {
         return user;
     }
 
+    public static UserRole getRoleByID(Long idUser) throws ServiceException {
+        logger.info("Start UserRole getRoleByID(Long idUser). idUser = " + idUser);
+        UserRole userRole;
+        try {
+            UserDao userDao = new UserDaoImpl();
+            userRole = userDao.findRoleByID(idUser);
+        } catch (DaoException e) {
+            logger.error("User role with idUser = " + idUser + " was not found.");
+            throw new ServiceException(e);
+        }
+        logger.info("User role with idUser = " + idUser + " was found. Role = " + userRole.getName());
+        return userRole;
+    }
 }

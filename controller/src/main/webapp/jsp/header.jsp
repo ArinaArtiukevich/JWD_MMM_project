@@ -13,9 +13,11 @@
         <fmt:setBundle basename="localization.local" var="loc"/>
         <fmt:message bundle="${loc}" key="local.locbutton.name.en" var="en_btn"/>
         <fmt:message bundle="${loc}" key="local.locbutton.name.ru" var="ru_btn"/>
+        <fmt:message bundle="${loc}" key="button.logout" var="button_logout"/>
         <fmt:message bundle="${loc}" key="button.main" var="button_main"/>
         <fmt:message bundle="${loc}" key="button.order" var="button_service"/>
         <fmt:message bundle="${loc}" key="button.authorization" var="button_authorization"/>
+        <fmt:message bundle="${loc}" key="button.user.account" var="button_user_account"/>
     </head>
     <body>
 
@@ -26,6 +28,7 @@
                     <th><a href="../index.jsp" class="eight"> <c:out value="${button_main}"/></a></th>
                     <th><a href="../jsp/services.jsp" class="eight"> <c:out value="${button_service}"/></a></th>
                     <th><a href="../jsp/authorization.jsp" class="eight"> <c:out value="${button_authorization}"/></a></th>
+                    <th><a href="../jsp/work.jsp" class="eight"> <c:out value="${button_user_account}"/></a></th>
                 </tr>
             </table>
         </div>
@@ -47,5 +50,21 @@
             </input>
             </input>
         </form>
+
+        <div>
+            <c:choose>
+                <c:when test="${sessionScope.userRole eq 'client'}">
+                    <a class="btn btn-light" href="/controller?command=logout">
+                            ${button_logout}
+                    </a>
+                </c:when>
+                <c:when test="${sessionScope.userRole eq 'worker'}">
+                    <a class="btn btn-light" href="/controller?command=logout">
+                            ${button_logout}
+                    </a>
+                </c:when>
+            </c:choose>
+        </div>
+
     </body>
 </html>

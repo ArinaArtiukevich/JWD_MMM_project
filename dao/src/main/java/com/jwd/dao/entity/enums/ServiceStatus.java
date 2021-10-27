@@ -1,9 +1,10 @@
 package com.jwd.dao.entity.enums;
 
 public enum ServiceStatus {
-    FREE("FREE"),
-    IN_PROCESS("IN_PROCESS"),
-    DONE( "DONE");
+    FREE("free"),
+    IN_PROCESS("in_process"),
+    DONE( "done"),
+    APPROVED( "approved");
 
     private final String name;
 

@@ -1,6 +1,8 @@
 package com.jwd.dao.repository;
 
 import com.jwd.dao.entity.Login;
+import com.jwd.dao.entity.User;
+import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.exception.DaoException;
 
 public interface LoginDao {
@@ -11,4 +13,5 @@ public interface LoginDao {
     Long findIdByLogin(String login) throws DaoException;
 
     Boolean isLoginAndPasswordExist(String login, String password);
+
 }

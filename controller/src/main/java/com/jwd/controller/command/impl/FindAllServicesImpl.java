@@ -17,11 +17,11 @@ import static com.jwd.controller.command.ParameterAttributeType.ALL_SERVICES;
 
 
 public class FindAllServicesImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
+    private static final Logger logger = LogManager.getLogger(FindAllServicesImpl.class);
 
     @Override
     public String execute(HttpServletRequest request) {
-        logger.error("Start FindAllServicesImpl.");
+        logger.info("Start FindAllServicesImpl.");
         String page = null;
         List<Order> orderList = new ArrayList<Order>();
         try {
@@ -30,6 +30,7 @@ public class FindAllServicesImpl implements Command {
             request.getSession().setAttribute(ALL_SERVICES, orderList);
         } catch (ServiceException e) {
             logger.error("Could not get a list of services.");
+            page = ConfigurationBundle.getProperty("path.page.error");
         }
         return page;
     }

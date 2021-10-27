@@ -6,13 +6,10 @@ import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.service.exception.ServiceException;
-import com.jwd.service.serviceLogic.LoginService;
 import com.jwd.service.serviceLogic.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
-
-import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
 
@@ -22,7 +19,6 @@ public class AddServiceOrderImpl implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
         logger.info("Start addServiceOrder.");
 
         String page = null;
@@ -39,14 +35,13 @@ public class AddServiceOrderImpl implements Command {
                 page = ConfigurationBundle.getProperty("path.page.work");
             }
             else {
-                request.setAttribute("errorWorkMessage", "Could not add an order");
+                request.setAttribute("errorWorkMessage", "Could not add an order. Please, try again.");
                 page = ConfigurationBundle.getProperty("path.page.work");
             }
 
         } catch (ServiceException e) {
-            request.setAttribute("errorAddServiceOrder", e.getMessage());
-            page = ConfigurationBundle.getProperty("path.page.services");
-            logger.error("Problems with adding service.");
+            page = ConfigurationBundle.getProperty("path.page.error");
+            logger.error("Problems with adding order.");
         }
         return page;
     }

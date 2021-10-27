@@ -1,0 +1,124 @@
+15:15:30.834 [http-nio-8080-exec-1] INFO  com.jwd.controller.command.impl.FindWorkerResponseImpl - Start FindWorkerResponseImpl.
+15:15:30.836 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.OrderService - Start List<Order> getOrdersByWorkerId(Long idWorker) in OrderService.
+15:15:30.837 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByWorkerId(Long idWorker).
+15:15:30.837 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:30.837 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:30.837 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindWorkerResponseImpl@7ac35900
+15:15:33.443 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:33.443 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:33.443 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - find_order_info
+15:15:33.443 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:33.443 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_ORDER_INFO
+15:15:33.443 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.FindOrderInfoImpl - Start FindOrderInfoImpl.
+15:15:33.443 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.OrderService - Start Order getOrdersById(Long idService) in OrderService.
+15:15:33.443 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start Order findOrderById(Long idService).
+15:15:33.443 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:33.444 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:33.444 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.UserService - Start User getIdUserById(Long idUser). idUser = 2
+15:15:33.444 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start getUserById(Long idUser). idUser = 2
+15:15:33.444 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:33.445 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:33.445 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.UserService - Client with idUser = 2 was found. Id = 2
+15:15:33.445 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindOrderInfoImpl@447e50ae
+15:15:35.096 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:35.097 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:35.097 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - close_order
+15:15:35.097 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:35.097 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - command = CLOSE_ORDER
+15:15:35.097 [http-nio-8080-exec-3] INFO  com.jwd.controller.command.impl.CloseOrderImpl - Start CloseOrderImpl.
+15:15:35.097 [http-nio-8080-exec-3] INFO  com.jwd.service.serviceLogic.OrderService - Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.
+15:15:35.097 [http-nio-8080-exec-3] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus).
+15:15:35.097 [http-nio-8080-exec-3] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:35.102 [http-nio-8080-exec-3] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - OrderStatus was set.
+15:15:35.102 [http-nio-8080-exec-3] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:35.102 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.CloseOrderImpl@53636bcb
+15:15:37.233 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:37.233 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:37.233 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - close_order
+15:15:37.233 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:37.234 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - command = CLOSE_ORDER
+15:15:37.234 [http-nio-8080-exec-5] INFO  com.jwd.controller.command.impl.CloseOrderImpl - Start CloseOrderImpl.
+15:15:37.234 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.OrderService - Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.
+15:15:37.234 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus).
+15:15:37.234 [http-nio-8080-exec-5] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:37.238 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - OrderStatus was set.
+15:15:37.238 [http-nio-8080-exec-5] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:37.238 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.CloseOrderImpl@53636bcb
+15:15:40.898 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:40.898 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:40.899 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - show_all_services
+15:15:40.899 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:40.899 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - command = SHOW_ALL_SERVICES
+15:15:40.899 [http-nio-8080-exec-6] INFO  com.jwd.controller.command.impl.FindAllServicesImpl - Start FindAllServicesImpl.
+15:15:40.899 [http-nio-8080-exec-6] INFO  com.jwd.service.serviceLogic.OrderService - Start List<Service> getAllServices() in OrderService.
+15:15:40.899 [http-nio-8080-exec-6] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Service> getServiceList().
+15:15:40.899 [http-nio-8080-exec-6] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:40.900 [http-nio-8080-exec-6] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:40.900 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindAllServicesImpl@261d8795
+15:15:43.107 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:43.107 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:43.107 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - logout
+15:15:43.107 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:43.107 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = LOGOUT
+15:15:43.107 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.LogoutImpl - Start LogoutImpl.
+15:15:43.107 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.LogoutImpl@31800cd3
+15:15:44.246 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:45.149 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:45.790 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:48.058 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:48.058 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:48.059 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - login
+15:15:48.059 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:48.059 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - command = LOGIN
+15:15:48.059 [http-nio-8080-exec-1] INFO  com.jwd.controller.command.impl.LoginCommandImpl - Start LoginCommandImpl.
+15:15:48.059 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - Start checkLoginAndPassword(String login, String password).
+15:15:48.059 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start isExistInList(String login, String password). Login = c, password = c
+15:15:48.059 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:48.060 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - User with login:c was found.
+15:15:48.060 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:48.060 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - Correct login and password.
+15:15:48.060 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - Start getIdClientByLogin(String login). Login = c
+15:15:48.060 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findIdByLogin(String login). Login = c
+15:15:48.060 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:48.062 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Login with login:c was found.
+15:15:48.062 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:48.062 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - Client id with login = c was found. Id = 2
+15:15:48.062 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - Start UserRole getRoleByID(Long idUser). idUser = 2
+15:15:48.062 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start UserRole findRoleByID(Long idUser). idUser = 2
+15:15:48.062 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:48.063 [http-nio-8080-exec-1] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:48.064 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.UserService - User role with idUser = 2 was found. Role = client
+15:15:48.064 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.LoginCommandImpl@4b823524
+15:15:50.588 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:15:50.588 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:15:50.588 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - find_client_response
+15:15:50.588 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:15:50.588 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_CLIENT_RESPONSE
+15:15:50.588 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.FindClientResponseImpl - Start FindClientResponseImpl.
+15:15:50.588 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.OrderService - Start List<Order> getOrdersByClientId(Long idClient) in OrderService.
+15:15:50.588 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByClientId(Long idClient).
+15:15:50.588 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:15:50.589 [http-nio-8080-exec-2] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:15:50.589 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindClientResponseImpl@1ee28272
+15:16:00.051 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:16:00.052 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:16:00.052 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - find_client_response
+15:16:00.052 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:16:00.052 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_CLIENT_RESPONSE
+15:16:00.052 [http-nio-8080-exec-4] INFO  com.jwd.controller.command.impl.FindClientResponseImpl - Start FindClientResponseImpl.
+15:16:00.052 [http-nio-8080-exec-4] INFO  com.jwd.service.serviceLogic.OrderService - Start List<Order> getOrdersByClientId(Long idClient) in OrderService.
+15:16:00.052 [http-nio-8080-exec-4] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByClientId(Long idClient).
+15:16:00.052 [http-nio-8080-exec-4] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:16:00.053 [http-nio-8080-exec-4] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:16:00.053 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindClientResponseImpl@1ee28272
+15:16:25.197 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+15:16:25.198 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
+15:16:25.198 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - find_client_response
+15:16:25.198 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+15:16:25.198 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_CLIENT_RESPONSE
+15:16:25.198 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.FindClientResponseImpl - Start FindClientResponseImpl.
+15:16:25.198 [http-nio-8080-exec-7] INFO  com.jwd.service.serviceLogic.OrderService - Start List<Order> getOrdersByClientId(Long idClient) in OrderService.
+15:16:25.198 [http-nio-8080-exec-7] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByClientId(Long idClient).
+15:16:25.198 [http-nio-8080-exec-7] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was allocated.
+15:16:25.199 [http-nio-8080-exec-7] DEBUG com.jwd.dao.connection.ConnectionPool - Connection was returned.
+15:16:25.199 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindClientResponseImpl@1ee28272

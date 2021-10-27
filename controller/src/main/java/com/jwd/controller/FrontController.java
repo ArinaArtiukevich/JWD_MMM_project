@@ -1,6 +1,7 @@
 package com.jwd.controller;
 
 import com.jwd.controller.command.Command;
+import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.factory.CommandFactory;
 import com.jwd.controller.resources.ConfigurationBundle;
 import org.apache.logging.log4j.LogManager;

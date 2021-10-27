@@ -1,34 +1,31 @@
 package com.jwd.dao.repository.impl;
 
-import com.jwd.dao.connection.DataBaseConfig;
+import com.jwd.dao.connection.ConnectionPool;
+import com.jwd.dao.entity.User;
 import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.entity.Login;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.resources.DataBaseBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 public class LoginDaoImpl implements LoginDao {
+
     private static final Logger logger = LogManager.getLogger(LoginDaoImpl.class);
-    private final DataBaseConfig dataBaseConfig;
 
-    public LoginDaoImpl() {
-        dataBaseConfig = new DataBaseConfig();
-    }
-
+    @Override
     public boolean add(Login login) throws DaoException {
         logger.info("Start add(Login login). Id = " + login.getIdClient());
         PreparedStatement statement = null;
         Connection connection = null;
         boolean isAdded = false;
         try {
-            connection = dataBaseConfig.getConnection();
+            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(DataBaseBundle.getProperty("user_dtos.insert.login"));
             statement.setLong(1, login.getIdClient());
             statement.setString(2, login.getLogin());
@@ -43,20 +40,27 @@ public class LoginDaoImpl implements LoginDao {
             throw new DaoException("A login was not added into user_dtos.");
         }
         finally {
-            dataBaseConfig.close(connection, statement);
+            ConnectionPool.getInstance().releaseConnection(connection);
+            try {
+                statement.close();
+            }
+            catch(SQLException e) {
+                logger.error(e);
+            }
         }
         return isAdded;
     }
+
+    @Override
     public boolean deleteLoginById(Integer id) throws DaoException {
         logger.info("Start deleteLoginById(Integer id). Id = " + id);
         boolean isDeleted = false;
         PreparedStatement statement = null;
         Connection connection = null;
         try {
-            connection = dataBaseConfig.getConnection();
+            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(DataBaseBundle.getProperty("user_dtos.delete.login.by.id"));
             statement.setInt(1, id);
-
             int affectedRows = statement.executeUpdate();
             if (affectedRows > 0) {
                 logger.info("Login was deleted.");
@@ -67,12 +71,18 @@ public class LoginDaoImpl implements LoginDao {
             throw new DaoException("Deleting login failed.", e);
         }
         finally {
-            dataBaseConfig.close(connection, statement);
+            ConnectionPool.getInstance().releaseConnection(connection);
+            try {
+                statement.close();
+            }
+            catch(SQLException e) {
+                logger.error(e);
+            }
         }
         return isDeleted;
-
     }
 
+    @Override
     public Long findIdByLogin(String login) throws DaoException {
         logger.info("Start findIdByLogin(String login). Login = " + login);
         Long id = 0L;
@@ -81,7 +91,7 @@ public class LoginDaoImpl implements LoginDao {
         Connection connection = null;
         ResultSet resultSet = null;
         try {
-            connection = dataBaseConfig.getConnection();
+            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(DataBaseBundle.getProperty("user_dtos.find.id.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
@@ -98,11 +108,18 @@ public class LoginDaoImpl implements LoginDao {
             logger.error(e);
         }
         finally {
-            dataBaseConfig.close(connection, statement, resultSet);
+            ConnectionPool.getInstance().releaseConnection(connection);
+            try {
+                statement.close();
+            }
+            catch(SQLException e) {
+                logger.error(e);
+            }
         }
         return id;
     }
 
+    @Override
     public Boolean isLoginAndPasswordExist(String login, String password) {
         logger.info("Start isExistInList(String login, String password). Login = " + login + ", password = " + password);
         boolean isExist = false;
@@ -110,7 +127,7 @@ public class LoginDaoImpl implements LoginDao {
         Connection connection = null;
         ResultSet resultSet = null;
         try {
-            connection = dataBaseConfig.getConnection();
+            connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(DataBaseBundle.getProperty("user_dtos.find.by.login.and.password"));
             statement.setString(1, login);
             statement.setString(2, password);
@@ -127,10 +144,15 @@ public class LoginDaoImpl implements LoginDao {
             logger.error(e);
         }
         finally {
-            dataBaseConfig.close(connection, statement, resultSet);
+            ConnectionPool.getInstance().releaseConnection(connection);
+            try {
+                statement.close();
+            }
+            catch(SQLException e) {
+                logger.error(e);
+            }
         }
         return isExist;
     }
-
 
 }

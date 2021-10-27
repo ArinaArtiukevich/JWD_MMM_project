@@ -7,13 +7,11 @@ public enum Gender {
     ;
     String name;
 
-    Gender(String name)
-    {
+    Gender(String name) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 }

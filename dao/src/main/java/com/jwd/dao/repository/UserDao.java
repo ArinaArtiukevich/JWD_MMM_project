@@ -2,12 +2,15 @@ package com.jwd.dao.repository;
 
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.Registration;
+import com.jwd.dao.entity.enums.ServiceStatus;
+import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.exception.DaoException;
 
-public interface ClientDao {
+public interface UserDao {
     boolean addUser(Registration registration) throws DaoException;
 
     boolean deleteUserById(Integer id) throws DaoException;
+
     Long findIdByLogin(String login) throws DaoException;
 
     boolean isLoginExist(String login) throws DaoException;
@@ -16,5 +19,8 @@ public interface ClientDao {
 
     String findNameByLogin(String login) throws DaoException;
 
+    User getUserById(Long idUser) throws DaoException;
+
+    UserRole findRoleByID(Long idUser) throws DaoException;
 
 }

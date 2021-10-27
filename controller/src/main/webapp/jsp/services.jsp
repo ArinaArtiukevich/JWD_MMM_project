@@ -4,59 +4,55 @@
 
 
 <html>
-<head>
-    <title>${title_services}</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
+    <head>
+        <title>${title_services}</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 
 
-    <fmt:setLocale value="${sessionScope.language}"/>
-    <fmt:setBundle basename="localization.local" var="loc"/>
-    <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all" />
+        <fmt:setLocale value="${sessionScope.language}"/>
+        <fmt:setBundle basename="localization.local" var="loc"/>
+        <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all" />
 
-    <fmt:message bundle="${loc}" key="title.order" var="title_services" />
-    <fmt:message bundle="${loc}" key="order.idService" var="idService" />
-    <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
-    <fmt:message bundle="${loc}" key="order.description" var="description" />
-    <fmt:message bundle="${loc}" key="order.address" var="address" />
-    <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
-    <fmt:message bundle="${loc}" key="order.status" var="status" />
+        <fmt:message bundle="${loc}" key="title.order" var="title_services" />
+        <fmt:message bundle="${loc}" key="order.idService" var="idService" />
+        <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
+        <fmt:message bundle="${loc}" key="order.description" var="description" />
+        <fmt:message bundle="${loc}" key="order.address" var="address" />
+        <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
+        <fmt:message bundle="${loc}" key="order.status" var="status" />
 
-</head>
-<body>
-    <header>
-        <jsp:include page="header.jsp">
+    </head>
+    <body>
+        <header>
+            <jsp:include page="header.jsp">
 
-            <jsp:param name="page_path" value="/jsp/services.jsp"/>
-        </jsp:include>
-    </header>
+                <jsp:param name="page_path" value="/jsp/services.jsp"/>
+            </jsp:include>
+        </header>
 
-    <form method="POST" action="${pageContext.request.contextPath}/controller">
-    <input type="hidden" name="command" value="show_all_services">
+        <form method="GET" action="${pageContext.request.contextPath}/controller">
+            <input type="hidden" name="command" value="show_all_services">
 
-    <div id="menu">
-        <button type="submit" name="show_all_services">
-            ${service_show_all}
-        </button><br/>
-    </div>
+                <div id="menu">
+                    <button type="submit" name="show_all_services">
+                            ${service_show_all}
+                    </button><br/>
+                </div>
+            </input>
+        </form>
 
-
-    <div>
-        <table>
+        <div>
             <c:forEach var="order" items="${sessionScope.services}" >
-                <tr>
-                    <td>${idService} : ${order.idService}</td>
-                    <td>${idClient} : ${order.idClient}</td>
-                    <td>${description} : ${order.description}</td>
-                    <td>${address} : ${order.address}</td>
-                    <td>${serviceType} : ${order.serviceType}</td>
-                    <td>${status} : ${order.status}</td>
-                </tr>
+                <a href = "/controller?command=find_order_info&idService=${order.idService}">
+                    <tr>
+                        <td>${description} : ${order.description}</td>
+                        <td>${serviceType} : ${order.serviceType}</td>
+                        <td>${status} : ${order.status}</td>
+                    </tr>
+                    <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                </a>
             </c:forEach>
-        </table>
-    </div>
-    </input>
-    </form>
-
-</body>
+        </div>
+    </body>
 </html>

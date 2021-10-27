@@ -24,7 +24,6 @@ public class RegistrationService {
             testClient = clientDao.addUser(registration);
 
         } catch (ServiceException | DaoException e) {
-            //TODO REGISTRATION FAILED
             logger.error("Invalid input parameters.");
             throw new ServiceException(e);
         }
