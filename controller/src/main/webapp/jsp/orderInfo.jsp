@@ -77,20 +77,12 @@
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.userRole eq 'client'}">
-                <table>
-                    <div>Client info :</div>
-                    <tr>
-                        <td>${user_firstName} : ${sessionScope.client.firstName}<br/></td>
-                        <td>${user_lastName} : ${sessionScope.client.lastName}<br/></td>
-                        <td>${user_gender} : ${sessionScope.client.gender}<br/></td>
-                        <td>${user_email} : ${sessionScope.client.email}<br/></td>
-                        <td>${user_city} : ${sessionScope.client.city}<br/></td>
-                    </tr>
-                </table>
-                <c:if test="${sessionScope.order.status.toString() eq 'DONE'}">
-                    <input type="hidden" name="command" value="approve_order"/>
-                    <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
-                    <button type="submit" class="btn btn-primary">${button_approve_order}</button>
+                <c:if test="${sessionScope.userId eq sessionScope.order.idClient}">
+                    <c:if test="${sessionScope.order.status.toString() eq 'DONE'}">
+                        <input type="hidden" name="command" value="approve_order"/>
+                        <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
+                        <button type="submit" class="btn btn-primary">${button_approve_order}</button>
+                    </c:if>
                 </c:if>
             </c:if>
         </form>

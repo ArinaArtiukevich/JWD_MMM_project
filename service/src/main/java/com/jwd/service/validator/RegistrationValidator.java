@@ -1,5 +1,7 @@
 package com.jwd.service.validator;
 
+import com.jwd.dao.config.DataBaseConfig;
+import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.repository.impl.UserDaoImpl;
 import com.jwd.service.exception.ServiceException;
@@ -79,7 +81,7 @@ public class RegistrationValidator {
     private static boolean checkLogin(Registration registration) throws ServiceException {
         logger.info("Start checkLogin(Registration registration)." );
         boolean result = true;
-        UserDaoImpl clientDAO = new UserDaoImpl();
+        UserDaoImpl clientDAO = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
 
         if (clientDAO.isLoginExist(registration.getLogin())){
             result = false;

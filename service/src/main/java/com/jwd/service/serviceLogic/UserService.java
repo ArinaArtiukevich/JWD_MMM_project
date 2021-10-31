@@ -1,5 +1,7 @@
 package com.jwd.service.serviceLogic;
 
+import com.jwd.dao.config.DataBaseConfig;
+import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.repository.UserDao;
@@ -21,7 +23,7 @@ public class UserService {
     public static boolean checkLoginAndPassword(String login, String password) {
         logger.info("Start checkLoginAndPassword(String login, String password).");
         boolean result;
-        LoginDao loginDao = new LoginDaoImpl();
+        LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         result = loginDao.isLoginAndPasswordExist(login, password);
         if (result) {
             logger.info("Correct login and password.");
@@ -34,7 +36,7 @@ public class UserService {
     public static String getUserNameByLogin(String login) throws ServiceException {
         logger.info("Start getClientNameByLogin(String login). Login = " + login);
         String name;
-        UserDao userDao = new UserDaoImpl();
+        UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
             name = userDao.findNameByLogin(login);
         }
@@ -50,7 +52,7 @@ public class UserService {
         logger.info("Start getIdClientByLogin(String login). Login = " + login);
         Long idClient;
         try {
-            LoginDao loginDao = new LoginDaoImpl();
+            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             idClient = loginDao.findIdByLogin(login);
         } catch (DaoException e) {
             logger.error("Client id with login = " + login + " was not found.");
@@ -64,7 +66,7 @@ public class UserService {
         logger.info("Start User getIdUserById(Long idUser). idUser = " + idUser);
         User user  = new User();
         try {
-            UserDao userDao = new UserDaoImpl();
+            UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             user = userDao.getUserById(idUser);
         } catch (DaoException e) {
             logger.error("Client with idUser = " + idUser + " was not found.");
@@ -78,7 +80,7 @@ public class UserService {
         logger.info("Start UserRole getRoleByID(Long idUser). idUser = " + idUser);
         UserRole userRole;
         try {
-            UserDao userDao = new UserDaoImpl();
+            UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             userRole = userDao.findRoleByID(idUser);
         } catch (DaoException e) {
             logger.error("User role with idUser = " + idUser + " was not found.");

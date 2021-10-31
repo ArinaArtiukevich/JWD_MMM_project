@@ -1,5 +1,7 @@
 package com.jwd.service.serviceLogic;
 
+import com.jwd.dao.config.DataBaseConfig;
+import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.impl.UserDaoImpl;
@@ -16,7 +18,7 @@ public class RegistrationService {
 
         //TODO ENCODED PASSWORD
 
-        UserDaoImpl clientDao = new UserDaoImpl();
+        UserDaoImpl clientDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         boolean testClient = false;
         boolean testRegistration = false;
         try {

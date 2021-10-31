@@ -42,7 +42,7 @@ public class RegistrationCommandImpl implements Command {
             idUser = UserService.getIdUserByLogin(login);
 
             if(isRegistered) {
-                page = ConfigurationBundle.getProperty("path.page.login");
+                page = ConfigurationBundle.getProperty("path.page.work");
 
                 request.setAttribute(LOGIN, login);
                 request.setAttribute("message", "Add service/ Find service");
@@ -50,7 +50,7 @@ public class RegistrationCommandImpl implements Command {
                 HttpSession session = request.getSession(true);
                 session.setAttribute(USER_ID, idUser);
                 session.setAttribute(LOGIN, login);
-                session.setAttribute(USER_ROLE, userRole);
+                session.setAttribute(USER_ROLE, userRole.getName());
             } // TODO else
         } catch (ServiceException e) {
             request.setAttribute("error", "Registration failed " + e.getMessage());

@@ -1,5 +1,7 @@
 package com.jwd.service.serviceLogic;
 
+import com.jwd.dao.config.DataBaseConfig;
+import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.LoginDao;
@@ -21,8 +23,8 @@ public class OrderService {
 
     public static List<Order> getAllServices() throws ServiceException {
         logger.info("Start List<Service> getAllServices() in OrderService.");
-        List<Order> list = new ArrayList<Order>();
-        OrderDao orderDao = new OrderDaoImpl();
+        List<Order> list = new ArrayList<>();
+        OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
             list = orderDao.getServiceList();
         }
@@ -36,8 +38,8 @@ public class OrderService {
         logger.info("Start List<Order> getOrdersByLogin(String login in OrderService.");
         List<Order> list = new ArrayList<>();
         try {
-            OrderDao orderDao = new OrderDaoImpl();
-            LoginDao loginDao = new LoginDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             Long idClient = loginDao.findIdByLogin(login);
             list = orderDao.findOrdersByIdUser(idClient);
         }
@@ -51,7 +53,7 @@ public class OrderService {
         logger.info("Start  List<Order> getOrdersById(Long idUser) in OrderService.");
         List<Order> list = new ArrayList<>();
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             list = orderDao.findOrdersByIdUser(idUser);
         }
         catch(DaoException e) {
@@ -64,7 +66,7 @@ public class OrderService {
         logger.info("Start Order getOrdersById(Long idService) in OrderService.");
         Order order = new Order();
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             order = orderDao.findOrderById(idService);
         }
         catch(DaoException e) {
@@ -75,10 +77,10 @@ public class OrderService {
 
     public static boolean addServiceOrder(Order order, String login) throws ServiceException {
         logger.info("Start boolean addServiceOrder(Order order, String login) in OrderService.");
-        ArrayList<Order> list = new ArrayList<Order>();
+        ArrayList<Order> list = new ArrayList<>();
         boolean isAdded = false;
-        UserDao userDao = new UserDaoImpl();
-        OrderDao orderDao = new OrderDaoImpl();
+        UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+        OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
             Long idClient = userDao.findIdByLogin(login);
             isAdded = orderDao.add(order, idClient);
@@ -93,7 +95,7 @@ public class OrderService {
         logger.info("Start boolean setOrderStatus(Order order, ServiceStatus serviceStatus) in OrderService.");
         boolean isTaken = false;
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             isTaken = orderDao.takeOrder(idOrder, idWorker);
         }
         catch(DaoException e) {
@@ -106,7 +108,7 @@ public class OrderService {
         logger.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
         boolean isSet = false;
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             isSet = orderDao.setOrderStatus(idOrder, serviceStatus);
         }
         catch(DaoException e) {
@@ -119,7 +121,7 @@ public class OrderService {
         logger.info("Start List<Order> getOrdersByWorkerId(Long idWorker) in OrderService.");
         List<Order> list = new ArrayList<>();
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             list = orderDao.getOrdersByWorkerId(idWorker);
         }
         catch(DaoException e) {
@@ -132,7 +134,7 @@ public class OrderService {
         logger.info("Start List<Order> getOrdersByClientId(Long idClient) in OrderService.");
         List<Order> list = new ArrayList<>();
         try {
-            OrderDao orderDao = new OrderDaoImpl();
+            OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             list = orderDao.getOrdersResponseByClientId(idClient);
         }
         catch(DaoException e) {

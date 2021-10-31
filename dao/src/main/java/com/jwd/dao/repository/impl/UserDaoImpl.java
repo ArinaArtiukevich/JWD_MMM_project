@@ -1,16 +1,17 @@
 package com.jwd.dao.repository.impl;
 
 import com.jwd.dao.connection.ConnectionPool;
+import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.enums.Gender;
-import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.entity.Login;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.resources.DataBaseBundle;
+import com.jwd.dao.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
@@ -19,8 +20,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
+
+    public UserDaoImpl(ConnectionPoolImpl connectionPool) {
+        super(connectionPool);
+    }
 
     @Override
     public boolean addUser(Registration registration) throws DaoException {
@@ -29,8 +34,8 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         Connection connection = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("registration.insert.user"));
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.insert.user"));
             statement.setString(1, registration.getFirstName());
             statement.setString(2, registration.getLastName());
             statement.setString(3, registration.getEmail());
@@ -39,12 +44,13 @@ public class UserDaoImpl implements UserDao {
             statement.setString(6, registration.getGender().toString());
             statement.setString(7, registration.getUserRole().toString());
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows > 0) {
                 logger.info("A client was added.");
                 isAdded = true;
                 Long idClient = findIdByLogin(registration.getLogin());
                 Login userLogin = new Login(idClient, registration.getLogin(), registration.getPassword());
-                LoginDao loginDao = new LoginDaoImpl();
+                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.add(userLogin);
             }
         }
@@ -52,13 +58,8 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Registration failed.", e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(statement);
+            retrieve(connection);
         }
         return isAdded;
     }
@@ -67,11 +68,11 @@ public class UserDaoImpl implements UserDao {
     public Long findIdByLogin(String login) throws DaoException {
         PreparedStatement statement = null;
         Connection connection = null;
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         Long idClient = 0L;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("registration.select.idUser"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.select.idUser"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -85,13 +86,9 @@ public class UserDaoImpl implements UserDao {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);;
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return idClient;
     }
@@ -103,14 +100,15 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         Connection connection = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("registration.delete.client.by.id"));
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.delete.client.by.id"));
             statement.setInt(1, id);
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows > 0) {
                 logger.info("A client was deleted.");
                 isDeleted = true;
-                LoginDao loginDao = new LoginDaoImpl();
+                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.deleteLoginById(id);
             }
         }
@@ -118,13 +116,8 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Deleting a client failed.", e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(statement);
+            retrieve(connection);
         }
         return isDeleted;
     }
@@ -135,26 +128,23 @@ public class UserDaoImpl implements UserDao {
         boolean isExist = false;
         PreparedStatement statement = null;
         Connection connection = null;
+        ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("users.find.by.login"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
             statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 isExist = true;
             }
         }
-        catch(SQLException e) {
+        catch(SQLException | DaoException e) {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return isExist;
     }
@@ -165,12 +155,13 @@ public class UserDaoImpl implements UserDao {
         User user = new User();
         PreparedStatement statement = null;
         Connection connection = null;
+        ResultSet resultSet = null;
         Boolean isExist = false;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("users.find.by.login"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
             statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 Long foundId = resultSet.getLong(1);
                 String firstName = resultSet.getString(2);
@@ -190,13 +181,9 @@ public class UserDaoImpl implements UserDao {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return user;
     }
@@ -208,11 +195,12 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         Connection connection = null;
         Boolean isExist = false;
+        ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("users.find.first_name.by.login"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.first_name.by.login"));
             statement.setString(1, login);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 firstName = resultSet.getString(2);
                 isExist = true;
@@ -225,13 +213,9 @@ public class UserDaoImpl implements UserDao {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return firstName;
     }
@@ -243,11 +227,12 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         Connection connection = null;
         Boolean isExist = false;
+        ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("users.find.by.idUser"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.idUser"));
             statement.setLong(1, idUser);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 String firstName = resultSet.getString(2);
                 String lastName = resultSet.getString(3);
@@ -267,13 +252,9 @@ public class UserDaoImpl implements UserDao {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return user;
     }
@@ -284,11 +265,12 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         Connection connection = null;
         Boolean isExist = false;
+        ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(DataBaseBundle.getProperty("users.find.role.by.id"));
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.role.by.id"));
             statement.setLong(1, idUser);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 userRole = UserRole.valueOf(resultSet.getString(1));
                 isExist = true;
@@ -301,13 +283,9 @@ public class UserDaoImpl implements UserDao {
             logger.error(e);
         }
         finally {
-            ConnectionPool.getInstance().releaseConnection(connection);
-            try {
-                statement.close();
-            }
-            catch(SQLException e) {
-                logger.error(e);
-            }
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
         }
         return userRole;
     }
