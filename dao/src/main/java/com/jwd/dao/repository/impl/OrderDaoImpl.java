@@ -2,6 +2,7 @@ package com.jwd.dao.repository.impl;
 
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
+import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.dao.exception.DaoException;
@@ -57,76 +58,86 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return isAdded;
     }
 
-    public List<Order> getServiceList() throws DaoException {
-        logger.info("Start List<Service> getServiceList().");
-        PreparedStatement statement = null;
+    @Override
+    public Page<Order> getServiceList(Page<Order> daoOrderPage) throws DaoException {
+        logger.info("Start Page<Order> getServiceList(Page<Order> daoOrderPage).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
-        List<Order> orders = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
         try {
-            connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.find.all"));
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.all"));
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.all"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
+            statement.setInt(1, daoOrderPage.getLimit());
+            statement.setInt(2, offset);
             resultSet = statement.executeQuery();
-            orders = new ArrayList<>();
-            while (resultSet.next()) {
-                long idService = resultSet.getLong(1);
-                long idClient = resultSet.getLong(2);
-                String description = resultSet.getString(3);
-                String address = resultSet.getString(4);
-                ServiceType service_type = ServiceType.valueOf(resultSet.getString(5).toUpperCase());
-                ServiceStatus service_status = ServiceStatus.valueOf(resultSet.getString(6).toUpperCase());
-                orders.add(new Order(idService, idClient, description, address, service_type, service_status));
-            }
+            connection.commit();
+            page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
         finally {
-            close(resultSet);
-            close(statement);
+            close(resultSet, resultSet_total_elements);
+            close(statement, statement_total_elements);
             retrieve(connection);
         }
-        return orders;
+        return page;
     }
 
     @Override
-    public List<Order> findOrdersByIdUser(Long idUser) throws DaoException {
-        logger.info("Start List<Order> findOrdersByIdUser(Long idUser).");
+    public Page<Order> findOrdersByIdUser(Page<Order> daoOrderPage, Long idUser) throws DaoException {
+        logger.info("Start Page<Order> findOrdersByIdUser(Page<Order> daoOrderPage, Long idUser).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
+
         List<Order> list = new ArrayList<>();
         if(idUser <= 0) {
             throw new DaoException("Invalid idClient");
         }
         try {
-            connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.by.idUser"));
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.all.by.idUser"));
+            statement_total_elements.setLong(1, idUser);
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.by.idUser"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
             statement.setLong(1, idUser);
+            statement.setInt(2, daoOrderPage.getLimit());
+            statement.setInt(3, offset);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
-                Order order = new Order();
-                order.setIdService(resultSet.getLong("id_service"));
-                order.setIdClient(resultSet.getLong("id_client"));
-                order.setDescription(resultSet.getString("description"));
-                order.setAddress(resultSet.getString("address"));
-                order.setServiceType(ServiceType.valueOf(resultSet.getString("service_type")));
-                order.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")));
-                list.add(order);
-            }
-        }
-        catch(SQLException e) {
+            connection.commit();
+
+            page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
+
+        } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
         finally {
-            close(resultSet);
-            close(statement);
+            close(resultSet, resultSet_total_elements);
+            close(statement, statement_total_elements);
             retrieve(connection);
         }
-        return list;
+        return page;
     }
+
 
     @Override
     public Order findOrderById(Long idService) throws DaoException {
@@ -231,31 +242,34 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrdersByWorkerId(Long idWorker) throws DaoException {
+    public Page<Order> getOrdersByWorkerId(Page<Order> daoOrderPage, Long idWorker) throws DaoException {
         logger.info("Start List<Order> getOrdersByWorkerId(Long idWorker).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Order> list = new ArrayList<>();
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
         if(idWorker <= 0) {
             throw new DaoException("Invalid idWorker");
         }
         try {
-            connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.response.by.idWorker"));
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.responses.by.idWorker"));
+            statement_total_elements.setLong(1, idWorker);
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.responses.by.idWorker"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
             statement.setLong(1, idWorker);
+            statement.setInt(2, daoOrderPage.getLimit());
+            statement.setInt(3, offset);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
-                Order order = new Order();
-                order.setIdService(resultSet.getLong("id_service"));
-                order.setIdClient(resultSet.getLong("id_client"));
-                order.setDescription(resultSet.getString("description"));
-                order.setAddress(resultSet.getString("address"));
-                order.setServiceType(ServiceType.valueOf(resultSet.getString("service_type")));
-                order.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")));
-                order.setIdWorker(idWorker);
-                list.add(order);
-            }
+            connection.commit();
+
+            page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
         }
         catch(SQLException e) {
             logger.error(e);
@@ -266,45 +280,90 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             close(statement);
             retrieve(connection);
         }
-        return list;
+        return page;
     }
 
     @Override
-    public List<Order> getOrdersResponseByClientId(Long idClient) throws DaoException {
-        logger.info("Start List<Order> getOrdersByClientId(Long idClient).");
+    public Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient) throws DaoException {
+        logger.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Order> list = new ArrayList<>();
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
         if(idClient <= 0) {
-            throw new DaoException("Invalid idWorker");
+            throw new DaoException("Invalid idClient");
         }
         try {
-            connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.response.by.idClient"));
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.responses.by.idClient"));
+            statement_total_elements.setLong(1, idClient);
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.responses.by.idClient"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
             statement.setLong(1, idClient);
+            statement.setInt(2, daoOrderPage.getLimit());
+            statement.setInt(3, offset);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
-                Order order = new Order();
-                order.setIdService(resultSet.getLong("id_service"));
-                order.setIdClient(resultSet.getLong("id_client"));
-                order.setDescription(resultSet.getString("description"));
-                order.setAddress(resultSet.getString("address"));
-                order.setServiceType(ServiceType.valueOf(resultSet.getString("service_type")));
-                order.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")));
-                order.setIdWorker(resultSet.getLong("id_worker"));
-                list.add(order);
-            }
+            connection.commit();
+
+            page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
         }
         catch(SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
         finally {
-            close(resultSet);
-            close(statement);
+            close(resultSet, resultSet_total_elements);
+            close(statement, statement_total_elements);
             retrieve(connection);
         }
-        return list;
+        return page;
+    }
+
+    private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException {
+        Page<Order> page = new Page<>();
+        long totalElements = 0L;
+        while (resultSet_total_elements.next()) {
+            totalElements = resultSet_total_elements.getLong(1);
+        }
+        List<Order> orders = new ArrayList<>();
+
+        while (resultSet.next()) {
+            long idService = resultSet.getLong(1);
+            long idClient = resultSet.getLong(2);
+            String description = resultSet.getString(3);
+            String address = resultSet.getString(4);
+            ServiceType service_type = ServiceType.valueOf(resultSet.getString(5).toUpperCase());
+            ServiceStatus service_status = ServiceStatus.valueOf(resultSet.getString(6).toUpperCase());
+            orders.add(new Order(idService, idClient, description, address, service_type, service_status));
+        }
+        page = setPageResult(daoOrderPage, totalElements, orders);
+        return page;
+    }
+    private Page<Order> getResponsePage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException {
+        Page<Order> page = new Page<>();
+        long totalElements = 0L;
+        while (resultSet_total_elements.next()) {
+            totalElements = resultSet_total_elements.getLong(1);
+        }
+        List<Order> orders = new ArrayList<>();
+
+        while (resultSet.next()) {
+            long idService = resultSet.getLong(1);
+            long idClient = resultSet.getLong(2);
+            String description = resultSet.getString(3);
+            String address = resultSet.getString(4);
+            ServiceType service_type = ServiceType.valueOf(resultSet.getString(5).toUpperCase());
+            ServiceStatus service_status = ServiceStatus.valueOf(resultSet.getString(6).toUpperCase());
+            Long idWorler = resultSet.getLong(7);
+            orders.add(new Order(idService, idClient, description, address, service_type, service_status, idWorler));
+        }
+        page = setPageResult(daoOrderPage, totalElements, orders);
+        return page;
     }
 }

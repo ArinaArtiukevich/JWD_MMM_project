@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 public class FindOrderInfoImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
+    private final OrderService orderService = new OrderService();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -27,7 +28,7 @@ public class FindOrderInfoImpl implements Command {
         try {
             String idServiceParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
             Long idService = Long.parseLong(idServiceParameter);
-            Order order = OrderService.getOrdersById(idService);
+            Order order = orderService.getOrderById(idService);
             Long idClient = order.getIdClient();
             User client = UserService.getUserById(idClient);
             // TODO check parameters

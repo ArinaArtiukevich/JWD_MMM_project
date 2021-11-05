@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class CloseOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(CloseOrderImpl.class);
+    private final OrderService orderService = new OrderService();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -24,7 +25,7 @@ public class CloseOrderImpl implements Command {
         try {
             String idOrderParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
             Long idOrder = Long.parseLong(String.valueOf(idOrderParameter));
-            if (OrderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
+            if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
                 page = ConfigurationBundle.getProperty("path.page.services");
             } else {
                 logger.error("Order was not closed.");

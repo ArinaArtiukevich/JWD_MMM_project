@@ -31,9 +31,8 @@
             </jsp:include>
         </header>
 
-        <form method="GET" action="${pageContext.request.contextPath}/controller">
+        <form id="show_all_services" method="GET" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="show_all_services">
-
                 <div id="menu">
                     <button type="submit" name="show_all_services">
                             ${service_show_all}
@@ -43,7 +42,7 @@
         </form>
 
         <div>
-            <c:forEach var="order" items="${sessionScope.services}" >
+            <c:forEach var="order" items="${requestScope.pageable.elements}" >
                 <a href = "/controller?command=find_order_info&idService=${order.idService}">
                     <tr>
                         <td>${description} : ${order.description}</td>
@@ -52,6 +51,21 @@
                     </tr>
                     <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
                 </a>
+            </c:forEach>
+        </div>
+
+        <div style="margin-left: center">
+            <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
+                <c:if test="${i == pageable.pageNumber}">
+                    <span>
+                        <button style="color:red" form="show_all_services" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
+                <c:if test="${i != pageable.pageNumber}">
+                    <span>
+                        <button form="show_all_services" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
             </c:forEach>
         </div>
     </body>

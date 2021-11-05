@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ApproveOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(ApproveOrderImpl.class);
+    private final OrderService orderService = new OrderService();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -24,7 +25,7 @@ public class ApproveOrderImpl implements Command {
         try {
             // todo runtime exc
             Long idOrder = Long.parseLong(String.valueOf(request.getParameter(ParameterAttributeType.ID_SERVICE)));
-            if (OrderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
+            if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
                 page = ConfigurationBundle.getProperty("path.page.services");
             } else {
                 logger.error("Could not approve order.");

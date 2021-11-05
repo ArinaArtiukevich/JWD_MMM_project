@@ -38,6 +38,10 @@ public final class ParameterAttributeType {
     public static final String ID_WORKER = "idWorker";
     public static final String ID_CLIENT = "idClient";
 
+    public static final String CURRENT_PAGE = "currentPage";
+    public static final String PAGE_LIMIT = "pageLimit";
+    public static final String PAGEABLE = "pageable";
+
     private ParameterAttributeType() {
     }
 }

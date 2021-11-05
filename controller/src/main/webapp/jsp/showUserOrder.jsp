@@ -35,28 +35,47 @@
             <h1 style="color:red;">id : ${sessionScope.userId}</h1>
             <h1 style="color:red;">login : ${sessionScope.login}</h1>
         </div>
-        <form method="GET" action="${pageContext.request.contextPath}/controller">
+        <form id="show_user_orders" method="GET" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="show_user_orders">
             <div id="menu">
                 <button>
                         ${show_user_orders}
                 </button><br/>
             </div>
+        </input>
+        </form>
         <div>
             <table>
-                <c:forEach var="order" items="${sessionScope.orderList}" >
-                    <tr>
-                        <td>${idService} : ${order.idService}</td>
-                        <td>${idClient} : ${order.idClient}</td>
-                        <td>${description} : ${order.description}</td>
-                        <td>${address} : ${order.address}</td>
-                        <td>${serviceType} : ${order.serviceType}</td>
-                        <td>${status} : ${order.status}</td>
-                    </tr>
+                <c:forEach var="order" items="${requestScope.pageable.elements}" >
+                    <a href = "/controller?command=show_user_orders&idService=${order.idService}">
+                        <tr>
+                            <td>${idService} : ${order.idService}</td>
+                            <td>${idClient} : ${order.idClient}</td>
+                            <td>${description} : ${order.description}</td>
+                            <td>${address} : ${order.address}</td>
+                            <td>${serviceType} : ${order.serviceType}</td>
+                            <td>${status} : ${order.status}</td>
+                        </tr>
+                        <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                    </a>
                 </c:forEach>
             </table>
         </div>
-        </input>
-        </form>
+
+        <div style="margin-left: center">
+            <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
+                <c:if test="${i == pageable.pageNumber}">
+                    <span>
+                        <button style="color:red" form="show_user_orders" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
+                <c:if test="${i != pageable.pageNumber}">
+                    <span>
+                        <button form="show_user_orders" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
+            </c:forEach>
+        </div>
+
     </body>
 </html>

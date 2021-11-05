@@ -16,6 +16,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class AddServiceOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
+    private final OrderService orderService = new OrderService();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -31,7 +32,7 @@ public class AddServiceOrderImpl implements Command {
         // TODO SHORT CONSTRUCTOR USED
 
         try {
-            if (OrderService.addServiceOrder(orderItem, login)){
+            if (orderService.addServiceOrder(orderItem, login)){
                 page = ConfigurationBundle.getProperty("path.page.work");
             }
             else {

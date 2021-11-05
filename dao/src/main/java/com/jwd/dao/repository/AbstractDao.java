@@ -1,6 +1,8 @@
 package com.jwd.dao.repository;
 
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
+import com.jwd.dao.entity.Order;
+import com.jwd.dao.entity.Page;
 import com.jwd.dao.exception.DaoException;
 
 import java.sql.Connection;
@@ -55,6 +57,18 @@ public class AbstractDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    protected Page<Order> setPageResult(Page<Order> daoOrderPage, long totalElements, List<Order> orders) {
+        Page<Order> page = new Page<>();
+        page.setPageNumber(daoOrderPage.getPageNumber());
+        page.setLimit(daoOrderPage.getLimit());
+        page.setTotalElements(totalElements);
+        page.setElements(orders);
+        page.setFilter(daoOrderPage.getFilter());
+        page.setSortBy(daoOrderPage.getSortBy());
+        page.setDirection(daoOrderPage.getDirection());
+        return page;
     }
 
 //    protected void processAbnormalCase(boolean isTrue, String message) throws DaoException {
