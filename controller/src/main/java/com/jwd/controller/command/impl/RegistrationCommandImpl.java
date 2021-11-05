@@ -18,6 +18,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class RegistrationCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
+    UserService userService = new UserService();
 
     public String execute(HttpServletRequest request) {
         logger.info("Start registration.");
@@ -39,7 +40,7 @@ public class RegistrationCommandImpl implements Command {
         Long idUser = 0L;
         try {
             isRegistered =  RegistrationService.register(registration);
-            idUser = UserService.getIdUserByLogin(login);
+            idUser = userService.getIdUserByLogin(login);
 
             if(isRegistered) {
                 page = ConfigurationBundle.getProperty("path.page.work");

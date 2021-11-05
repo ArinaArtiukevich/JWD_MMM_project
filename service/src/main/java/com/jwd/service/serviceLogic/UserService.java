@@ -14,13 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserService {
-
     private static final Logger logger = LogManager.getLogger(UserService.class);
+    private final UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
 
-    public UserService() {
-    }
-
-    public static boolean checkLoginAndPassword(String login, String password) {
+    public boolean checkLoginAndPassword(String login, String password) {
         logger.info("Start checkLoginAndPassword(String login, String password).");
         boolean result;
         LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
@@ -33,10 +30,9 @@ public class UserService {
         return result;
     }
 
-    public static String getUserNameByLogin(String login) throws ServiceException {
+    public String getUserNameByLogin(String login) throws ServiceException {
         logger.info("Start getClientNameByLogin(String login). Login = " + login);
         String name;
-        UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
             name = userDao.findNameByLogin(login);
         }
@@ -48,7 +44,7 @@ public class UserService {
         return name;
     }
 
-    public static Long getIdUserByLogin(String login) throws ServiceException {
+    public Long getIdUserByLogin(String login) throws ServiceException {
         logger.info("Start getIdClientByLogin(String login). Login = " + login);
         Long idClient;
         try {
@@ -62,11 +58,10 @@ public class UserService {
         return idClient;
     }
 
-    public static User getUserById(Long idUser) throws ServiceException {
+    public User getUserById(Long idUser) throws ServiceException {
         logger.info("Start User getIdUserById(Long idUser). idUser = " + idUser);
         User user  = new User();
         try {
-            UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             user = userDao.getUserById(idUser);
         } catch (DaoException e) {
             logger.error("Client with idUser = " + idUser + " was not found.");
@@ -76,11 +71,10 @@ public class UserService {
         return user;
     }
 
-    public static UserRole getRoleByID(Long idUser) throws ServiceException {
+    public UserRole getRoleByID(Long idUser) throws ServiceException {
         logger.info("Start UserRole getRoleByID(Long idUser). idUser = " + idUser);
         UserRole userRole;
         try {
-            UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             userRole = userDao.findRoleByID(idUser);
         } catch (DaoException e) {
             logger.error("User role with idUser = " + idUser + " was not found.");

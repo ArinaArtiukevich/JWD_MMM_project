@@ -15,6 +15,7 @@ import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 
 public class LoginCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
+    UserService userService = new UserService();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -24,9 +25,9 @@ public class LoginCommandImpl implements Command {
         String password = request.getParameter(ParameterAttributeType.PASSWORD);
 
         try {
-            if(UserService.checkLoginAndPassword(login, password)) {
-                Long idUser = UserService.getIdUserByLogin(login);
-                UserRole userRole = UserService.getRoleByID(idUser);
+            if(userService.checkLoginAndPassword(login, password)) {
+                Long idUser = userService.getIdUserByLogin(login);
+                UserRole userRole = userService.getRoleByID(idUser);
 
                 page = ConfigurationBundle.getProperty("path.page.work");
                 request.setAttribute(ParameterAttributeType.USER_ID, idUser);

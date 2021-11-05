@@ -16,7 +16,7 @@ import static java.util.Objects.nonNull;
 
 public class ConnectionPoolImpl implements ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPoolImpl.class);
-    private static final int CONNECTION_POOL_SIZE = 5;
+    private static final int CONNECTION_POOL_SIZE = 3;
     private final DataBaseConfig dataBaseConfig;
     private final BlockingQueue<Connection> pool;
     private final BlockingQueue<Connection> taken;
@@ -34,7 +34,8 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 pool.add(dataBaseConfig.getConnection());
             }
         } catch (SQLException e) {
-
+            //todo
+            LOGGER.error("SQLException in initConnectionPool()");
         }
         LOGGER.info("init pool.size() is " + pool.size());
         LOGGER.info("init taken.size() is " + taken.size());
