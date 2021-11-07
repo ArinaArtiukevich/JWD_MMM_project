@@ -11,7 +11,6 @@ public class Order {
     private String address;
     private ServiceType serviceType;
     private ServiceStatus status;
-
     private Long idWorker;
 
     public Order() {

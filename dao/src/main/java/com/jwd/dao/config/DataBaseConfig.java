@@ -50,6 +50,7 @@ public class DataBaseConfig {
     }
 
     public Connection getConnection() throws SQLException {
+        logger.info("Connection getConnection()");
         loadJdbcDriver();
         Connection connection;
         Properties properties = new Properties();

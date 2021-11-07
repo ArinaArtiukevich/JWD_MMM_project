@@ -1,10 +1,9 @@
 package com.jwd.dao.repository.impl;
 
-import com.jwd.dao.connection.ConnectionPool;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.entity.Login;
+import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
@@ -24,25 +23,25 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
     }
 
     @Override
-    public boolean add(Login login) throws DaoException {
-        logger.info("Start add(Login login). Id = " + login.getIdClient());
+    public boolean add(UserDTO login) throws DaoException {
+        logger.info("Start add(Login login). Id = " + login.getIdUser());
         PreparedStatement statement = null;
         Connection connection = null;
         boolean isAdded = false;
         try {
             connection = getConnection(false);
             statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.insert.login"));
-            statement.setLong(1, login.getIdClient());
+            statement.setLong(1, login.getIdUser());
             statement.setString(2, login.getLogin());
             statement.setString(3, login.getPassword());
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows > 0) {
                 logger.info("A login was added into user_dtos.");
                 isAdded = true;
             } else {
                 throw new DaoException("A login was not added into user_dtos.");
             }
-            connection.commit();
         }
         catch(SQLException e) {
             throw new DaoException("A login was not added into user_dtos.");
@@ -65,6 +64,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.delete.login.by.id"));
             statement.setInt(1, id);
             int affectedRows = statement.executeUpdate();
+            connection.commit();
             if (affectedRows > 0) {
                 logger.info("Login was deleted.");
                 isDeleted = true;
@@ -72,7 +72,6 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
                 throw new DaoException("A login was not deleted into user_dtos.");
             }
 
-            connection.commit();
         }
         catch(SQLException e) {
             throw new DaoException("Deleting login failed.", e);

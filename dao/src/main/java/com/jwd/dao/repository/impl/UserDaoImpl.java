@@ -8,7 +8,7 @@ import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.UserDao;
-import com.jwd.dao.entity.Login;
+import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.config.DataBaseConfig;
@@ -49,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 logger.info("A client was added.");
                 isAdded = true;
                 Long idClient = findIdByLogin(registration.getLogin());
-                Login userLogin = new Login(idClient, registration.getLogin(), registration.getPassword());
+                UserDTO userLogin = new UserDTO(idClient, registration.getLogin(), registration.getPassword());
                 LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.add(userLogin);
             }

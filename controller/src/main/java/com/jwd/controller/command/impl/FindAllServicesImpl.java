@@ -7,6 +7,7 @@ import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
+import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class FindAllServicesImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindAllServicesImpl.class);
-    private final OrderService orderService = new OrderService();
+    private final OrderService orderService = new OrderServiceImpl();
 
     @Override
     public String execute(HttpServletRequest request) {

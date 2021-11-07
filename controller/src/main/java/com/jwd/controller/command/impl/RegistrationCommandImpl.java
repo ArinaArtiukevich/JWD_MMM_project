@@ -5,9 +5,9 @@ import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
-import com.jwd.service.serviceLogic.RegistrationService;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.enums.Gender;
+import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +18,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class RegistrationCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
-    UserService userService = new UserService();
+    UserService userService = new UserServiceImpl();
 
     public String execute(HttpServletRequest request) {
         logger.info("Start registration.");
@@ -39,7 +39,7 @@ public class RegistrationCommandImpl implements Command {
         boolean isRegistered = false;
         Long idUser = 0L;
         try {
-            isRegistered =  RegistrationService.register(registration);
+            isRegistered = userService.register(registration);
             idUser = userService.getIdUserByLogin(login);
 
             if(isRegistered) {

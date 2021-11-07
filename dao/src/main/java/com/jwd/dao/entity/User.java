@@ -4,7 +4,6 @@ import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.UserRole;
 
 public class User {
-
     private Long idUser;
     private String firstName;
     private String lastName;

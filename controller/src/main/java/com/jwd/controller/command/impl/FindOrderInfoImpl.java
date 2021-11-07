@@ -12,14 +12,16 @@ import com.jwd.service.serviceLogic.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
+import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 public class FindOrderInfoImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
-    private final OrderService orderService = new OrderService();
-    UserService userService = new UserService();
+    private final OrderService orderService = new OrderServiceImpl();
+    UserService userService = new UserServiceImpl();
 
     @Override
     public String execute(HttpServletRequest request) {

@@ -2,6 +2,7 @@ package com.jwd.controller;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.factory.CommandFactory;
 import com.jwd.controller.resources.ConfigurationBundle;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.ConnectException;
 
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class FrontController extends HttpServlet {
@@ -24,19 +26,24 @@ public class FrontController extends HttpServlet {
         logger.debug("Controller was started.");
         logger.debug(request.getParameter("command"));
 
-        CommandFactory commandFactory = new CommandFactory();
-        Command command = commandFactory.defineManager(request);
-        String page = command.execute(request);
-        logger.debug("using " + command);
+        try {
+            CommandFactory commandFactory = new CommandFactory();
+            Command command = commandFactory.defineManager(request);
+            String page = command.execute(request);
+            logger.debug("using " + command);
 
-        if(page != null) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(request, response);
-        }
-        else {
-            logger.error("Operation went wrong.");
-            page = ConfigurationBundle.getProperty("path.page.index");;
-            response.sendRedirect(request.getContextPath() + page);
+            if(page != null) {
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            }
+            else {
+                logger.error("Operation went wrong.");
+                page = ConfigurationBundle.getProperty("path.page.index");;
+                response.sendRedirect(request.getContextPath() + page);
+            }
+        } catch (ControllerException exc) {
+            // TODO
+            //  выбрасывается после валидвции данных
         }
     }
 

@@ -1,25 +1,25 @@
 package com.jwd.dao.entity;
 
 
-public class Login {
-
-    private Long idClient;
+public class UserDTO {
+    private Long idUser;
     private String login;
     private String password;
 
-    public Login() {}
+    public UserDTO() {}
 
-    public Login(Long idClient, String login, String password) {
-        this.idClient = idClient;
+    public UserDTO(Long idUser, String login, String password) {
+        this.idUser = idUser;
         this.login = login;
         this.password = password;
     }
-    public Long getIdClient() {
-        return idClient;
+
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getLogin() {
@@ -42,22 +42,21 @@ public class Login {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || o.getClass() == this.getClass()) return false;
-        Login login = (Login) o;
+        UserDTO login = (UserDTO) o;
         boolean loginEquals = (this.login == null && login.login == null)
                 || (this.login != null && this.login.equals(login.login));
         boolean passwordEquals = (this.password == null && login.password == null)
                 || (this.password != null && this.password.equals(login.password));
-        boolean idEquals = (this.idClient == null && login.idClient == null)
-                || (this.idClient != null && this.idClient.equals(login.idClient));
+        boolean idEquals = (this.idUser == null && login.idUser == null)
+                || (this.idUser != null && this.idUser.equals(login.idUser));
 
         return loginEquals && passwordEquals && idEquals;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + (idClient == null ? 0 : idClient.hashCode());
+        hash = 31 * hash + (idUser == null ? 0 : idUser.hashCode());
         hash = 31 * hash + (login == null ? 0 : login.hashCode());
         hash = 31 * hash + (password == null ? 0 : password.hashCode());
         return hash;
@@ -65,8 +64,8 @@ public class Login {
 
     @Override
     public String toString() {
-        return "LoginBean{" +
-                "id=" + idClient +
+        return "UserDTO{" +
+                "id=" + idUser +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';

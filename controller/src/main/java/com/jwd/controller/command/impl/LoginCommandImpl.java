@@ -6,6 +6,7 @@ import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
+import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 
 public class LoginCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
-    UserService userService = new UserService();
+    UserService userService = new UserServiceImpl();
 
     @Override
     public String execute(HttpServletRequest request) {

@@ -1,1 +1,39 @@
-21:58:30.408 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindClientResponseImpl@288f350b
+11:52:09.278 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+11:52:09.282 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+11:52:09.282 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start isExistInList(String login, String password). Login = ww, password = ww
+11:52:09.282 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+11:52:09.282 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+11:52:09.282 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - User with login:ww was found.
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Correct login and password.
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start getIdClientByLogin(String login). Login = ww
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+11:52:09.284 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - try to connect jdbc:postgresql://localhost:5432/ projectDB [postgres, root]
+11:52:09.297 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+11:52:09.297 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - try to connect jdbc:postgresql://localhost:5432/ projectDB [postgres, root]
+11:52:09.310 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+11:52:09.310 [http-nio-8080-exec-2] INFO  com.jwd.dao.config.DataBaseConfig - try to connect jdbc:postgresql://localhost:5432/ projectDB [postgres, root]
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findIdByLogin(String login). Login = ww
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+11:52:09.323 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Login with login:ww was found.
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Client id with login = ww was found. Id = 12
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start UserRole getRoleByID(Long idUser). idUser = 12
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start UserRole findRoleByID(Long idUser). idUser = 12
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+11:52:09.325 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+11:52:09.326 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+11:52:09.326 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+11:52:09.326 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+11:52:09.326 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - User role with idUser = 12 was found. Role = worker
+11:52:09.326 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.LoginCommandImpl@3760f5e9
