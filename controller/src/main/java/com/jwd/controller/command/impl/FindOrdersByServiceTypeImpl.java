@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
 
@@ -50,8 +49,6 @@ public class FindOrdersByServiceTypeImpl implements Command {
                 request.setAttribute(PAGEABLE, paginationResult);
                 page = ConfigurationBundle.getProperty("path.page.services");
                 request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
-                HttpSession session = request.getSession();
-                session.getAttribute("userRole");
                 request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
             } else {
                 logger.error("Invalid type of service.");

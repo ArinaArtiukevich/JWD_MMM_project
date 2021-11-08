@@ -84,38 +84,19 @@
                 </a>
             </c:forEach>
         </div>
-
-        <c:if test="${requestScope.last_command eq 'show_all_services'}" >
-            <div style="margin-left: center">
-                <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
-                    <c:if test="${i == pageable.pageNumber}">
-                        <span>
-                            <button style="color:red" form="show_all_services" type="submit" name="currentPage" value="${i}">${i}</button>
-                        </span>
-                    </c:if>
-                    <c:if test="${i != pageable.pageNumber}">
-                        <span>
-                            <button form="show_all_services" type="submit" name="currentPage" value="${i}">${i}</button>
-                        </span>
-                    </c:if>
-                </c:forEach>
-            </div>
-        </c:if>
-        <c:if test="${requestScope.last_command eq 'show_orders_by_service_type'}" >
-            <div style="margin-left: center">
-                <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
-                    <c:if test="${i == pageable.pageNumber}">
-                        <span>
-                            <button style="color:red" form="show_orders_by_service_type" type="submit" name="currentPage" value="${i}">${i}</button>
-                        </span>
-                    </c:if>
-                    <c:if test="${i != pageable.pageNumber}">
-                        <span>
-                            <button form="show_orders_by_service_type" type="submit" name="currentPage" value="${i}">${i}</button>
-                        </span>
-                    </c:if>
-                </c:forEach>
-            </div>
-        </c:if>
+        <div style="margin-left: center">
+            <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
+                <c:if test="${i == pageable.pageNumber}">
+                    <span>
+                        <button style="color:red" form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
+                <c:if test="${i != pageable.pageNumber}">
+                    <span>
+                        <button form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
+                    </span>
+                </c:if>
+            </c:forEach>
+        </div>
     </body>
 </html>

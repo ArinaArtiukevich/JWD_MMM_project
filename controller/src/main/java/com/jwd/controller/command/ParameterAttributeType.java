@@ -44,6 +44,7 @@ public final class ParameterAttributeType {
 
     public static final String ERROR = "error";
     public static final String LAST_COMMAND = "last_command";
+    public static final String COMMAND = "command";
 
     public static final String SHOW_ORDERS_BY_SERVICE_TYPE  = "show_orders_by_service_type";
     public static final String SHOW_SERVICE_ALL  = "show_all_services";
