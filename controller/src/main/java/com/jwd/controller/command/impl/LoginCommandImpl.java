@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import static com.jwd.controller.command.ParameterAttributeType.ERROR;
 import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 
 public class LoginCommandImpl implements Command {
@@ -44,7 +45,8 @@ public class LoginCommandImpl implements Command {
             }
         } catch (ServiceException ex) {
             logger.error("Can't login user.");
-            request.setAttribute("error","Can't login user.");
+            HttpSession session = request.getSession(true);
+            session.setAttribute(ERROR,"Can't login user.");
             page = ConfigurationBundle.getProperty("path.page.error");;
         }
         return page;

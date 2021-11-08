@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import static com.jwd.controller.command.ParameterAttributeType.ERROR;
+import static java.util.Objects.nonNull;
+
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class FrontController extends HttpServlet {
 
@@ -26,10 +29,11 @@ public class FrontController extends HttpServlet {
         logger.debug("Controller was started.");
         logger.debug(request.getParameter("command"));
 
+        String page = null;
         try {
             CommandFactory commandFactory = new CommandFactory();
             Command command = commandFactory.defineManager(request);
-            String page = command.execute(request);
+            page = command.execute(request);
             logger.debug("using " + command);
 
             if(page != null) {
@@ -41,9 +45,14 @@ public class FrontController extends HttpServlet {
                 page = ConfigurationBundle.getProperty("path.page.index");;
                 response.sendRedirect(request.getContextPath() + page);
             }
-        } catch (ControllerException exc) {
+        } catch (ControllerException e) {
             // TODO
             //  выбрасывается после валидвции данных
+            logger.error("Operation went wrong.");
+            Throwable cause = getCause(e);
+            request.setAttribute(ERROR, "Exception: " + cause.getMessage());
+            page = ConfigurationBundle.getProperty("path.page.error");;
+            response.sendRedirect(request.getContextPath() + page);
         }
     }
 
@@ -57,6 +66,13 @@ public class FrontController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    private Throwable getCause(Throwable cause) {
+        if (nonNull(cause.getCause())) {
+            cause = getCause(cause.getCause());
+        }
+        return cause;
     }
 
 }

@@ -3,10 +3,13 @@ package com.jwd.service.serviceLogic;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.Order;
+import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.service.exception.ServiceException;
 
 public interface OrderService {
     Page<Order> getAllServices(Page<Order> orderPageRequest) throws ServiceException;
+
+    Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException;
 
     Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) throws ServiceException;
 

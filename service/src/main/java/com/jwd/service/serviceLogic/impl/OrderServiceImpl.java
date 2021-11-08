@@ -4,6 +4,7 @@ import com.jwd.dao.config.DataBaseConfig;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
+import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.impl.UserDaoImpl;
@@ -12,6 +13,7 @@ import com.jwd.dao.entity.Order;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
+import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    private final ServiceValidator validator = new ServiceValidator();
 
     @Override
     public Page<Order> getAllServices(Page<Order> orderPageRequest) throws ServiceException {
@@ -27,6 +30,20 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> orderPage = new Page<>();
         try {
             orderPage = orderDao.getServiceList(orderPageRequest);
+        }
+        catch(DaoException e) {
+            throw new ServiceException(e);
+        }
+        return orderPage;
+    }
+
+    @Override
+    public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException {
+        logger.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
+        Page<Order> orderPage = new Page<>();
+        validator.validate(serviceType);
+        try {
+            orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
         }
         catch(DaoException e) {
             throw new ServiceException(e);

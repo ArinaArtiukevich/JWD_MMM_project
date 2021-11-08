@@ -3,6 +3,8 @@ package com.jwd.dao.entity;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 
+import java.util.Date;
+
 public class Order {
 
     private Long idService;
@@ -11,36 +13,39 @@ public class Order {
     private String address;
     private ServiceType serviceType;
     private ServiceStatus status;
+    private Date orderCreationDate;
     private Long idWorker;
 
     public Order() {
     }
 
-    public Order(String description, String address, ServiceType serviceType, ServiceStatus status) {
+    public Order(String description, String address, ServiceType serviceType, ServiceStatus status, Date orderCreationDate) {
         this.description = description;
         this.address = address;
         this.serviceType = serviceType;
         this.status = status;
+        this.orderCreationDate = orderCreationDate;
     }
 
-
-    public Order(Long idService, Long idClient, String description, String address, ServiceType serviceType, ServiceStatus status) {
+    public Order(Long idService, Long idClient, String description, String address, ServiceType serviceType, ServiceStatus status, Date orderCreationDate, Long idWorker) {
         this.idService = idService;
         this.idClient = idClient;
         this.description = description;
         this.address = address;
         this.serviceType = serviceType;
         this.status = status;
-    }
-
-    public Order(Long idService, Long idClient, String description, String address, ServiceType serviceType, ServiceStatus status, Long idWorker) {
-        this.idService = idService;
-        this.idClient = idClient;
-        this.description = description;
-        this.address = address;
-        this.serviceType = serviceType;
-        this.status = status;
+        this.orderCreationDate = orderCreationDate;
         this.idWorker = idWorker;
+    }
+
+    public Order(Long idService, Long idClient, String description, String address, ServiceType serviceType, ServiceStatus status, Date orderCreationDate) {
+        this.idService = idService;
+        this.idClient = idClient;
+        this.description = description;
+        this.address = address;
+        this.serviceType = serviceType;
+        this.status = status;
+        this.orderCreationDate = orderCreationDate;
     }
 
     public Long getIdService() {
@@ -91,6 +96,14 @@ public class Order {
         this.status = status;
     }
 
+    public Date getOrderCreationDate() {
+        return orderCreationDate;
+    }
+
+    public void setOrderCreationDate(Date orderCreationDate) {
+        this.orderCreationDate = orderCreationDate;
+    }
+
     public Long getIdWorker() {
         return idWorker;
     }
@@ -115,6 +128,8 @@ public class Order {
                 address.equals(order.address) &&
                 serviceType == order.serviceType &&
                 status == order.status &&
+                orderCreationDate != null &&
+                orderCreationDate.equals(order.orderCreationDate) &&
                 idWorker != null &&
                 idWorker.equals(order.idWorker);
     }
@@ -128,6 +143,7 @@ public class Order {
         hash = hash * 31 + (address == null ? 0 : address.hashCode());
         hash = hash * 31 + (serviceType == null ? 0 : serviceType.hashCode());
         hash = hash * 31 + (status == null ? 0 : status.hashCode());
+        hash = hash * 31 + (orderCreationDate == null ? 0 : orderCreationDate.hashCode());
         hash = hash * 31 + (idWorker == null ? 0 : idWorker.hashCode());
         return hash;
     }
@@ -141,6 +157,7 @@ public class Order {
                 ", address='" + address + '\'' +
                 ", serviceType=" + serviceType +
                 ", status=" + status +
+                ", orderCreationDate=" + orderCreationDate +
                 ", idWorker=" + idWorker +
                 '}';
     }

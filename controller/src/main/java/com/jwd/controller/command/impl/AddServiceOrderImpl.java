@@ -12,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Date;
+
 import static com.jwd.controller.command.ParameterAttributeType.*;
 
 
@@ -28,8 +30,9 @@ public class AddServiceOrderImpl implements Command {
         String address = request.getParameter(SERVICE_ADDRESS);
         ServiceType serviceType = ServiceType.valueOf(request.getParameter(SERVICE_TYPE).toUpperCase());
         String login = (String)request.getSession().getAttribute("login");
+        Date orderCreationDate = new Date();
 
-        Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE);
+        Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
         // TODO SHORT CONSTRUCTOR USED
 
         try {

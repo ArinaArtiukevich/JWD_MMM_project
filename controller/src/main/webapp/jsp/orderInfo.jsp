@@ -23,6 +23,7 @@
         <fmt:message bundle="${loc}" key="order.address" var="address" />
         <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
         <fmt:message bundle="${loc}" key="order.status" var="status" />
+        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
 
         <fmt:message bundle="${loc}" key="user.firstName" var="user_firstName" />
         <fmt:message bundle="${loc}" key="user.lastName" var="user_lastName" />
@@ -50,6 +51,7 @@
                         <td>${address} : ${sessionScope.order.address}<br/></td>
                         <td>${serviceType} : ${sessionScope.order.serviceType}<br/></td>
                         <td>${status} : ${sessionScope.order.status}<br/></td>
+                        <td>${orderCreationDate} : <fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd" /><br/></td>
                     </tr>
                 </table>
             </div>

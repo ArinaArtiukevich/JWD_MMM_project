@@ -92,7 +92,7 @@
         <legend class="col-form-label col-sm-2 pt-0 form-control-lg">${registration_gender}</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input checked="checked" class="form-check-input" type="radio" name="gender" id="undefinedRadios" value="indefined" />
+                <input checked="checked" class="form-check-input" type="radio" name="gender" id="undefinedRadios" value="undefined" />
                 <label class="form-check-label" for="undefinedRadios">
                     Undefind
                 </label>

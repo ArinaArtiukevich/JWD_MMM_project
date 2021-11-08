@@ -22,7 +22,7 @@
         </header>
 
         <div>
-            <h1>${requestScope.error}</h1>
+            <h1>${sessionScope.error}</h1>
             <h2>${error_message}</h2>
         </div>
 

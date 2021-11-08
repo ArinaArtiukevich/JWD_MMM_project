@@ -54,7 +54,8 @@ public class RegistrationCommandImpl implements Command {
                 session.setAttribute(USER_ROLE, userRole.getName());
             } // TODO else
         } catch (ServiceException e) {
-            request.setAttribute("error", "Registration failed " + e.getMessage());
+            HttpSession session = request.getSession(true);
+            session.setAttribute(ERROR, "Registration failed " + e.getMessage());
             logger.error("Problems with user registration.");
             page = ConfigurationBundle.getProperty("path.page.error");
         }

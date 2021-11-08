@@ -22,6 +22,7 @@
         <fmt:message bundle="${loc}" key="order.status" var="status" />
         <fmt:message bundle="${loc}" key="order.idWorker" var="idWorker" />
         <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
+        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
 
     </head>
     <body>
@@ -50,6 +51,7 @@
                             <td>${description} : ${response.description}</td>
                             <td>${serviceType} : ${response.serviceType}</td>
                             <td>${status} : ${response.status}</td>
+                            <td>${orderCreationDate} : <fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
                         </tr>
                         <input type="hidden" name="idService" id="idService" value="${response.idService}"/>
                     </a>

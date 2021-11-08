@@ -31,3 +31,37 @@ CREATE TABLE IF NOT EXISTS public.user_dtos
  	CONSTRAINT fk_orders_id_client FOREIGN KEY(id_client) REFERENCES users(id_client)
 	 CONSTRAINT fk_orders_id_worker FOREIGN KEY(id_worker) REFERENCES users(id_client)
  );
+
+ALTER TABLE orders ADD COLUMN order_creation_date text;
+CREATE TABLE service_types (
+    service_type text PRIMARY KEY
+);
+
+
+CREATE TABLE service_types (
+    service_type text PRIMARY KEY
+);
+
+INSERT INTO service_types(service_type) VALUES ('ELECTRICAL'),
+('GAS'),
+('ROOFING'),
+('PAINTING'),
+('PLUMBING');
+ALTER TABLE orders ADD CONSTRAINT fk_orders_service_type FOREIGN KEY (service_type) REFERENCES service_types (service_type);
+
+CREATE TABLE genders (
+    gender text PRIMARY KEY
+);
+INSERT INTO genders(gender) VALUES ('UNDEFINED'),
+('MALE'),
+('FEMALE');
+
+ALTER TABLE users ADD CONSTRAINT fk_users_gender FOREIGN KEY (gender) REFERENCES genders (gender);
+
+CREATE TABLE roles (
+    user_role text PRIMARY KEY
+);
+INSERT INTO roles(user_role) VALUES ('CLIENT'),
+('WORKER');
+
+ALTER TABLE users ADD CONSTRAINT fk_users_role FOREIGN KEY (user_role) REFERENCES roles (user_role);

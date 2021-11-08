@@ -71,9 +71,4 @@ public abstract class AbstractDao {
         return page;
     }
 
-//    protected void processAbnormalCase(boolean isTrue, String message) throws DaoException {
-//        if (isTrue) {
-//            throw new DaoException(message);
-//        }
-//    } todo
 }

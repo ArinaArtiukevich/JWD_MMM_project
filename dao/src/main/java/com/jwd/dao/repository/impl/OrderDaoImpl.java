@@ -15,12 +15,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
+    private static final String DATE_FORMAT = "yyyy.MM.dd";
+
 
     public OrderDaoImpl(ConnectionPoolImpl connectionPool) {
         super(connectionPool);
@@ -31,6 +36,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         PreparedStatement statement = null;
         Connection connection = null;
         boolean isAdded = false;
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
         try {
             connection = getConnection(false);
             statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.insert.order"));
@@ -40,6 +46,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setString(3, order.getAddress());
             statement.setString(4, order.getServiceType().toString());
             statement.setString(5, order.getStatus().toString());
+            statement.setString(6, format.format(order.getOrderCreationDate()));
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
@@ -82,6 +89,50 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             connection.commit();
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        finally {
+            close(resultSet, resultSet_total_elements);
+            close(statement, statement_total_elements);
+            retrieve(connection);
+        }
+        return page;
+    }
+
+    @Override
+    public Page<Order> getOrdersByServiceType(Page<Order> daoOrderPage, ServiceType serviceType) throws DaoException {
+        logger.info("Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
+        try {
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.by.serviceType"));
+            statement_total_elements.setString(1, serviceType.toString());
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.by.serviceType"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
+            statement.setString(1, serviceType.toString());
+            statement.setInt(2, daoOrderPage.getLimit());
+            statement.setInt(3, offset);
+            resultSet = statement.executeQuery();
+            connection.commit();
+            page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
+
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -126,6 +177,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
         } catch (SQLException e) {
             logger.error(e);
             throw new DaoException(e);
@@ -149,6 +203,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         if(idService <= 0) {
             throw new DaoException("Invalid idService");
         }
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
         try {
             connection = getConnection(true);
             statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.by.idService"));
@@ -162,13 +217,15 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                 order.setAddress(resultSet.getString("address"));
                 order.setServiceType(ServiceType.valueOf(resultSet.getString("service_type")));
                 order.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")));
+                order.setOrderCreationDate(format.parse(resultSet.getString("order_creation_date")));
             }
-        }
-        catch(SQLException e) {
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
+        } catch(SQLException e) {
             logger.error(e);
             throw new DaoException(e);
-        }
-        finally {
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -270,8 +327,10 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             connection.commit();
 
             page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
-        }
-        catch(SQLException e) {
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
+        } catch(SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
@@ -312,8 +371,10 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             connection.commit();
 
             page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
-        }
-        catch(SQLException e) {
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException(e);
+        } catch(SQLException e) {
             logger.error(e);
             throw new DaoException(e);
         }
@@ -325,14 +386,14 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return page;
     }
 
-    private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException {
+    private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;
         while (resultSet_total_elements.next()) {
             totalElements = resultSet_total_elements.getLong(1);
         }
         List<Order> orders = new ArrayList<>();
-
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
         while (resultSet.next()) {
             long idService = resultSet.getLong(1);
             long idClient = resultSet.getLong(2);
@@ -340,19 +401,20 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             String address = resultSet.getString(4);
             ServiceType service_type = ServiceType.valueOf(resultSet.getString(5).toUpperCase());
             ServiceStatus service_status = ServiceStatus.valueOf(resultSet.getString(6).toUpperCase());
-            orders.add(new Order(idService, idClient, description, address, service_type, service_status));
+            Date orderCreationDate = format.parse(resultSet.getString(8));
+            orders.add(new Order(idService, idClient, description, address, service_type, service_status, orderCreationDate));
         }
         page = setPageResult(daoOrderPage, totalElements, orders);
         return page;
     }
-    private Page<Order> getResponsePage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException {
+    private Page<Order> getResponsePage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;
         while (resultSet_total_elements.next()) {
             totalElements = resultSet_total_elements.getLong(1);
         }
         List<Order> orders = new ArrayList<>();
-
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
         while (resultSet.next()) {
             long idService = resultSet.getLong(1);
             long idClient = resultSet.getLong(2);
@@ -361,7 +423,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             ServiceType service_type = ServiceType.valueOf(resultSet.getString(5).toUpperCase());
             ServiceStatus service_status = ServiceStatus.valueOf(resultSet.getString(6).toUpperCase());
             Long idWorler = resultSet.getLong(7);
-            orders.add(new Order(idService, idClient, description, address, service_type, service_status, idWorler));
+            Date orderCreationDate = format.parse(resultSet.getString(8));
+            orders.add(new Order(idService, idClient, description, address, service_type, service_status, orderCreationDate, idWorler));
         }
         page = setPageResult(daoOrderPage, totalElements, orders);
         return page;

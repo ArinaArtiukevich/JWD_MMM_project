@@ -3,7 +3,7 @@ package com.jwd.dao.entity.enums;
 public enum Gender {
     MALE("male"),
     FEMALE("female"),
-    INDEFINED("indefined")
+    UNDEFINED("undefined")
     ;
     String name;
 

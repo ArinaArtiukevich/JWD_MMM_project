@@ -53,31 +53,31 @@
         <legend class="col-form-label col-sm-2 pt-0 form-control-lg">${serviceType}</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input checked="checked" class="form-check-input" type="radio" name="serviceType" id="electricalRadios" value="electrical" />
+                <input checked="checked" class="form-check-input" type="radio" name="service_type" id="electricalRadios" value="electrical" />
                 <label class="form-check-label" for="electricalRadios">
                     ELECTRICAL
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceType" id="gasRadios" value="gas"/>
+                <input class="form-check-input" type="radio" name="service_type" id="gasRadios" value="gas"/>
                 <label class="form-check-label" for="gasRadios">
                     GAS
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceType" id="roofingRadios" value="roofing"/>
+                <input class="form-check-input" type="radio" name="service_type" id="roofingRadios" value="roofing"/>
                 <label class="form-check-label" for="roofingRadios">
                     ROOFING
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceType" id="paintingRadios" value="painting"/>
+                <input class="form-check-input" type="radio" name="service_type" id="paintingRadios" value="painting"/>
                 <label class="form-check-label" for="paintingRadios">
                     PAINTING
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceType" id="plumbingRadios" value="plumbing"/>
+                <input class="form-check-input" type="radio" name="service_type" id="plumbingRadios" value="plumbing"/>
                 <label class="form-check-label" for="plumbingRadios">
                     PLUMBING
                 </label>

@@ -74,6 +74,11 @@ public enum CommandEnum {
             this.command = new FindClientResponseImpl();
         }
     },
+    SHOW_ORDERS_BY_SERVICE_TYPE {
+        {
+            this.command = new FindOrdersByServiceTypeImpl();
+        }
+    }
     ;
 
     Command command;

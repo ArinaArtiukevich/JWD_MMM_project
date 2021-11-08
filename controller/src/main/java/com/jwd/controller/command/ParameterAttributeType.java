@@ -30,7 +30,7 @@ public final class ParameterAttributeType {
     public static final String PRICE = "price";
     public static final String CREATION_DATE = "creationDate";
     public static final String COMPLETION_DATE = "completionDate";
-    public static final String SERVICE_TYPE = "serviceType";
+    public static final String SERVICE_TYPE = "service_type";
     public static final String SERVICE_STATUS = "status";
     public static final String IN_PROCESS = "in_process";
 
@@ -41,6 +41,13 @@ public final class ParameterAttributeType {
     public static final String CURRENT_PAGE = "currentPage";
     public static final String PAGE_LIMIT = "pageLimit";
     public static final String PAGEABLE = "pageable";
+
+    public static final String ERROR = "error";
+    public static final String LAST_COMMAND = "last_command";
+
+    public static final String SHOW_ORDERS_BY_SERVICE_TYPE  = "show_orders_by_service_type";
+    public static final String SHOW_SERVICE_ALL  = "show_all_services";
+    public static final String SELECTED_SERVICE_TYPE = "selected_service_type";
 
     private ParameterAttributeType() {
     }
