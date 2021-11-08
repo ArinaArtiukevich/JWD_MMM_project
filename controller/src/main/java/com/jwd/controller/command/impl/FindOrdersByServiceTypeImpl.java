@@ -4,6 +4,7 @@ import com.jwd.controller.command.Command;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceType;
@@ -20,6 +21,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class FindOrdersByServiceTypeImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrdersByServiceTypeImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
@@ -43,17 +45,14 @@ public class FindOrdersByServiceTypeImpl implements Command {
         paginationRequest.setLimit(pageLimit);
         try {
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
-            if (serviceTypeString != null && !serviceTypeString.isEmpty()){
-                ServiceType serviceType  = ServiceType.valueOf(serviceTypeString);
-                Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
-                request.setAttribute(PAGEABLE, paginationResult);
-                page = ConfigurationBundle.getProperty("path.page.services");
-                request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
-                request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
-            } else {
-                logger.error("Invalid type of service.");
-                throw new ControllerException("Invalid type of service.");
-            }
+            validator.isValid(serviceTypeString);
+            ServiceType serviceType  = ServiceType.valueOf(serviceTypeString);
+            Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
+            request.setAttribute(PAGEABLE, paginationResult);
+            page = ConfigurationBundle.getProperty("path.page.services");
+            request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
+            request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
+
         } catch (ServiceException e) {
             logger.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");

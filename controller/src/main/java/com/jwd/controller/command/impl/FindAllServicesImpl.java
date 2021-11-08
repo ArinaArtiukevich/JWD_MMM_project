@@ -1,8 +1,10 @@
 package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.service.exception.ServiceException;
@@ -21,10 +23,11 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class FindAllServicesImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindAllServicesImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start FindAllServicesImpl.");
         String page = null;
 
@@ -50,7 +53,7 @@ public class FindAllServicesImpl implements Command {
             session.getAttribute("userRole");
         } catch (ServiceException e) {
             logger.error("Could not get a list of services.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
     }

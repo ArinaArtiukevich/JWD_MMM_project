@@ -41,8 +41,8 @@ public class OrderServiceImpl implements OrderService {
     public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException {
         logger.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
         Page<Order> orderPage = new Page<>();
-        validator.validate(serviceType);
         try {
+            validator.validate(serviceType);
             orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
         }
         catch(DaoException e) {
@@ -56,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(idUser);
             orderPage = orderDao.findOrdersByIdUser(orderPageRequest, idUser);
         }
         catch(DaoException e) {
@@ -69,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Order getOrderById(Long idService) in OrderService.");
         Order order = new Order();
         try {
+            validator.validate(idService);
             order = orderDao.findOrderById(idService);
         }
         catch(DaoException e) {
@@ -84,7 +86,9 @@ public class OrderServiceImpl implements OrderService {
         boolean isAdded = false;
         UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
+            validator.validate(order);
             Long idClient = userDao.findIdByLogin(login);
+            validator.validate(idClient);
             isAdded = orderDao.add(order, idClient);
         }
         catch(DaoException e) {
@@ -98,6 +102,8 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start boolean setOrderStatus(Order order, ServiceStatus serviceStatus) in OrderService.");
         boolean isTaken = false;
         try {
+            validator.validate(idOrder);
+            validator.validate(idWorker);
             isTaken = orderDao.takeOrder(idOrder, idWorker);
         }
         catch(DaoException e) {
@@ -111,6 +117,8 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
         boolean isSet = false;
         try {
+            validator.validate(idOrder);
+            validator.validate(serviceStatus);
             isSet = orderDao.setOrderStatus(idOrder, serviceStatus);
         }
         catch(DaoException e) {
@@ -124,6 +132,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(idWorker);
             orderPage = orderDao.getOrdersByWorkerId(orderPageRequest, idWorker);
         }
         catch(DaoException e) {
@@ -137,6 +146,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient)in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(idClient);
             orderPage = orderDao.getOrdersResponseByClientId(orderPageRequest, idClient);
         }
         catch(DaoException e) {

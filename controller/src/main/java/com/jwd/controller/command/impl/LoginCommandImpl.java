@@ -2,7 +2,10 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
+import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
@@ -17,14 +20,16 @@ import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 
 public class LoginCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
-    UserService userService = new UserServiceImpl();
+    private final ControllerValidator validator = new ControllerValidator();
+    private final UserService userService = new UserServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start LoginCommandImpl.");
         String page = null;
-        String login = request.getParameter(ParameterAttributeType.LOGIN);;
+        String login = request.getParameter(ParameterAttributeType.LOGIN);
         String password = request.getParameter(ParameterAttributeType.PASSWORD);
+        validateParameters(login, password);
 
         try {
             if(userService.checkLoginAndPassword(login, password)) {
@@ -43,14 +48,18 @@ public class LoginCommandImpl implements Command {
                 request.setAttribute("errorLoginMessage", "Invalid login or password");
                 page = ConfigurationBundle.getProperty("path.page.login");
             }
-        } catch (ServiceException ex) {
+        } catch (ServiceException e) {
             logger.error("Can't login user.");
             HttpSession session = request.getSession(true);
             session.setAttribute(ERROR,"Can't login user.");
-            page = ConfigurationBundle.getProperty("path.page.error");;
+            throw new ControllerException(e);
         }
         return page;
     }
 
+    private void validateParameters(String login, String password) throws ControllerException {
+        validator.isValid(login);
+        validator.isValid(password);
+    }
 
 }

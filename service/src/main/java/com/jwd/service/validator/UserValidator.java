@@ -8,11 +8,13 @@ import com.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RegistrationValidator {
+import static java.util.Objects.isNull;
 
-    private static final Logger logger = LogManager.getLogger(RegistrationValidator.class);
+public class UserValidator {
 
-    public static boolean checkData(Registration registration) throws ServiceException {
+    private static final Logger logger = LogManager.getLogger(UserValidator.class);
+
+    public boolean validateData(Registration registration) throws ServiceException {
         logger.info("Start checkData(Registration registration)." );
         boolean result = (!isEmptyFields(registration) &&
                 checkPassword(registration) &&
@@ -20,15 +22,15 @@ public class RegistrationValidator {
                 checkCity(registration) &&
                 checkEmail(registration));
         if (result) {
-            logger.info("Client data is ready to be register" );
+            logger.info("User data is ready to be register" );
         } else {
-            logger.info("Client data is not ready to be register" );
+            logger.info("User data is not ready to be register" );
         }
         return result;
     }
 
 
-    private static boolean isEmptyFields(Registration registration) throws ServiceException {
+    private boolean isEmptyFields(Registration registration) throws ServiceException {
         logger.info("Start isEmptyFields(Registration registration)." );
         boolean result = true;
         if((registration.getLogin() != null) &&
@@ -58,7 +60,7 @@ public class RegistrationValidator {
 
     }
 
-    private static boolean checkCity(Registration registration){
+    private boolean checkCity(Registration registration){
         logger.info("Start checkCity(Registration registration)." );
         boolean result = false;
         //TODO !!!
@@ -68,7 +70,7 @@ public class RegistrationValidator {
         return result;
     }
 
-    private static boolean checkEmail(Registration registration){
+    private boolean checkEmail(Registration registration){
         logger.info("Start checkEmail(Registration registration)." );
         boolean result = false;
         //TODO !!!
@@ -78,7 +80,7 @@ public class RegistrationValidator {
         return result;
     }
 
-    private static boolean checkLogin(Registration registration) throws ServiceException {
+    private boolean checkLogin(Registration registration) throws ServiceException {
         logger.info("Start checkLogin(Registration registration)." );
         boolean result = true;
         UserDaoImpl clientDAO = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
@@ -92,7 +94,7 @@ public class RegistrationValidator {
         return result;
     }
 
-    private static boolean checkPassword(Registration registration) throws ServiceException {
+    private boolean checkPassword(Registration registration) throws ServiceException {
         logger.info("Start checkPassword(Registration registration)." );
         boolean result = false;
         //TODO max/ min length
@@ -115,4 +117,5 @@ public class RegistrationValidator {
         }
         return result;
     }
+
 }

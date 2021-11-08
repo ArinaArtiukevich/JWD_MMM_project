@@ -8,7 +8,7 @@ import com.jwd.service.exception.ServiceException;
 public interface UserService {
     boolean register(Registration registration) throws ServiceException;
 
-    boolean checkLoginAndPassword(String login, String password);
+    boolean checkLoginAndPassword(String login, String password) throws ServiceException;
 
     String getUserNameByLogin(String login) throws ServiceException;
 

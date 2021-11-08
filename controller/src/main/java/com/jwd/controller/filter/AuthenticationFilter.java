@@ -1,7 +1,5 @@
 package com.jwd.controller.filter;
 
-import com.jwd.controller.command.ParameterAttributeType;
-import com.jwd.controller.command.impl.*;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.dao.entity.enums.UserRole;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +15,6 @@ import java.util.List;
 import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 import static com.jwd.controller.factory.enums.CommandEnum.*;
-import static javafx.scene.AccessibleAttribute.ROLE;
 
 public class AuthenticationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(AuthenticationFilter.class);

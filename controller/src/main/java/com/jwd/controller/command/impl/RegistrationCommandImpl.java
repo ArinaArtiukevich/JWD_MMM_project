@@ -1,7 +1,10 @@
 package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
+import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
@@ -18,23 +21,30 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class RegistrationCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
-    UserService userService = new UserServiceImpl();
+    private final ControllerValidator validator = new ControllerValidator();
+    private final UserService userService = new UserServiceImpl();
 
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start registration.");
-
         String page = null;
         String firstName = request.getParameter(FIRST_NAME);
         String lastName = request.getParameter(LAST_NAME);
         String email = request.getParameter(EMAIL);
         String city = request.getParameter(CITY);
         String login = request.getParameter(LOGIN);
-        //TODO char[] = request.getParameter(ParameterAttributeType.PASSWORD).toCharArray()
+//         todo
+//        char[] password = request.getParameter(PASSWORD).toCharArray();
+//        char[] confirmPassword = request.getParameter(CONFIRM_PASSWORD).toCharArray();
         String password = request.getParameter(PASSWORD);
         String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
-        Gender gender = Gender.valueOf(request.getParameter(GENDER).toUpperCase());
-        UserRole userRole = UserRole.valueOf(request.getParameter(USER_ROLE).toUpperCase());
+        String genderString = request.getParameter(GENDER);
+        validator.isValid(genderString);
+        String userRoleString = request.getParameter(USER_ROLE);
+        validator.isValid(userRoleString);
+        Gender gender = Gender.valueOf(genderString.toUpperCase());
+        UserRole userRole = UserRole.valueOf(userRoleString.toUpperCase());
 
+        validateParameters(firstName, lastName, email, city, login, password, confirmPassword, genderString, gender, userRole);
         Registration registration = new Registration(firstName, lastName, email, city , login, password, confirmPassword, gender, userRole);
         boolean isRegistered = false;
         Long idUser = 0L;
@@ -57,9 +67,22 @@ public class RegistrationCommandImpl implements Command {
             HttpSession session = request.getSession(true);
             session.setAttribute(ERROR, "Registration failed " + e.getMessage());
             logger.error("Problems with user registration.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
+    }
+
+    private void validateParameters(String firstName, String lastName, String email, String city, String login, String password, String confirmPassword, String genderString, Gender gender, UserRole userRole) throws ControllerException {
+        validator.isValid(firstName);
+        validator.isValid(lastName);
+        validator.isValid(email);
+        validator.isValid(city);
+        validator.isValid(login);
+        validator.isValid(password);
+        validator.isValid(confirmPassword);
+        validator.isValid(genderString);
+        validator.isValid(gender);
+        validator.isValid(userRole);
     }
 
 

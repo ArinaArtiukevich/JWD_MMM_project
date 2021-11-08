@@ -52,6 +52,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 UserDTO userLogin = new UserDTO(idClient, registration.getLogin(), registration.getPassword());
                 LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.add(userLogin);
+            } else {
+                logger.error("User was not added.");
+                throw new DaoException("User was not added.");
             }
         }
         catch(SQLException e) {
@@ -77,9 +80,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 idClient = resultSet.getLong(1);
-                if (idClient <= 0) {
-                    throw new DaoException("There is no such client in DB.");
-                }
             }
         }
         catch(SQLException e) {
@@ -110,6 +110,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 isDeleted = true;
                 LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.deleteLoginById(id);
+            } else {
+                logger.error("User was not deleted.");
+                throw new DaoException("User was not deleted.");
             }
         }
         catch(SQLException e) {

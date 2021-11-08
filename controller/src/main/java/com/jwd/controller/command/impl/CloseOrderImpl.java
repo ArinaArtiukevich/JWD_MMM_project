@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
@@ -17,15 +19,17 @@ import org.apache.logging.log4j.Logger;
 
 public class CloseOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(CloseOrderImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start CloseOrderImpl.");
         String page = null;
         try {
-            String idOrderParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
-            Long idOrder = Long.parseLong(String.valueOf(idOrderParameter));
+            String idOrderString = request.getParameter(ParameterAttributeType.ID_SERVICE);
+            validator.isValid(idOrderString);
+            Long idOrder = Long.parseLong(String.valueOf(idOrderString));
             if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
                 page = ConfigurationBundle.getProperty("path.page.services");
             } else {
@@ -34,7 +38,7 @@ public class CloseOrderImpl implements Command {
             }
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not close order.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
     }

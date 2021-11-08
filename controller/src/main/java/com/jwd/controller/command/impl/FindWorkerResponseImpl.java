@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.service.exception.ServiceException;
@@ -22,10 +24,11 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class FindWorkerResponseImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindWorkerResponseImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start FindWorkerResponseImpl.");
         String page = null;
         String currentPageParam = request.getParameter(CURRENT_PAGE);
@@ -44,8 +47,9 @@ public class FindWorkerResponseImpl implements Command {
         try {
             HttpSession session = request.getSession();
             String idWorkerParameter = String.valueOf(session.getAttribute(USER_ID));
+            validator.isValid(idWorkerParameter);
             Long idWorker = Long.parseLong(idWorkerParameter);
-
+            validator.isValid(idWorker);
             // TODO check parameters
             Page<Order> paginationResult = orderService.getOrdersByWorkerId(paginationRequest, idWorker);
             request.setAttribute(PAGEABLE, paginationResult);
@@ -53,7 +57,7 @@ public class FindWorkerResponseImpl implements Command {
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
     }

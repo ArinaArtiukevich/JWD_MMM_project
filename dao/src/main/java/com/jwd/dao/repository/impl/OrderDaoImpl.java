@@ -26,7 +26,6 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
     private static final String DATE_FORMAT = "yyyy.MM.dd";
 
-
     public OrderDaoImpl(ConnectionPoolImpl connectionPool) {
         super(connectionPool);
     }
@@ -49,7 +48,10 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setString(6, format.format(order.getOrderCreationDate()));
             int affectedRows = statement.executeUpdate();
             connection.commit();
-            if (affectedRows > 0) {
+            if (affectedRows <= 0) {
+                logger.error("An order was not added into orders.");
+                throw new DaoException("An order was not added into orders.");
+            } else {
                 logger.info("An order was added into orders.");
                 isAdded = true;
             }

@@ -10,6 +10,6 @@ public interface LoginDao {
 
     Long findIdByLogin(String login) throws DaoException;
 
-    Boolean isLoginAndPasswordExist(String login, String password);
+    Boolean isLoginAndPasswordExist(String login, String password) throws DaoException;
 
 }

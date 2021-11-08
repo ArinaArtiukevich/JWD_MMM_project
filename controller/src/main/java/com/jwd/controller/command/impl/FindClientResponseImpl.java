@@ -5,7 +5,9 @@ import com.jwd.controller.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.service.exception.ServiceException;
@@ -20,10 +22,11 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 
 public class FindClientResponseImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindClientResponseImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start FindClientResponseImpl.");
         String page = null;
         String currentPageParam = request.getParameter(CURRENT_PAGE);
@@ -42,14 +45,16 @@ public class FindClientResponseImpl implements Command {
         try {
             HttpSession session = request.getSession();
             String idClientParameter = String.valueOf(session.getAttribute(USER_ID));
+            validator.isValid(idClientParameter);
             Long idClient = Long.parseLong(idClientParameter);
+            validator.isValid(idClient);
             Page<Order> paginationResult = orderService.getOrdersResponseByClientId(paginationRequest, idClient);
             request.setAttribute(PAGEABLE, paginationResult);
             page = ConfigurationBundle.getProperty("path.page.order.client.order.responses");
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
     }

@@ -12,24 +12,26 @@ import com.jwd.dao.repository.impl.UserDaoImpl;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
-import com.jwd.service.validator.RegistrationValidator;
+import com.jwd.service.validator.ServiceValidator;
+import com.jwd.service.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    UserValidator userValidator = new UserValidator();
+    ServiceValidator validator = new ServiceValidator();
+
 
     @Override
     public boolean register(Registration registration) throws ServiceException {
         logger.info("Start register(Registration registration).");
-        //TODO ENCODED PASSWORD
-
         UserDaoImpl clientDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         boolean testClient = false;
         boolean testRegistration = false;
         try {
-            testRegistration = RegistrationValidator.checkData(registration);
+            testRegistration = userValidator.validateData(registration);
             testClient = clientDao.addUser(registration);
 
         } catch (ServiceException | DaoException e) {
@@ -41,15 +43,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkLoginAndPassword(String login, String password) {
+    public boolean checkLoginAndPassword(String login, String password) throws ServiceException {
         logger.info("Start checkLoginAndPassword(String login, String password).");
-        boolean result;
+        boolean result = false;
         LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
-        result = loginDao.isLoginAndPasswordExist(login, password);
-        if (result) {
-            logger.info("Correct login and password.");
-        }  else {
-            logger.info("Incorrect login or password.");
+        validator.validate(login);
+        validator.validate(password);
+        try {
+            result = loginDao.isLoginAndPasswordExist(login, password);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
         return result;
     }
@@ -60,6 +63,7 @@ public class UserServiceImpl implements UserService {
         String name;
         try {
             name = userDao.findNameByLogin(login);
+            validator.validate(name);
         }
         catch (DaoException e) {
             logger.error("Client name with login = " + login + " was not found.");
@@ -75,7 +79,9 @@ public class UserServiceImpl implements UserService {
         Long idClient;
         try {
             LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+            validator.validate(login);
             idClient = loginDao.findIdByLogin(login);
+            validator.validate(idClient);
         } catch (DaoException e) {
             logger.error("Client id with login = " + login + " was not found.");
             throw new ServiceException(e);
@@ -89,6 +95,7 @@ public class UserServiceImpl implements UserService {
         logger.info("Start User getIdUserById(Long idUser). idUser = " + idUser);
         User user  = new User();
         try {
+            validator.validate(idUser);
             user = userDao.getUserById(idUser);
         } catch (DaoException e) {
             logger.error("Client with idUser = " + idUser + " was not found.");
@@ -103,7 +110,9 @@ public class UserServiceImpl implements UserService {
         logger.info("Start UserRole getRoleByID(Long idUser). idUser = " + idUser);
         UserRole userRole;
         try {
+            validator.validate(idUser);
             userRole = userDao.findRoleByID(idUser);
+            validator.validate(userRole);
         } catch (DaoException e) {
             logger.error("User role with idUser = " + idUser + " was not found.");
             throw new ServiceException(e);

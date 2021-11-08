@@ -2,7 +2,9 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.User;
 import com.jwd.service.exception.ServiceException;
@@ -20,19 +22,23 @@ import org.apache.logging.log4j.Logger;
 
 public class FindOrderInfoImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
+    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = new OrderServiceImpl();
-    UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start FindOrderInfoImpl.");
 
         String page = null;
         try {
             String idServiceParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
+            validator.isValid(idServiceParameter);
             Long idService = Long.parseLong(idServiceParameter);
+            validator.isValid(idService);
             Order order = orderService.getOrderById(idService);
             Long idClient = order.getIdClient();
+            validator.isValid(idClient);
             User client = userService.getUserById(idClient);
             // TODO check parameters
             HttpSession session = request.getSession();
@@ -42,7 +48,7 @@ public class FindOrderInfoImpl implements Command {
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            throw new ControllerException(e);
         }
         return page;
     }

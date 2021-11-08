@@ -106,7 +106,8 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             }
         }
         catch(SQLException e) {
-            logger.error(e);
+            logger.error("User was not found.");
+            throw new DaoException("User was not found.");
         }
         finally {
             close(resultSet);
@@ -117,7 +118,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
     }
 
     @Override
-    public Boolean isLoginAndPasswordExist(String login, String password) {
+    public Boolean isLoginAndPasswordExist(String login, String password) throws DaoException {
         logger.info("Start isExistInList(String login, String password). Login = " + login + ", password = " + password);
         boolean isExist = false;
         PreparedStatement statement = null;
@@ -136,9 +137,9 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             if (!isExist) {
                 throw new DaoException("Could not find user_dto with login = " + login);
             }
-        }
-        catch(SQLException | DaoException e) {
-            logger.error(e);
+        } catch(SQLException e) {
+            logger.error("User was not found.");
+            throw new DaoException("User was not found.");
         }
         finally {
             close(resultSet);
