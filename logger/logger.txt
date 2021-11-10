@@ -1,107 +1,115 @@
-18:25:56.039 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.082 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.096 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.108 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-18:25:56.108 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:25:56.110 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.122 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.136 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.149 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-18:25:56.149 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:25:56.149 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.163 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.175 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.188 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-18:25:56.188 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:25:56.188 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - Controller was started.
-18:25:56.188 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - login
-18:25:56.190 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-18:25:56.191 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - command = LOGIN
-18:25:56.191 [http-nio-8080-exec-5] INFO  com.jwd.controller.command.impl.LoginCommandImpl - Start LoginCommandImpl.
-18:25:56.191 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start checkLoginAndPassword(String login, String password).
-18:25:56.193 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.205 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.217 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.229 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-18:25:56.229 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:25:56.229 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start isExistInList(String login, String password). Login = c, password = c
-18:25:56.229 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-18:25:56.230 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-18:25:56.230 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-18:25:56.257 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - User with login:c was found.
-18:25:56.258 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-18:25:56.258 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-18:25:56.258 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-18:25:56.258 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start getIdClientByLogin(String login). Login = c
-18:25:56.259 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.271 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.286 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:25:56.292 [http-nio-8080-exec-5] ERROR com.jwd.dao.connection.impl.ConnectionPoolImpl - SQLException in initConnectionPool()
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 2
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findIdByLogin(String login). Login = c
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 1
-18:25:56.292 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-18:25:56.294 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Login with login:c was found.
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Client id with login = c was found. Id = 18
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start UserRole getRoleByID(Long idUser). idUser = 18
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start UserRole findRoleByID(Long idUser). idUser = 18
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-18:25:56.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-18:25:56.301 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-18:25:56.301 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-18:25:56.301 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-18:25:56.301 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - User role with idUser = 18 was found. Role = client
-18:25:56.305 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.LoginCommandImpl@47a2d2af
-18:25:57.597 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-18:25:57.598 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-18:25:57.598 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - Controller was started.
-18:25:57.598 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - find_user_information
-18:25:57.598 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-18:25:57.598 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_USER_INFORMATION
-18:25:57.598 [http-nio-8080-exec-6] INFO  com.jwd.controller.command.impl.FindUserInformationImpl - Start FindUserInformationImpl.
-18:25:57.600 [http-nio-8080-exec-6] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start User getIdUserById(Long idUser). idUser = 18
-18:25:57.601 [http-nio-8080-exec-6] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start getUserById(Long idUser). idUser = 18
-18:25:57.601 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-18:25:57.601 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-18:25:57.601 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-18:25:57.605 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-18:25:57.605 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-18:25:57.605 [http-nio-8080-exec-6] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-18:25:57.605 [http-nio-8080-exec-6] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Client with idUser = 18 was found. Id = 18
-18:25:57.605 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindUserInformationImpl@20cb8607
-18:26:06.245 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-18:26:06.246 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-18:26:06.246 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
-18:26:06.246 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - update_user
-18:26:06.246 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-18:26:06.246 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = UPDATE_USER
-18:26:06.246 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.RegistrationCommandImpl - Start UpdateUserImpl.
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start updateUserWithoutPassword(Long idUser, Registration userInfo).
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Start validateUserWithoutPassword(Registration registration).
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Start validateEmptyFieldsWithoutPassword(Registration registration).
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Start checkCity(String city).
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Input city is correct.
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Start checkEmail(String email).
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - Input email is correct.
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.service.validator.ServiceValidator - User data is ready to be updated
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start updateUserWithoutPassword(Registration userInfo). Login = null
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-18:26:06.248 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-18:26:06.258 [http-nio-8080-exec-7] INFO  com.jwd.dao.repository.impl.UserDaoImpl - User was updated.
-18:26:06.259 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-18:26:06.259 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-18:26:06.259 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-18:26:06.259 [http-nio-8080-exec-7] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start String getPassword(String login) throws ServiceException. idUser = 18
-18:26:06.259 [http-nio-8080-exec-7] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-18:26:06.262 [http-nio-8080-exec-7] ERROR com.jwd.dao.connection.impl.ConnectionPoolImpl - SQLException in initConnectionPool()
-18:26:06.262 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 0
-18:26:06.262 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-18:26:06.262 [http-nio-8080-exec-7] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findPasswordByLogin(String login). idUser = 18
-18:26:06.262 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:13:57.129 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+22:13:57.156 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.167 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.179 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.191 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+22:13:57.191 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+22:13:57.191 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.202 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.213 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.225 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+22:13:57.225 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+22:13:57.228 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.239 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.250 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.261 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+22:13:57.261 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+22:13:57.261 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.272 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.284 [http-nio-8080-exec-5] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
+22:13:57.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
+22:13:57.295 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
+22:13:57.296 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - Controller was started.
+22:13:57.296 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - login
+22:13:57.297 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - command = LOGIN
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.controller.command.impl.LoginCommandImpl - Start LoginCommandImpl.
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start checkLoginAndPassword(String login, String password).
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start isExistInList(String login, String password). Login = arina, password = arina
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:13:57.298 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:13:57.325 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - User with login:arina was found.
+22:13:57.326 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:13:57.326 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:13:57.327 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:13:57.327 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start getIdClientByLogin(String login). Login = arina
+22:14:00.181 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findIdByLogin(String login). Login = arina
+22:14:04.958 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:14:04.958 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:14:04.958 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Login with login:arina was found.
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Client id with login = arina was found. Id = 19
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start UserRole getRoleByID(Long idUser). idUser = 19
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start UserRole findRoleByID(Long idUser). idUser = 19
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:14:04.960 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:14:04.966 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:14:04.966 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:14:04.966 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:14:04.966 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - User role with idUser = 19 was found. Role = client
+22:14:04.971 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.LoginCommandImpl@268f72fd
+22:14:09.881 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+22:14:09.881 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+22:14:09.882 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
+22:14:09.882 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - find_user_information
+22:14:09.882 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+22:14:09.882 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = FIND_USER_INFORMATION
+22:14:09.882 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.FindUserInformationImpl - Start FindUserInformationImpl.
+22:14:14.015 [http-nio-8080-exec-7] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start User getIdUserById(Long idUser). idUser = 19
+22:14:14.016 [http-nio-8080-exec-7] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start getUserById(Long idUser). idUser = 19
+22:14:14.935 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:14:14.935 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:14:14.935 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:14:14.952 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:14:14.952 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:14:14.952 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:14:14.953 [http-nio-8080-exec-7] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Client with idUser = 19 was found. Id = 19
+22:14:14.953 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindUserInformationImpl@513d5c75
+22:14:56.754 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+22:14:56.755 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+22:14:56.755 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - Controller was started.
+22:14:56.755 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - update_user
+22:14:56.755 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+22:14:56.755 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - command = UPDATE_USER
+22:14:56.755 [http-nio-8080-exec-10] INFO  com.jwd.controller.command.impl.RegistrationCommandImpl - Start UpdateUserImpl.
+22:15:05.599 [http-nio-8080-exec-10] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start updateUserWithPassword(Long idUser, Registration userInfo).
+22:15:06.221 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start validateUserWithPassword(Registration registration).
+22:15:06.222 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start validateEmptyFieldsWithoutPassword(Registration registration).
+22:15:06.223 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start validateEmptyFieldsWithoutPassword(Registration registration).
+22:15:09.480 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start checkCity(String city).
+22:15:09.482 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Input city is correct.
+22:15:09.766 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start checkEmail(String email).
+22:15:09.768 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Input email is correct.
+22:15:10.032 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - Start checkPassword(Registration registration).
+22:15:10.688 [http-nio-8080-exec-10] INFO  com.jwd.service.validator.ServiceValidator - User data is ready to be updated
+22:15:12.415 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.UserDaoImpl - Start updateUserWithoutPassword(Registration userInfo). Login = null
+22:15:13.435 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:15:13.438 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:15:13.440 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:15:16.569 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.UserDaoImpl - User was updated.
+22:15:17.634 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:15:17.636 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:15:17.638 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:15:19.826 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start add(Login login). Id = 19
+22:15:21.946 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:15:21.948 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:15:21.950 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:15:51.216 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - A login was added into user_dtos.
+22:15:52.445 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:15:52.448 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:15:52.449 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:15:58.137 [http-nio-8080-exec-10] INFO  com.jwd.service.serviceLogic.impl.UserServiceImpl - Start String getPassword(String login) throws ServiceException. idUser = 19
+22:15:59.402 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Start findPasswordByLogin(String login). idUser = 19
+22:16:01.863 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+22:16:01.865 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+22:16:01.867 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+22:16:05.570 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.LoginDaoImpl - Login with idUser:19 was found.
+22:16:08.433 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+22:16:08.436 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+22:16:08.438 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+22:16:15.650 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.UpdateUserImpl@3414cf98

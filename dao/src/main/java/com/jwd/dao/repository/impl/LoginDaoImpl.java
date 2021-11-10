@@ -193,7 +193,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             statement.setLong(1, idUser);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {
-                password = resultSet.getString(3);
+                password = resultSet.getString(1);
                 isExist = true;
                 logger.info("Login with idUser:" + idUser + " was found.");
             }

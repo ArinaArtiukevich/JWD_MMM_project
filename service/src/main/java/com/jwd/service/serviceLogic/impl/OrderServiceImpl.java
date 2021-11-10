@@ -1,6 +1,7 @@
 package com.jwd.service.serviceLogic.impl;
 
 import com.jwd.dao.config.DataBaseConfig;
+import com.jwd.dao.connection.ConnectionPool;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
@@ -21,7 +22,9 @@ import java.util.ArrayList;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
-    private final OrderDao orderDao = new OrderDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    ConnectionPoolImpl connectionPool = new ConnectionPoolImpl(new DataBaseConfig());
+    private final OrderDao orderDao = new OrderDaoImpl(connectionPool);
+    private final UserDao userDao = new UserDaoImpl(connectionPool);
     private final ServiceValidator validator = new ServiceValidator();
 
     @Override
@@ -84,7 +87,6 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start boolean addServiceOrder(Order order, String login) in OrderService.");
         ArrayList<Order> list = new ArrayList<>();
         boolean isAdded = false;
-        UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         try {
             validator.validate(order);
             Long idClient = userDao.findIdByLogin(login);

@@ -19,7 +19,9 @@ import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private final UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    ConnectionPoolImpl connectionPool = new ConnectionPoolImpl(new DataBaseConfig());
+    private final UserDao userDao = new UserDaoImpl(connectionPool);
+    private final LoginDao loginDao = new LoginDaoImpl(connectionPool);
     private final ServiceValidator validator = new ServiceValidator();
 
 
@@ -62,9 +64,8 @@ public class UserServiceImpl implements UserService {
         try {
             if (validator.validateUserWithPassword(userInfo)) {
                 validator.validate(idUser);
-                isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
+                isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
                 UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
-                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.updateUserDTO(userDto);
             }
 
@@ -82,7 +83,6 @@ public class UserServiceImpl implements UserService {
         validator.validate(login);
         validator.validate(password);
         try {
-            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             result = loginDao.isLoginAndPasswordExist(login, password);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -112,7 +112,6 @@ public class UserServiceImpl implements UserService {
         Long idClient;
         try {
             validator.validate(login);
-            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             idClient = loginDao.findIdByLogin(login);
             validator.validate(idClient);
         } catch (DaoException e) {
@@ -159,7 +158,6 @@ public class UserServiceImpl implements UserService {
         String password;
         try {
             validator.validate(idUser);
-            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             password = loginDao.findPasswordById(idUser);
             validator.validate(password);
         } catch (DaoException e) {
