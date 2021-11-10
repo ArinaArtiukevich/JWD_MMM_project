@@ -34,7 +34,7 @@
         <form id="find_worker_response" method="GET" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="find_worker_response">
                 <div>
-                    <a type="submit" name="find_client_response" class="btn btn-primary" href="/controller?command=find_worker_response&idWorker=${sessionScope.userId}">
+                    <a type="submit" name="find_client_response" class="btn btn-light" href="/controller?command=find_worker_response&idWorker=${sessionScope.userId}">
                             ${work_find_worker_response}
                     </a>
                 </div>

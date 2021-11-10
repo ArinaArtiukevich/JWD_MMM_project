@@ -46,7 +46,7 @@
         <input type="password" name="password" class="form-control" id="passwordInput" value=""/>
     </div>
 
-<button type="submit" name="loginAction" class="btn btn-primary" value="enter">${login_button_enter}</button>
+<button type="submit" name="loginAction" class="btn btn-light" value="enter">${login_button_enter}</button>
 
 </form>
 </body>

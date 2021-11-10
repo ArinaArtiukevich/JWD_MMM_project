@@ -54,6 +54,36 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
     }
 
     @Override
+    public boolean updateUserDTO(UserDTO userDTO) throws DaoException {
+        logger.info("Start add(Login login). Id = " + userDTO.getIdUser());
+        PreparedStatement statement = null;
+        Connection connection = null;
+        boolean isAdded = false;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.update.with.password.by.id"));
+            statement.setString(1, userDTO.getPassword());
+            statement.setLong(2, userDTO.getIdUser());
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows > 0) {
+                logger.info("A login was added into user_dtos.");
+                isAdded = true;
+            } else {
+                throw new DaoException("A login was not added into user_dtos.");
+            }
+        }
+        catch(SQLException e) {
+            throw new DaoException("A login was not added into user_dtos.");
+        }
+        finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isAdded;
+    }
+
+    @Override
     public boolean deleteLoginById(Integer id) throws DaoException {
         logger.info("Start deleteLoginById(Integer id). Id = " + id);
         boolean isDeleted = false;
@@ -147,6 +177,40 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             retrieve(connection);
         }
         return isExist;
+    }
+
+    @Override
+    public String findPasswordById(Long idUser) throws DaoException {
+        logger.info("Start findPasswordByLogin(String login). idUser = " + idUser);
+        String password = null;
+        boolean isExist = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.password.by.id"));
+            statement.setLong(1, idUser);
+            resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                password = resultSet.getString(3);
+                isExist = true;
+                logger.info("Login with idUser:" + idUser + " was found.");
+            }
+            if (!isExist) {
+                throw new DaoException("Could not find user_dto with idUser = " + idUser);
+            }
+        }
+        catch(SQLException e) {
+            logger.error("Password was not found.");
+            throw new DaoException("Password was not found.");
+        }
+        finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return password;
     }
 
 }

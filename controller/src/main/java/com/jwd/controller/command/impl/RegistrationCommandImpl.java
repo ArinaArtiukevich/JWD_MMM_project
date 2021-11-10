@@ -56,7 +56,6 @@ public class RegistrationCommandImpl implements Command {
                 page = ConfigurationBundle.getProperty("path.page.work");
 
                 request.setAttribute(LOGIN, login);
-                request.setAttribute("message", "Add service/ Find service");
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute(USER_ID, idUser);

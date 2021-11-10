@@ -69,13 +69,13 @@
                 <c:if test="${sessionScope.order.status.toString() eq 'FREE'}">
                     <input type="hidden" name="command" value="take_order"/>
                     <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
-                    <button type="submit" class="btn btn-primary">${button_take_order}</button>
+                    <button type="submit" class="btn btn-light">${button_take_order}</button>
                 </c:if>
 
                 <c:if test="${sessionScope.order.status.toString() eq 'IN_PROCESS'}">
                     <input type="hidden" name="command" value="close_order"/>
                     <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
-                    <button type="submit" class="btn btn-primary">${button_close_order}</button>
+                    <button type="submit" class="btn btn-light">${button_close_order}</button>
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.userRole eq 'client'}">
@@ -83,7 +83,7 @@
                     <c:if test="${sessionScope.order.status.toString() eq 'DONE'}">
                         <input type="hidden" name="command" value="approve_order"/>
                         <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
-                        <button type="submit" class="btn btn-primary">${button_approve_order}</button>
+                        <button type="submit" class="btn btn-light">${button_approve_order}</button>
                     </c:if>
                 </c:if>
             </c:if>

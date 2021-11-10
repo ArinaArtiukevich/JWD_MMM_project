@@ -41,14 +41,18 @@ public class AuthenticationFilter implements Filter {
                 SHOW_USER_ORDERS.toString().toLowerCase(),
                 WORK.toString().toLowerCase(),
                 ADD_SERVICE_ORDER.toString().toLowerCase(),
-                LOGOUT.toString().toLowerCase()
+                LOGOUT.toString().toLowerCase(),
+                UPDATE_USER.toString().toLowerCase(),
+                FIND_USER_INFORMATION.toString().toLowerCase()
         );
         final List<String> workerAvailableCommands = Arrays.asList(
                 FIND_WORKER_RESPONSE.toString().toLowerCase(),
                 CLOSE_ORDER.toString().toLowerCase(),
                 TAKE_ORDER.toString().toLowerCase(),
                 WORK.toString().toLowerCase(),
-                LOGOUT.toString().toLowerCase()
+                LOGOUT.toString().toLowerCase(),
+                UPDATE_USER.toString().toLowerCase(),
+                FIND_USER_INFORMATION.toString().toLowerCase()
         );
         boolean result = false;
         String currentCommand = req.getParameter(COMMAND);

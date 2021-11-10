@@ -78,6 +78,16 @@ public enum CommandEnum {
         {
             this.command = new FindOrdersByServiceTypeImpl();
         }
+    },
+    UPDATE_USER {
+        {
+            this.command = new UpdateUserImpl();
+        }
+    },
+    FIND_USER_INFORMATION {
+        {
+            this.command = new FindUserInformationImpl();
+        }
     }
     ;
 

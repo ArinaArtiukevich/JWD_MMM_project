@@ -111,7 +111,7 @@
             </div>
         </div>
     </fieldset>
-    <fieldset class="row mb-3" name="gender">
+    <fieldset class="row mb-3" name="userRole">
         <legend class="col-form-label col-sm-2 pt-0 form-control-lg">${registration_userRole}</legend>
         <div class="col-sm-10">
             <div class="form-check">
@@ -129,7 +129,7 @@
         </div>
     </fieldset>
 
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-light">Sign in</button>
 
 </form>
 </body>

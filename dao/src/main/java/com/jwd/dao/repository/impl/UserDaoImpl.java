@@ -68,6 +68,74 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
+    public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws DaoException {
+        logger.info("Start updateUserWithoutPassword(Registration userInfo). Login = " + userInfo.getLogin());
+        boolean isUpdated = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.update.without.password.by.id"));
+            statement.setString(1, userInfo.getFirstName());
+            statement.setString(2, userInfo.getLastName());
+            statement.setString(3, userInfo.getEmail());
+            statement.setString(4, userInfo.getCity());
+            statement.setLong(5, idUser);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows > 0) {
+                logger.info("User was updated.");
+                isUpdated = true;
+            } else {
+                logger.error("User was not updated.");
+                throw new DaoException("User was not updated.");
+            }
+        }
+        catch(SQLException e) {
+            throw new DaoException("User was not updated.", e);
+        }
+        finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws DaoException {
+        logger.info("Start updateUserWithPassword(Long idUser, Registration userInfo). Login = " + userInfo.getLogin());
+        boolean isUpdated = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.update.without.password.by.id"));
+            statement.setString(1, userInfo.getFirstName());
+            statement.setString(2, userInfo.getLastName());
+            statement.setString(3, userInfo.getEmail());
+            statement.setString(4, userInfo.getCity());
+            statement.setLong(5, idUser);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows > 0) {
+                logger.info("User was updated.");
+                isUpdated = true;
+            } else {
+                logger.error("User was not updated.");
+                throw new DaoException("User was not updated.");
+            }
+        }
+        catch(SQLException e) {
+            throw new DaoException("User was not updated.", e);
+        }
+        finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isUpdated;
+    }
+
+    @Override
     public Long findIdByLogin(String login) throws DaoException {
         PreparedStatement statement = null;
         Connection connection = null;

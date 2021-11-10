@@ -84,6 +84,6 @@
             </div>
         </div>
     </fieldset>
-    <button type="submit" class="btn btn-primary">add</button>
+    <button type="submit" class="btn btn-light">add</button>
 </body>
 </html>

@@ -8,6 +8,10 @@ import com.jwd.service.exception.ServiceException;
 public interface UserService {
     boolean register(Registration registration) throws ServiceException;
 
+    boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws ServiceException;
+
+    boolean updateUserWithPassword(Long idUser, Registration userInfo) throws ServiceException;
+
     boolean checkLoginAndPassword(String login, String password) throws ServiceException;
 
     String getUserNameByLogin(String login) throws ServiceException;
@@ -17,4 +21,6 @@ public interface UserService {
     User getUserById(Long idUser) throws ServiceException;
 
     UserRole getRoleByID(Long idUser) throws ServiceException;
+
+    String getPassword(Long idUser) throws ServiceException;
 }

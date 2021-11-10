@@ -25,10 +25,10 @@ public class CommandFactory {
                 logger.info("command = " + commandParameter);
 
             } catch(IllegalArgumentException e) {
-                logger.info("Illegal parameters");
+                logger.error("Illegal parameters");
             }
         } else {
-            logger.info("Invalid command parameter = " + commandParameter);
+            logger.error("Invalid command parameter = " + commandParameter);
         }
         return command;
     }

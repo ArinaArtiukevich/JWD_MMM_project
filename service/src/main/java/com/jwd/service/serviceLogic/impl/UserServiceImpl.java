@@ -4,6 +4,7 @@ import com.jwd.dao.config.DataBaseConfig;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
+import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.LoginDao;
@@ -13,43 +14,75 @@ import com.jwd.dao.exception.DaoException;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.validator.ServiceValidator;
-import com.jwd.service.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final UserDao userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
-    UserValidator userValidator = new UserValidator();
-    ServiceValidator validator = new ServiceValidator();
+    private final ServiceValidator validator = new ServiceValidator();
 
 
     @Override
     public boolean register(Registration registration) throws ServiceException {
         logger.info("Start register(Registration registration).");
-        UserDaoImpl clientDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
-        boolean testClient = false;
-        boolean testRegistration = false;
+        boolean isRegistered = false;
         try {
-            testRegistration = userValidator.validateData(registration);
-            testClient = clientDao.addUser(registration);
-
-        } catch (ServiceException | DaoException e) {
+            if (validator.validateData(registration)) {
+                isRegistered = userDao.addUser(registration);
+            }
+        } catch (DaoException e) {
             logger.error("Invalid input parameters.");
             throw new ServiceException(e);
         }
-        return testRegistration && testClient;
+        return isRegistered;
+    }
 
+    @Override
+    public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws ServiceException{
+        logger.info("Start updateUserWithoutPassword(Long idUser, Registration userInfo).");
+        boolean isUpdated = false;
+        try {
+            if (validator.validateUserWithoutPassword(userInfo)) {
+                validator.validate(idUser);
+                isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
+            }
+
+        } catch (DaoException e) {
+            logger.error("Invalid input parameters.");
+            throw new ServiceException(e);
+        }
+        return isUpdated;
+    }
+
+    @Override
+    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws ServiceException{
+        logger.info("Start updateUserWithPassword(Long idUser, Registration userInfo).");
+        boolean isUpdated = false;
+        try {
+            if (validator.validateUserWithPassword(userInfo)) {
+                validator.validate(idUser);
+                isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
+                UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
+                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+                loginDao.updateUserDTO(userDto);
+            }
+
+        } catch (DaoException e) {
+            logger.error("Invalid input parameters.");
+            throw new ServiceException(e);
+        }
+        return isUpdated;
     }
 
     @Override
     public boolean checkLoginAndPassword(String login, String password) throws ServiceException {
         logger.info("Start checkLoginAndPassword(String login, String password).");
         boolean result = false;
-        LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
         validator.validate(login);
         validator.validate(password);
         try {
+            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             result = loginDao.isLoginAndPasswordExist(login, password);
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -78,8 +111,8 @@ public class UserServiceImpl implements UserService {
         logger.info("Start getIdClientByLogin(String login). Login = " + login);
         Long idClient;
         try {
-            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             validator.validate(login);
+            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
             idClient = loginDao.findIdByLogin(login);
             validator.validate(idClient);
         } catch (DaoException e) {
@@ -119,5 +152,21 @@ public class UserServiceImpl implements UserService {
         }
         logger.info("User role with idUser = " + idUser + " was found. Role = " + userRole.getName());
         return userRole;
+    }
+
+    public String getPassword(Long idUser) throws ServiceException {
+        logger.info("Start String getPassword(String login) throws ServiceException. idUser = " + idUser);
+        String password;
+        try {
+            validator.validate(idUser);
+            LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+            password = loginDao.findPasswordById(idUser);
+            validator.validate(password);
+        } catch (DaoException e) {
+            logger.error("Password was not found.");
+            throw new ServiceException(e);
+        }
+
+        return password;
     }
 }
