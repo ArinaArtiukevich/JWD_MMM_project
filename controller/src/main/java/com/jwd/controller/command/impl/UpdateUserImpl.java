@@ -62,10 +62,6 @@ public class UpdateUserImpl implements Command {
                 request.setAttribute(LAST_NAME, userInfo.getLastName());
                 request.setAttribute(EMAIL, userInfo.getEmail());
                 request.setAttribute(CITY, userInfo.getCity());
-                String passwordResult = userService.getPassword(idUser);
-                request.setAttribute("password", passwordResult);
-
-
                 request.setAttribute(LAST_COMMAND, UPDATE_USER);
             } // TODO else
         } catch (ServiceException e) {

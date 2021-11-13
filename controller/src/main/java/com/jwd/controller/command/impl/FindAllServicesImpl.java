@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static java.util.Objects.nonNull;
 
 
 public class FindAllServicesImpl implements Command {
@@ -45,10 +46,19 @@ public class FindAllServicesImpl implements Command {
         paginationRequest.setPageNumber(currentPage);
         paginationRequest.setLimit(pageLimit);
         try {
+            String sortByParameter = request.getParameter(SORT_BY);
+            validator.isValid(sortByParameter);
+            paginationRequest.setSortBy(sortByParameter);
+            String direction = request.getParameter(DIRECTION);
+            if (nonNull(direction) && !direction.isEmpty()) {
+                paginationRequest.setDirection(direction);
+            }
             Page<Order> paginationResult = orderService.getAllServices(paginationRequest);
             request.setAttribute(PAGEABLE, paginationResult);
-            page = ConfigurationBundle.getProperty("path.page.services");
             request.setAttribute(LAST_COMMAND, SHOW_SERVICE_ALL);
+            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
+            page = ConfigurationBundle.getProperty("path.page.services");
             HttpSession session = request.getSession();
             session.getAttribute("userRole");
         } catch (ServiceException e) {

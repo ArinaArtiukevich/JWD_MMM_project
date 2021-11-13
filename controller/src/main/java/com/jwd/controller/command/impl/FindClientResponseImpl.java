@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static java.util.Objects.nonNull;
 
 
 public class FindClientResponseImpl implements Command {
@@ -48,8 +49,18 @@ public class FindClientResponseImpl implements Command {
             validator.isValid(idClientParameter);
             Long idClient = Long.parseLong(idClientParameter);
             validator.isValid(idClient);
+            String sortByParameter = request.getParameter(SORT_BY);
+            validator.isValid(sortByParameter);
+            paginationRequest.setSortBy(sortByParameter);
+            String direction = request.getParameter(DIRECTION);
+            if (nonNull(direction) && !direction.isEmpty()) {
+                paginationRequest.setDirection(direction);
+            }
             Page<Order> paginationResult = orderService.getOrdersResponseByClientId(paginationRequest, idClient);
             request.setAttribute(PAGEABLE, paginationResult);
+            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
+            request.setAttribute(LAST_COMMAND, FIND_CLIENT_RESPONSE);
             page = ConfigurationBundle.getProperty("path.page.order.client.order.responses");
 
         } catch (NumberFormatException | ServiceException e) {

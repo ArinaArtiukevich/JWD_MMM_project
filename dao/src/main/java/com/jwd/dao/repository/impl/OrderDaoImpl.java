@@ -174,6 +174,8 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setLong(1, idUser);
             statement.setInt(2, daoOrderPage.getLimit());
             statement.setInt(3, offset);
+
+            logger.info("Query : {}", statement.toString());
             resultSet = statement.executeQuery();
             connection.commit();
 

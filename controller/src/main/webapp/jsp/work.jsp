@@ -61,7 +61,6 @@
                 <td>${user_lastName} : ${requestScope.lastName}<br/></td>
                 <td>${user_email} : ${requestScope.email}<br/></td>
                 <td>${user_city} : ${requestScope.city}<br/></td>
-                <td> password :  ${requestScope.password}<br/></td>
             </tr>
         </table>
 
@@ -89,7 +88,7 @@
                                 ${work_show_user_all_order}
                         </button><br/>
                         <div>
-                            <a class="btn btn-light" href="/controller?command=find_client_response&idClient=${sessionScope.userId}">
+                            <a class="btn btn-light" href="/controller?command=work&work_action=find_client_response">
                                     ${work_find_client_response}
                             </a><br/>
                         </div>
@@ -98,7 +97,7 @@
 
                     <c:when test="${sessionScope.userRole eq 'worker'}">
                         <div>
-                            <a class="btn btn-light" href="/controller?command=find_worker_response&idWorker=${sessionScope.userId}">
+                            <a class="btn btn-light" href="/controller?command=work&work_action=find_worker_response">
                                     ${work_find_worker_response}
                             </a><br/>
                         </div>

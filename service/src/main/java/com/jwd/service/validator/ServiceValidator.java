@@ -3,6 +3,7 @@ package com.jwd.service.validator;
 import com.jwd.dao.config.DataBaseConfig;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
+import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.ServiceStatus;
@@ -13,16 +14,30 @@ import com.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Date;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
 public class ServiceValidator {
     private static final Logger logger = LogManager.getLogger(ServiceValidator.class);
-    UserDaoImpl userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    private final UserDaoImpl userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
+    private final List<String> availableSortByParameters = Arrays.asList("order_creation_date", "address", "service_type",
+            "service_status", "description");
+    private final List<String> availableDirectionParameters = Arrays.asList("ASC", "DESC");
+
+    public void validate(Page<Order> orderPageRequest) throws ServiceException {
+        // TODO validate other parameters
+        if ((isNull(orderPageRequest.getSortBy()) || orderPageRequest.getSortBy().isEmpty()) &&
+                !availableSortByParameters.contains(orderPageRequest.getSortBy())) {
+            throw new ServiceException("Sort by parameter is not available.");
+        } if ((isNull(orderPageRequest.getDirection()) || orderPageRequest.getDirection().isEmpty()) &&
+                !availableDirectionParameters.contains(orderPageRequest.getDirection())) {
+            throw new ServiceException("Direction parameter is not available.");
+        }
+    }
 
     public void validate(ServiceType serviceType) throws ServiceException {
-        if(serviceType == null) {
+        if (serviceType == null) {
             throw new ServiceException("Service type is null.");
         }
     }
@@ -34,19 +49,19 @@ public class ServiceValidator {
     }
 
     public void validate(Gender gender) throws ServiceException {
-        if(gender == null) {
+        if (gender == null) {
             throw new ServiceException("Gender is null.");
         }
     }
 
     public void validate(ServiceStatus serviceStatus) throws ServiceException {
-        if(serviceStatus == null) {
+        if (serviceStatus == null) {
             throw new ServiceException("Service type is null.");
         }
     }
 
     public void validate(Long id) throws ServiceException {
-        if(isNull(id) || id <= 0) {
+        if (isNull(id) || id <= 0) {
             throw new ServiceException("Id was not found.");
         }
     }
@@ -65,7 +80,7 @@ public class ServiceValidator {
     }
 
     public void validate(String string) throws ServiceException {
-        if(isNull(string) || string.isEmpty()) {
+        if (isNull(string) || string.isEmpty()) {
             throw new ServiceException("Invalid parameter.");
         }
     }
@@ -181,7 +196,7 @@ public class ServiceValidator {
         int maxLength = 100;
         int minLength = 1;
         Integer length = password.length();
-        if((length >= minLength) && (length <= maxLength)) {
+        if ((length >= minLength) && (length <= maxLength)) {
             result = confirmPassword.equals(password);
         } else {
             logger.error("Input password is not available." );

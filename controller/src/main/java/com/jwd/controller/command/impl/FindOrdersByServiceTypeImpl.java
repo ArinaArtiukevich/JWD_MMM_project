@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static java.util.Objects.nonNull;
 
 
 public class FindOrdersByServiceTypeImpl implements Command {
@@ -44,15 +45,23 @@ public class FindOrdersByServiceTypeImpl implements Command {
         paginationRequest.setPageNumber(currentPage);
         paginationRequest.setLimit(pageLimit);
         try {
+            String sortByParameter = request.getParameter(SORT_BY);
+            validator.isValid(sortByParameter);
+            paginationRequest.setSortBy(sortByParameter);
+            String direction = request.getParameter(DIRECTION);
+            if (nonNull(direction) && !direction.isEmpty()) {
+                paginationRequest.setDirection(direction);
+            }
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
             validator.isValid(serviceTypeString);
             ServiceType serviceType  = ServiceType.valueOf(serviceTypeString);
             Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
             request.setAttribute(PAGEABLE, paginationResult);
-            page = ConfigurationBundle.getProperty("path.page.services");
             request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
             request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
-
+            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
+            page = ConfigurationBundle.getProperty("path.page.services");
         } catch (ServiceException e) {
             logger.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");

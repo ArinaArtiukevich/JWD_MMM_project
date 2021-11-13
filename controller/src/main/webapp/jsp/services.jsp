@@ -23,6 +23,8 @@
         <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
         <fmt:message bundle="${loc}" key="order.status" var="status" />
         <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
+        <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by" />
+        <fmt:message bundle="${loc}" key="direction.change" var="direction_change" />
 
     </head>
     <body>
@@ -35,38 +37,69 @@
 
         <form id="show_all_services" method="GET" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="show_all_services">
-                <div id="menu">
+                <div id="menu" class="custom-control-inline">
                     <button type="submit" name="show_all_services">
                             ${service_show_all}
-                    </button><br/>
+                    </button>
+                    <div id="sort_by">
+                        <h7>${message_sort_by}</h7>
+                        <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by" id="sort_by">
+                            <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
+                            <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
+                            <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
+                            <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>
+                            <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>
+                        </select>
+                    </div>
+                    <div id="direction">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
+                            <label class="form-check-label" for="direction">
+                                    ${direction_change}
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </input>
         </form>
+        <br/><br/><br/><br/>
         <form id="show_orders_by_service_type" method="POST" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="show_orders_by_service_type">
                 <div id="menu">
-                    <div>
-                        <button type="submit" name="show_orders_by_service_type">${show_orders_by_service_type}</button>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-auto my-1">
-                            <select class="custom-select mr-sm-2" name="service_type">
-                                <option value="ELECTRICAL" ${"ELECTRICAL" == selected_service_type ? 'selected':''}> ELECTRICAL</option>
-                                <option value="GAS" ${"GAS" == selected_service_type ? 'selected':''}> GAS</option>
-                                <option value="ROOFING" ${"ROOFING" == selected_service_type ? 'selected':''}> ROOFING</option>
-                                <option value="PAINTING" ${"PAINTING" == selected_service_type ? 'selected':''}> PAINTING</option>
-                                <option value="PLUMBING" ${"PLUMBING" == selected_service_type ? 'selected':''}> PLUMBING</option>
-                            </select> <br/>
+                    <div class="custom-control-inline">
+                        <div>
+                            <button type="submit" name="show_orders_by_service_type">${show_orders_by_service_type}</button>
+                        </div>
+                        <div id="service_type" class="form-row">
+                            <div class="col-auto my-1">
+                                <select class="custom-select mr-sm-2" name="service_type">
+                                    <option value="ELECTRICAL" ${"ELECTRICAL" == requestScope.selected_service_type ? 'selected':''}> ELECTRICAL</option>
+                                    <option value="GAS" ${"GAS" == requestScope.selected_service_type ? 'selected':''}> GAS</option>
+                                    <option value="ROOFING" ${"ROOFING" == requestScope.selected_service_type ? 'selected':''}> ROOFING</option>
+                                    <option value="PAINTING" ${"PAINTING" == requestScope.selected_service_type ? 'selected':''}> PAINTING</option>
+                                    <option value="PLUMBING" ${"PLUMBING" == requestScope.selected_service_type ? 'selected':''}> PLUMBING</option>
+                                </select> <br/>
+                            </div>
+                        </div>
+                        <div id="sort_by">
+                            <h7>${message_sort_by}</h7>
+                            <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by" id="sort_by">
+                                <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
+                                <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
+                                <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
+                                <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>
+                                <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>
+                            </select>
+                        </div>
+                        <div id="direction">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
+                                <label class="form-check-label" for="direction">
+                                        ${direction_change}
+                                </label>
+                            </div>
                         </div>
                     </div>
-
-                <%--                <input type="radio" name="service_type" value="ELECTRICAL"> ELECTRICAL</input><br/>--%>
-<%--                <input type="radio" name="service_type" value="GAS"> GAS</input><br/>--%>
-<%--                <input type="radio" name="service_type" value="ROOFING"> ROOFING</input><br/>--%>
-<%--                <input type="radio" name="service_type" value="PAINTING"> PAINTING</input><br/>--%>
-<%--                <input type="radio" name="service_type" value="PLUMBING"> PLUMBING</input><br/>--%>
-<%--                <button type="submit" name="show_orders_by_service_type">${show_orders_by_service_type}</button>--%>
-
                 </div>
             </input>
         </form>

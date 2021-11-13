@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static java.util.Objects.nonNull;
 
 
 public class FindWorkerResponseImpl implements Command {
@@ -51,8 +52,18 @@ public class FindWorkerResponseImpl implements Command {
             Long idWorker = Long.parseLong(idWorkerParameter);
             validator.isValid(idWorker);
             // TODO check parameters
+            String sortByParameter = request.getParameter(SORT_BY);
+            validator.isValid(sortByParameter);
+            paginationRequest.setSortBy(sortByParameter);
+            String direction = request.getParameter(DIRECTION);
+            if (nonNull(direction) && !direction.isEmpty()) {
+                paginationRequest.setDirection(direction);
+            }
             Page<Order> paginationResult = orderService.getOrdersByWorkerId(paginationRequest, idWorker);
             request.setAttribute(PAGEABLE, paginationResult);
+            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
+            request.setAttribute(LAST_COMMAND, FIND_WORKER_RESPONSE);
             page = ConfigurationBundle.getProperty("path.page.order.worker.responses");
 
         } catch (NumberFormatException | ServiceException e) {

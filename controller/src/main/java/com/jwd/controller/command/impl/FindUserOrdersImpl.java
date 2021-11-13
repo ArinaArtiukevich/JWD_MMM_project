@@ -6,6 +6,7 @@ import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
+import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
 import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static java.util.Objects.nonNull;
 
 public class FindUserOrdersImpl  implements Command {
     private static final Logger logger = LogManager.getLogger(FindUserOrdersImpl.class);
@@ -46,7 +48,17 @@ public class FindUserOrdersImpl  implements Command {
             validator.isValid(idUserParameter);
             Long idUser = Long.parseLong(idUserParameter);
             validator.isValid(idUser);
+            String sortByParameter = request.getParameter(SORT_BY);
+            validator.isValid(sortByParameter);
+            paginationRequest.setSortBy(sortByParameter);
+            String direction = request.getParameter(DIRECTION);
+            if (nonNull(direction) && !direction.isEmpty()) {
+                paginationRequest.setDirection(direction);
+            }
             Page<Order> paginationResult = orderService.getOrdersByUserId(paginationRequest, idUser);
+            request.setAttribute(LAST_COMMAND, SHOW_USER_ORDERS);
+            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             request.setAttribute(PAGEABLE, paginationResult);
             page = ConfigurationBundle.getProperty("path.page.show.user.order");
         }  catch (NumberFormatException | ServiceException e) {

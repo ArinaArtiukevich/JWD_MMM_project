@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Page<Order> getAllServices(Page<Order> orderPageRequest) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(orderPageRequest);
             orderPage = orderDao.getServiceList(orderPageRequest);
         }
         catch(DaoException e) {
@@ -45,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(orderPageRequest);
             validator.validate(serviceType);
             orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
         }
@@ -60,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(idUser);
+            validator.validate(orderPageRequest);
             orderPage = orderDao.findOrdersByIdUser(orderPageRequest, idUser);
         }
         catch(DaoException e) {
@@ -134,6 +137,7 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
+            validator.validate(orderPageRequest);
             validator.validate(idWorker);
             orderPage = orderDao.getOrdersByWorkerId(orderPageRequest, idWorker);
         }
@@ -149,6 +153,7 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(idClient);
+            validator.validate(orderPageRequest);
             orderPage = orderDao.getOrdersResponseByClientId(orderPageRequest, idClient);
         }
         catch(DaoException e) {

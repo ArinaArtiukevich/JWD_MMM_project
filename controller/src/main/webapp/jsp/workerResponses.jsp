@@ -22,6 +22,8 @@
         <fmt:message bundle="${loc}" key="order.idWorker" var="idWorker" />
         <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
         <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
+        <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by" />
+        <fmt:message bundle="${loc}" key="direction.change" var="direction_change" />
 
     </head>
     <body>
@@ -33,10 +35,30 @@
 
         <form id="find_worker_response" method="GET" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="find_worker_response">
+            <input type="hidden" name="idWorker" value="${sessionScope.userId}">
                 <div>
-                    <a type="submit" name="find_client_response" class="btn btn-light" href="/controller?command=find_worker_response&idWorker=${sessionScope.userId}">
+                    <button type="submit" name="find_worker_response">
                             ${work_find_worker_response}
-                    </a>
+                    </button>
+
+                    <div id="sort_by">
+                        <h7>${message_sort_by}</h7>
+                        <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
+                            <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
+                            <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
+                            <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
+                            <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>
+                            <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>
+                        </select>
+                    </div>
+                    <div id="direction">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
+                            <label class="form-check-label" for="direction">
+                                    ${direction_change}
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </input>
         </form>
@@ -62,12 +84,12 @@
             <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
                 <c:if test="${i == pageable.pageNumber}">
                     <span>
-                        <button style="color:red" form="find_worker_response" type="submit" name="currentPage" value="${i}">${i}</button>
+                        <button style="color:red" form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
                     </span>
                 </c:if>
                 <c:if test="${i != pageable.pageNumber}">
                     <span>
-                        <button form="find_worker_response" type="submit" name="currentPage" value="${i}">${i}</button>
+                        <button form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
                     </span>
                 </c:if>
             </c:forEach>
