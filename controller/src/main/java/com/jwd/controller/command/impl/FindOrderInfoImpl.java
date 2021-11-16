@@ -8,6 +8,7 @@ import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.User;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.serviceLogic.OrderService;
 
@@ -23,8 +24,8 @@ import org.apache.logging.log4j.Logger;
 public class FindOrderInfoImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
-    private final OrderService orderService = new OrderServiceImpl();
-    private final UserService userService = new UserServiceImpl();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {

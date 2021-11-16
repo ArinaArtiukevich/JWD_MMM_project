@@ -23,7 +23,7 @@ import java.sql.SQLException;
 public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
-    public UserDaoImpl(ConnectionPoolImpl connectionPool) {
+    public UserDaoImpl(ConnectionPool connectionPool) {
         super(connectionPool);
     }
 

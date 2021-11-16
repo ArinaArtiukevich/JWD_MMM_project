@@ -1,5 +1,6 @@
 package com.jwd.dao.repository.impl;
 
+import com.jwd.dao.connection.ConnectionPool;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.LoginDao;
@@ -18,7 +19,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
 
     private static final Logger logger = LogManager.getLogger(LoginDaoImpl.class);
 
-    public LoginDaoImpl(final ConnectionPoolImpl connectionPool) {
+    public LoginDaoImpl(final ConnectionPool connectionPool) {
         super(connectionPool);
     }
 

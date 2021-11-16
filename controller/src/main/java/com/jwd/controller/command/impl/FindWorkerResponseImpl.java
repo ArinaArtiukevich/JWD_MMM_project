@@ -12,6 +12,7 @@ import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.OrderService;
 import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ import static java.util.Objects.nonNull;
 public class FindWorkerResponseImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindWorkerResponseImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
-    private final OrderService orderService = new OrderServiceImpl();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {

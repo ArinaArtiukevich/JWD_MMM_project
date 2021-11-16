@@ -6,6 +6,8 @@ import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.factory.DaoFactory;
+import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.impl.LoginDaoImpl;
@@ -19,11 +21,9 @@ import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    ConnectionPoolImpl connectionPool = new ConnectionPoolImpl(new DataBaseConfig());
-    private final UserDao userDao = new UserDaoImpl(connectionPool);
-    private final LoginDao loginDao = new LoginDaoImpl(connectionPool);
+    private final UserDao userDao = DaoFactory.getInstance().getUserDao();
+    private final LoginDao loginDao = DaoFactory.getInstance().getLoginDao();
     private final ServiceValidator validator = new ServiceValidator();
-
 
     @Override
     public boolean register(Registration registration) throws ServiceException {

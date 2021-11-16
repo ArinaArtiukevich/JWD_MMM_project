@@ -1,5 +1,6 @@
 package com.jwd.dao.repository.impl;
 
+import com.jwd.dao.connection.ConnectionPool;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
@@ -26,7 +27,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
     private static final String DATE_FORMAT = "yyyy.MM.dd";
 
-    public OrderDaoImpl(ConnectionPoolImpl connectionPool) {
+    public OrderDaoImpl(ConnectionPool connectionPool) {
         super(connectionPool);
     }
 

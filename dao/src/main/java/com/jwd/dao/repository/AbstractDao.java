@@ -1,5 +1,6 @@
 package com.jwd.dao.repository;
 
+import com.jwd.dao.connection.ConnectionPool;
 import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
@@ -15,9 +16,9 @@ import static java.util.Objects.nonNull;
 
 public abstract class AbstractDao {
 
-    private final ConnectionPoolImpl connectionPool;
+    private final ConnectionPool connectionPool;
 
-    public AbstractDao(ConnectionPoolImpl connectionPool) {
+    public AbstractDao(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 

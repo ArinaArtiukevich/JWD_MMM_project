@@ -8,6 +8,7 @@ import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +22,7 @@ import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 public class LoginCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {

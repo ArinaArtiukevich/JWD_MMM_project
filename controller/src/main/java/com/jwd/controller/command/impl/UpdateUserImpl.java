@@ -11,6 +11,7 @@ import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.impl.LoginDaoImpl;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +25,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 public class UpdateUserImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {

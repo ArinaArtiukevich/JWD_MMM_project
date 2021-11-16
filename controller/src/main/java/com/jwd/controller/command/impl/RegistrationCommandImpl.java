@@ -7,6 +7,7 @@ import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.enums.Gender;
@@ -22,7 +23,7 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 public class RegistrationCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
-    private final UserService userService = new UserServiceImpl();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start registration.");

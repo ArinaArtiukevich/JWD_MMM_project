@@ -6,6 +6,8 @@ import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
+import com.jwd.dao.factory.DaoFactory;
+import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.impl.UserDaoImpl;
@@ -22,9 +24,8 @@ import java.util.ArrayList;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
-    ConnectionPoolImpl connectionPool = new ConnectionPoolImpl(new DataBaseConfig());
-    private final OrderDao orderDao = new OrderDaoImpl(connectionPool);
-    private final UserDao userDao = new UserDaoImpl(connectionPool);
+    private final UserDao userDao = DaoFactory.getInstance().getUserDao();
+    private final OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
     private final ServiceValidator validator = new ServiceValidator();
 
     @Override
