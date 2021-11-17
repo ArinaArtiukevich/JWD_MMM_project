@@ -1,186 +1,28 @@
-13:43:07.335 [localhost-startStop-1] INFO  com.jwd.controller.filter.EncodingFilter - Init FilterConfig filter
-13:43:09.606 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:11.926 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:13.434 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:13.434 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:13.463 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.904 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.919 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.932 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-13:43:13.932 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-13:43:13.939 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.952 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.964 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.976 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-13:43:13.976 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-13:43:13.977 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:13.989 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:14.001 [http-nio-8080-exec-3] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-13:43:14.013 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-13:43:14.013 [http-nio-8080-exec-3] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-13:43:14.021 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:14.021 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - go_to_page
-13:43:14.021 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:14.022 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
-13:43:14.022 [http-nio-8080-exec-3] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-13:43:14.026 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@b68b2af
-13:43:14.645 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:14.646 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:14.646 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:14.647 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - change_language
-13:43:14.647 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:14.647 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:14.647 [http-nio-8080-exec-4] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:14.647 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:15.308 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:15.309 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:15.310 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:15.310 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - change_language
-13:43:15.310 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:15.310 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:15.310 [http-nio-8080-exec-5] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:15.310 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:15.789 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:15.790 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:15.790 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:15.790 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - go_to_page
-13:43:15.790 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:15.790 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
-13:43:15.790 [http-nio-8080-exec-6] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-13:43:15.790 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@b68b2af
-13:43:16.415 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:16.415 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:16.415 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:16.415 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - change_language
-13:43:16.416 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:16.416 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:16.416 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:16.416 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:16.950 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:16.950 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:16.950 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:16.950 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - change_language
-13:43:16.950 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:16.950 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:16.950 [http-nio-8080-exec-8] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:16.951 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:17.683 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:17.684 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:17.684 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:17.684 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - change_language
-13:43:17.684 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:17.684 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:17.684 [http-nio-8080-exec-9] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:17.684 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:18.236 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:18.236 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:18.236 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:18.236 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - show_orders_by_service_type
-13:43:18.237 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:18.237 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - command = SHOW_ORDERS_BY_SERVICE_TYPE
-13:43:18.237 [http-nio-8080-exec-10] INFO  com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl - Start FindOrdersBySpecializationImpl.
-13:43:18.240 [http-nio-8080-exec-10] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.
-13:43:18.240 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).
-13:43:18.240 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-13:43:18.240 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-13:43:18.240 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-13:43:18.284 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-13:43:18.284 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-13:43:18.284 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-13:43:18.284 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl@3bea8fec
-13:43:18.975 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:18.975 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:18.975 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:18.975 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - change_language
-13:43:18.975 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:18.975 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:18.975 [http-nio-8080-exec-1] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:18.975 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:21.131 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:21.131 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:21.132 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:21.132 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - show_orders_by_service_type
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = SHOW_ORDERS_BY_SERVICE_TYPE
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl - Start FindOrdersBySpecializationImpl.
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-13:43:21.132 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-13:43:21.137 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-13:43:21.137 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-13:43:21.137 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-13:43:21.137 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl@3bea8fec
-13:43:22.125 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:22.126 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:22.126 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:22.126 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - change_language
-13:43:22.126 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:22.126 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:22.126 [http-nio-8080-exec-3] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:22.126 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:23.522 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:23.522 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:23.522 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:23.522 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - change_language
-13:43:23.522 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:23.522 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:23.522 [http-nio-8080-exec-4] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:23.522 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:24.310 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:24.311 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:24.311 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:24.311 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - show_orders_by_service_type
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.controller.factory.CommandFactory - command = SHOW_ORDERS_BY_SERVICE_TYPE
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl - Start FindOrdersBySpecializationImpl.
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
-13:43:24.311 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
-13:43:24.317 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
-13:43:24.317 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
-13:43:24.317 [http-nio-8080-exec-5] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
-13:43:24.317 [http-nio-8080-exec-5] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl@3bea8fec
-13:43:25.326 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:25.326 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:25.326 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:25.326 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - go_to_page
-13:43:25.327 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:25.327 [http-nio-8080-exec-6] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
-13:43:25.327 [http-nio-8080-exec-6] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-13:43:25.327 [http-nio-8080-exec-6] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@b68b2af
-13:43:26.172 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:26.173 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:26.173 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:26.173 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - go_to_page
-13:43:26.173 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:26.173 [http-nio-8080-exec-7] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
-13:43:26.173 [http-nio-8080-exec-7] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-13:43:26.173 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@b68b2af
-13:43:26.971 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:26.971 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:26.971 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:26.971 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - go_to_page
-13:43:26.971 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:26.971 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
-13:43:26.971 [http-nio-8080-exec-8] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-13:43:26.971 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@b68b2af
-13:43:29.441 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:29.441 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:29.441 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:29.441 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - change_language
-13:43:29.441 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:29.442 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:29.442 [http-nio-8080-exec-9] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:29.442 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
-13:43:30.083 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-13:43:30.083 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-13:43:30.083 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - Controller was started.
-13:43:30.083 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - change_language
-13:43:30.083 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-13:43:30.083 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
-13:43:30.083 [http-nio-8080-exec-1] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
-13:43:30.083 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@752aefe2
+13:51:53.792 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+13:51:53.822 [http-nio-8080-exec-1] INFO  com.jwd.controller.factory.CommandFactory - command = SHOW_ORDERS_BY_SERVICE_TYPE
+13:51:53.822 [http-nio-8080-exec-1] INFO  com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl - Start FindOrdersBySpecializationImpl.
+13:51:53.823 [http-nio-8080-exec-1] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.
+13:51:53.823 [http-nio-8080-exec-1] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).
+13:51:53.823 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+13:51:53.823 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+13:51:53.823 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+13:51:53.829 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+13:51:53.829 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+13:51:53.829 [http-nio-8080-exec-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+13:51:53.829 [http-nio-8080-exec-1] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindOrdersByServiceTypeImpl@27345f8
+13:51:55.058 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+13:51:55.058 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+13:51:55.058 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
+13:51:55.058 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - change_language
+13:51:55.058 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+13:51:55.058 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = CHANGE_LANGUAGE
+13:51:55.058 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.ChangeLanguageImpl - Start ChangeLanguageImpl.
+13:51:55.059 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.ChangeLanguageImpl@29b108bb
+13:51:56.292 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+13:51:56.292 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+13:51:56.292 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - Controller was started.
+13:51:56.292 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - go_to_page
+13:51:56.292 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+13:51:56.292 [http-nio-8080-exec-3] INFO  com.jwd.controller.factory.CommandFactory - command = GO_TO_PAGE
+13:51:56.292 [http-nio-8080-exec-3] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
+13:51:56.292 [http-nio-8080-exec-3] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@5f66049d

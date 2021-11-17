@@ -6,8 +6,8 @@
 <html>
     <head>
         <title>${title_services}</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
 
         <fmt:setLocale value="${sessionScope.language}"/>

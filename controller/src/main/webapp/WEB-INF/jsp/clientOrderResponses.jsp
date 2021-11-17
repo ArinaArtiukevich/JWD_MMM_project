@@ -6,14 +6,15 @@
 <html>
     <head>
         <title>${title_services}</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
         <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all" />
         <fmt:message bundle="${loc}" key="work.find.worker.response" var="work_find_worker_response"/>
+        <fmt:message bundle="${loc}" key="work.find.client.response" var="work_find_client_response"/>
         <fmt:message bundle="${loc}" key="title.order" var="title_services" />
         <fmt:message bundle="${loc}" key="order.description" var="description" />
         <fmt:message bundle="${loc}" key="order.address" var="address" />
@@ -29,18 +30,17 @@
     <body>
         <header>
             <jsp:include page="header.jsp">
-                <jsp:param name="page_path" value="workerResponses"/>
+                <jsp:param name="page_path" value="clientOrderResponses"/>
             </jsp:include>
         </header>
 
-        <form id="find_worker_response" method="GET" action="${pageContext.request.contextPath}/controller">
-            <input type="hidden" name="command" value="find_worker_response">
-            <input type="hidden" name="idWorker" value="${sessionScope.userId}">
+        <form id="find_client_response" method="GET" action="${pageContext.request.contextPath}/controller">
+            <input type="hidden" name="command" value="find_client_response">
+            <input type="hidden" name="idClient" value="${sessionScope.userId}">
                 <div>
-                    <button type="submit" name="find_worker_response">
-                            ${work_find_worker_response}
+                    <button type="submit" name="find_client_response">
+                            ${service_show_all}
                     </button>
-
                     <div id="sort_by">
                         <h7>${message_sort_by}</h7>
                         <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
@@ -61,13 +61,14 @@
                     </div>
                 </div>
             </input>
+            </input>
         </form>
         <div>
-            <c:if test="${sessionScope.userRole eq 'worker'}">
+            <c:if test="${sessionScope.userRole eq 'client'}">
                 <c:forEach var="response" items="${requestScope.pageable.elements}" >
                     <a href = "/controller?command=find_order_info&idService=${response.idService}">
                         <tr>
-                            <td>${idClient}: ${response.idClient}</td>
+                            <td>${idClient} : ${response.idClient}</td>
                             <td>${idWorker} : ${response.idWorker}</td>
                             <td>${description} : ${response.description}</td>
                             <td>${serviceType} : ${response.serviceType}</td>
@@ -96,5 +97,6 @@
         </div>
     </body>
 </html>
+
 
 

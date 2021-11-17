@@ -5,8 +5,8 @@
 <html>
     <head>
         <title>${work_title}</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>

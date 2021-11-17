@@ -13,8 +13,8 @@
 <html>
 <head>
     <title>${title_authorization}</title>
-    <link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="../resources/css/style.css"/>
+    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../resources/css/style.css"/>
     <fmt:setLocale value="${sessionScope.language}"/>
     <fmt:setBundle basename="localization.local" var="loc"/>
 
