@@ -42,7 +42,7 @@
 
         <form method="GET" action="${pageContext.request.contextPath}/controller">
             <div>
-                <table>
+                <table class="table">
                     <tr>
                         <td>${idService}</td>
                         <td>${idClient}</td>
@@ -64,8 +64,8 @@
                 </table>
             </div>
             <c:if test="${sessionScope.userRole eq 'worker'}">
-                <table>
-                    <div>Client info :</div>
+                <table class="table">
+                    <div> <h5>Client info : </h5></div>
                     <tr>
                         <td>${user_firstName}<br/></td>
                         <td>${user_lastName}<br/></td>

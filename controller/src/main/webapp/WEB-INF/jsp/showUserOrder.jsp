@@ -84,7 +84,7 @@
                     </button>
                 </div>
                 <div id="sort_by">
-                    <h7>${message_sort_by}</h7>
+                    <h5>${message_sort_by}</h5>
                     <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
                         <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                         <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
@@ -119,28 +119,31 @@
         <div>
             <table>
                 <c:if test="${requestScope.pageable.elements.size() > 0}">
-                    <tr>
-                        <td>${idService}</td>
-                        <td>${idClient}</td>
-                        <td>${description}</td>
-                        <td>${address}</td>
-                        <td>${serviceType}</td>
-                        <td>${status}</td>
-                        <td>${orderCreationDate} </td>
-                    </tr>
+                    <table class="table">
+                        <tr>
+                            <td>${idService}</td>
+                            <td>${idClient}</td>
+                            <td>${description}</td>
+                            <td>${address}</td>
+                            <td>${serviceType}</td>
+                            <td>${status}</td>
+                            <td>${orderCreationDate} </td>
+                        </tr>
+                    </table>
                 </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
                     <a href = "/controller?command=find_order_info&idService=${order.idService}">
-                        <tr>
-                            <td>${order.idService}</td>
-                            <td>${order.idClient}</td>
-                            <td>${order.description}</td>
-                            <td>${order.address}</td>
-                            <td>${order.serviceType}</td>
-                            <td>${order.status}</td>
-                            <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
-                        </tr>
-                        <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                        <table class="table">
+                            <tr>
+                                <td>${order.idService}</td>
+                                <td>${order.idClient}</td>
+                                <td>${order.description}</td>
+                                <td>${order.address}</td>
+                                <td>${order.serviceType}</td>
+                                <td>${order.status}</td>
+                                <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                            </tr>
+                        </table>
                     </a>
                 <tr>
                     <td>

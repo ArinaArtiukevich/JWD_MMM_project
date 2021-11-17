@@ -111,27 +111,28 @@
         </form>
 
         <div>
-            <table>
                 <c:if test="${requestScope.pageable.elements.size() > 0}">
-                    <tr>
-                        <td>${description}</td>
-                        <td>${serviceType}</td>
-                        <td>${status}</td>
-                        <td>${orderCreationDate} </td>
-                    </tr>
+                    <table class="table">
+                        <tr>
+                            <td>${description}</td>
+                            <td>${serviceType}</td>
+                            <td>${status}</td>
+                            <td>${orderCreationDate} </td>
+                        </tr>
+                    </table>
                 </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
-                    <a href = "/controller?command=find_order_info&idService=${order.idService}">
-                        <tr>
-                            <td>${order.description}</td>
-                            <td>${order.serviceType}</td>
-                            <td>${order.status}</td>
-                            <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
-                        </tr>
-                        <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
-                    </a>
+                    <table class="table">
+                        <a href="/controller?command=find_order_info&idService=${order.idService}">
+                            <tr>
+                                <td>${order.description}</td>
+                                <td>${order.serviceType}</td>
+                                <td>${order.status}</td>
+                                <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                            </tr>
+                        </a>
+                    </table>
                 </c:forEach>
-            </table>
         </div>
         <div style="margin-left: center">
             <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">

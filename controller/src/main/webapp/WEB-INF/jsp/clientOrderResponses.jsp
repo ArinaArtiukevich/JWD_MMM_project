@@ -66,26 +66,29 @@
         <div>
             <c:if test="${sessionScope.userRole eq 'client'}">
                 <c:if test="${requestScope.pageable.elements.size() > 0}">
-                    <tr>
-                        <td>${idClient}</td>
-                        <td>${idWorker}</td>
-                        <td>${description}</td>
-                        <td>${serviceType}</td>
-                        <td>${status}</td>
-                        <td>${orderCreationDate} </td>
-                    </tr>
+                    <table class="table">
+                        <tr>
+                            <td>${idClient}</td>
+                            <td>${idWorker}</td>
+                            <td>${description}</td>
+                            <td>${serviceType}</td>
+                            <td>${status}</td>
+                            <td>${orderCreationDate} </td>
+                        </tr>
+                    </table>
                 </c:if>
                 <c:forEach var="response" items="${requestScope.pageable.elements}" >
                     <a href = "/controller?command=find_order_info&idService=${response.idService}">
-                        <tr>
-                            <td>${response.idClient}</td>
-                            <td>${response.idWorker}</td>
-                            <td>${response.description}</td>
-                            <td>${response.serviceType}</td>
-                            <td>${response.status}</td>
-                            <td><fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
-                        </tr>
-                        <input type="hidden" name="idService" id="idService" value="${response.idService}"/>
+                        <table class="table">
+                            <tr>
+                                <td>${response.idClient}</td>
+                                <td>${response.idWorker}</td>
+                                <td>${response.description}</td>
+                                <td>${response.serviceType}</td>
+                                <td>${response.status}</td>
+                                <td><fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                            </tr>
+                        </table>
                     </a>
                 </c:forEach>
             </c:if>

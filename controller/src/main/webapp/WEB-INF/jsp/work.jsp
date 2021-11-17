@@ -55,7 +55,7 @@
         </div>
 
         <table>
-            <div>User info :</div>
+            <div><h5>User info :</h5></div>
             <tr>
                 <td>${user_firstName} : ${requestScope.firstName}<br/></td>
                 <td>${user_lastName} : ${requestScope.lastName}<br/></td>

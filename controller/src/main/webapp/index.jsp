@@ -21,8 +21,9 @@
 <body>
 
 <div>
-    <h1 style="color:red;"> ${sessionScope.firstName}</h1>
-    <h1 style="color:red;"> ${sessionScope.login}</h1>
+    <h5>User Id : ${sessionScope.userId}</h5>
+    <h5>User Role :  ${sessionScope.userRole}</h5>
+    <h5>User login : ${sessionScope.login}</h5>
 </div>
 
 <div id="error">
