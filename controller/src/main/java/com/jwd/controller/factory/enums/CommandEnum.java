@@ -98,6 +98,11 @@ public enum CommandEnum {
         {
             this.command = new FindClientOrderByStatusImpl();
         }
+    },
+    DELETE_ORDER_BY_ID {
+        {
+            this.command = new DeleteOrderByIdImpl();
+        }
     }
     ;
 

@@ -112,7 +112,7 @@
 
         <div>
             <table>
-                <c:if test="${requestScope.pageable.elements.size() ne 0}">
+                <c:if test="${requestScope.pageable.elements.size() > 0}">
                     <tr>
                         <td>${description}</td>
                         <td>${serviceType}</td>

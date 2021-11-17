@@ -432,6 +432,67 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return page;
     }
 
+    @Override
+    public boolean deleteById(Long idOrder) throws DaoException {
+        logger.info("Start boolean deleteById(Long idOrder). IdOrder: " + idOrder);
+        PreparedStatement statement = null;
+        Connection connection = null;
+        boolean isDeleted = false;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.delete.order"));
+            statement.setLong(1, idOrder);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows <= 0) {
+                logger.error("An order was not deleted.");
+                throw new DaoException("An order was not deleted.");
+            } else {
+                logger.info("An order was deleted.");
+                isDeleted = true;
+            }
+        }
+        catch(SQLException e) {
+            logger.error(e);
+            throw new DaoException("An order was not deleted.");
+        }
+        finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isDeleted;
+    }
+
+    @Override
+    public ServiceStatus getServiceStatusById(Long idOrder) throws DaoException {
+        logger.info("Start ServiceStatus getServiceStatusById(Long idOrder)");
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ServiceStatus serviceStatus = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.find.service.status.by.id"));
+            statement.setLong(1, idOrder);
+            resultSet = statement.executeQuery();
+            connection.commit();
+            while (resultSet.next()) {
+                serviceStatus = ServiceStatus.valueOf(resultSet.getString(1).toUpperCase());
+            }
+
+        }
+        catch(SQLException e) {
+            logger.error(e);
+            throw new DaoException("An order was not deleted.");
+        }
+        finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return serviceStatus;
+    }
+
     private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;
@@ -453,6 +514,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         page = setPageResult(daoOrderPage, totalElements, orders);
         return page;
     }
+
     private Page<Order> getResponsePage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;

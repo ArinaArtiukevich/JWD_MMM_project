@@ -44,8 +44,7 @@ public class FrontController extends HttpServlet {
             }
             else {
                 logger.error("Operation went wrong.");
-                page = pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index"));
-                response.sendRedirect(request.getContextPath() + page);
+                response.sendRedirect( "/controller?command=go_to_page&path=index");
             }
         } catch (ControllerException e) {
             // TODO
@@ -53,8 +52,7 @@ public class FrontController extends HttpServlet {
             logger.error("Operation went wrong.");
             Throwable cause = getCause(e);
             request.setAttribute(ERROR, "Exception: " + cause.getMessage());
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));;
-            response.sendRedirect(request.getContextPath() + page);
+            response.sendRedirect( "/controller?command=go_to_page&path=error");
         }
     }
 

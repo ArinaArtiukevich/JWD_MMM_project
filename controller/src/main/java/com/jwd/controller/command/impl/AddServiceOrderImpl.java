@@ -29,7 +29,6 @@ public class AddServiceOrderImpl implements Command {
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start addServiceOrder.");
-
         String page = null;
         String description = request.getParameter(SERVICE_DESCRIPTION);
         String address = request.getParameter(SERVICE_ADDRESS);

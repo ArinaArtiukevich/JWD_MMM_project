@@ -15,6 +15,11 @@
     <fmt:message bundle="${loc}" key="order.description" var="description" />
     <fmt:message bundle="${loc}" key="order.address" var="address" />
     <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
+    <fmt:message bundle="${loc}" key="service.type.electrical" var="service_type_electrical"/>
+    <fmt:message bundle="${loc}" key="service.type.gas" var="service_type_gas"/>
+    <fmt:message bundle="${loc}" key="service.type.roofing" var="service_type_roofing"/>
+    <fmt:message bundle="${loc}" key="service.type.painting" var="service_type_painting"/>
+    <fmt:message bundle="${loc}" key="service.type.plumbing" var="service_type_plumbing"/>
 </head>
 <body>
 
@@ -55,31 +60,31 @@
             <div class="form-check">
                 <input checked="checked" class="form-check-input" type="radio" name="service_type" id="electricalRadios" value="electrical" />
                 <label class="form-check-label" for="electricalRadios">
-                    ELECTRICAL
+                    ${service_type_electrical}
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="service_type" id="gasRadios" value="gas"/>
                 <label class="form-check-label" for="gasRadios">
-                    GAS
+                    ${service_type_gas}
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="service_type" id="roofingRadios" value="roofing"/>
                 <label class="form-check-label" for="roofingRadios">
-                    ROOFING
+                    ${service_type_roofing}
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="service_type" id="paintingRadios" value="painting"/>
                 <label class="form-check-label" for="paintingRadios">
-                    PAINTING
+                    ${service_type_painting}
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="service_type" id="plumbingRadios" value="plumbing"/>
                 <label class="form-check-label" for="plumbingRadios">
-                    PLUMBING
+                    ${service_type_plumbing}
                 </label>
             </div>
         </div>

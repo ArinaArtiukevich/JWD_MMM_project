@@ -46,7 +46,8 @@ public class AuthenticationFilter implements Filter {
                 LOGOUT.toString().toLowerCase(),
                 UPDATE_USER.toString().toLowerCase(),
                 FIND_USER_INFORMATION.toString().toLowerCase(),
-                FIND_CLIENT_ORDER_BY_STATUS.toString().toLowerCase()
+                FIND_CLIENT_ORDER_BY_STATUS.toString().toLowerCase(),
+                DELETE_ORDER_BY_ID.toString().toLowerCase()
         );
         final List<String> workerAvailableCommands = Arrays.asList(
                 FIND_WORKER_RESPONSE.toString().toLowerCase(),

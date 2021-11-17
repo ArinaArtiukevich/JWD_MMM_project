@@ -30,6 +30,7 @@
         <fmt:message bundle="${loc}" key="service.status.in_process" var="service_status_in_process" />
         <fmt:message bundle="${loc}" key="service.status.done" var="service_status_done" />
         <fmt:message bundle="${loc}" key="service.status.approved" var="service_status_approved" />
+        <fmt:message bundle="${loc}" key="button.delete.order.by.id" var="button_delete_order_by_id" />
 
     </head>
     <body>
@@ -113,9 +114,11 @@
             </div>
         </form>
 
+
+
         <div>
             <table>
-                <c:if test="${requestScope.pageable.elements.size() ne 0}">
+                <c:if test="${requestScope.pageable.elements.size() > 0}">
                     <tr>
                         <td>${idService}</td>
                         <td>${idClient}</td>
@@ -127,7 +130,7 @@
                     </tr>
                 </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
-                    <a href = "/controller?command=show_user_orders&idService=${order.idService}">
+                    <a href = "/controller?command=find_order_info&idService=${order.idService}">
                         <tr>
                             <td>${order.idService}</td>
                             <td>${order.idClient}</td>
@@ -139,6 +142,22 @@
                         </tr>
                         <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
                     </a>
+                <tr>
+                    <td>
+                        <c:if test="${requestScope.selected_service_status.toString() eq 'FREE'}">
+                        <div id="button">
+                            <form id="delete_order_by_id" method="POST" action="${pageContext.request.contextPath}/controller">
+                            <input type="hidden" name="command" value="delete_order_by_id"/>
+                            <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
+                            <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                            <button type="submit" name="delete_order_by_id">
+                                    ${button_delete_order_by_id}
+                            </button>
+                            </form>
+                        </div>
+                        </c:if>
+                    </td>
+                </tr>
                 </c:forEach>
             </table>
         </div>

@@ -28,4 +28,8 @@ public interface OrderDao {
     Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient) throws DaoException;
 
     Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus) throws DaoException;
+
+    boolean deleteById(Long idOrder) throws DaoException;
+
+    ServiceStatus getServiceStatusById(Long idOrder) throws DaoException;
 }

@@ -164,7 +164,7 @@
         </c:if>
         <c:if test="${sessionScope.userId eq null}">
             <a href="/controller?command=go_to_page&path=authorization">
-                <h2>Please login or register</h2>
+                <h5>Please login or register</h5>
             </a>
         </c:if>
 

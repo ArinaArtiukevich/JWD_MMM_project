@@ -26,4 +26,6 @@ public interface OrderService {
     Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient) throws ServiceException;
 
     Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus) throws ServiceException;
+
+    boolean deleteById(Long idOrder, Long idUser) throws ServiceException;
 }

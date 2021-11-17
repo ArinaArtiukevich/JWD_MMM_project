@@ -177,4 +177,28 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderPage;
     }
+
+    @Override
+    public boolean deleteById(Long idOrder, Long idUser) throws ServiceException {
+        logger.info("Start boolean deleteById(Long idOrder) in OrderService.");
+        boolean isDeleted = false;
+        try {
+            validator.validate(idOrder);
+            validator.validate(idUser);
+            Long localIdClient = orderDao.findOrderById(idOrder).getIdClient();
+            if (!localIdClient.equals(idUser)) {
+                throw new ServiceException("You are not allowed to do this operation.");
+            }
+            ServiceStatus serviceStatus = orderDao.getServiceStatusById(idOrder);
+            validator.validate(serviceStatus);
+            if (!(serviceStatus.toString()).equals(ServiceStatus.FREE.toString().toUpperCase())) {
+                throw new ServiceException("It is impossible to delete order.");
+            }
+            isDeleted = orderDao.deleteById(idOrder);
+        }
+        catch(DaoException e) {
+            throw new ServiceException(e);
+        }
+        return isDeleted;
+    }
 }

@@ -65,7 +65,7 @@
     </form>
         <div>
             <c:if test="${sessionScope.userRole eq 'client'}">
-                <c:if test="${requestScope.pageable.elements.size() ne 0}">
+                <c:if test="${requestScope.pageable.elements.size() > 0}">
                     <tr>
                         <td>${idClient}</td>
                         <td>${idWorker}</td>
