@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import static com.jwd.controller.command.ParameterAttributeType.ERROR;
+import static com.jwd.controller.util.Util.pathToJsp;
+import static com.jwd.controller.util.Util.pathToJspIndexPage;
 import static java.util.Objects.nonNull;
 
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
@@ -42,7 +44,7 @@ public class FrontController extends HttpServlet {
             }
             else {
                 logger.error("Operation went wrong.");
-                page = ConfigurationBundle.getProperty("path.page.index");;
+                page = pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index"));
                 response.sendRedirect(request.getContextPath() + page);
             }
         } catch (ControllerException e) {
@@ -51,7 +53,7 @@ public class FrontController extends HttpServlet {
             logger.error("Operation went wrong.");
             Throwable cause = getCause(e);
             request.setAttribute(ERROR, "Exception: " + cause.getMessage());
-            page = ConfigurationBundle.getProperty("path.page.error");;
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));;
             response.sendRedirect(request.getContextPath() + page);
         }
     }

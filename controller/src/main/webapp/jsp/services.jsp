@@ -31,7 +31,7 @@
         <header>
             <jsp:include page="header.jsp">
 
-                <jsp:param name="page_path" value="/jsp/services.jsp"/>
+                <jsp:param name="page_path" value="services"/>
             </jsp:include>
         </header>
 

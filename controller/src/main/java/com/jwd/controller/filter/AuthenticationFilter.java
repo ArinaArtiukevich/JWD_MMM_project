@@ -15,6 +15,7 @@ import java.util.List;
 import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
 import static com.jwd.controller.factory.enums.CommandEnum.*;
+import static com.jwd.controller.util.Util.pathToJspIndexPage;
 
 public class AuthenticationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
@@ -33,7 +34,8 @@ public class AuthenticationFilter implements Filter {
                 SHOW_ALL_SERVICES.toString().toLowerCase(),
                 CHANGE_LANGUAGE.toString().toLowerCase(),
                 SHOW_ORDERS_BY_SERVICE_TYPE.toString().toLowerCase(),
-                FIND_ORDER_INFO.toString().toLowerCase()
+                FIND_ORDER_INFO.toString().toLowerCase(),
+                GO_TO_PAGE.toString().toLowerCase()
         );
         final List<String> clientAvailableCommands = Arrays.asList(
                 FIND_CLIENT_RESPONSE.toString().toLowerCase(),
@@ -72,7 +74,7 @@ public class AuthenticationFilter implements Filter {
             filterChain.doFilter(request, response);
         } else {
             logger.debug("Current command: " + currentCommand + " is unavailable.");
-            response.sendRedirect(ConfigurationBundle.getProperty("path.page.index"));
+            response.sendRedirect(pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index")));
         }
     }
 

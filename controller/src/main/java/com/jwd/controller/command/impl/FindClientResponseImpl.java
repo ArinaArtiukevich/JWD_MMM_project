@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
@@ -62,7 +63,7 @@ public class FindClientResponseImpl implements Command {
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             request.setAttribute(LAST_COMMAND, FIND_CLIENT_RESPONSE);
-            page = ConfigurationBundle.getProperty("path.page.order.client.order.responses");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses"));
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");

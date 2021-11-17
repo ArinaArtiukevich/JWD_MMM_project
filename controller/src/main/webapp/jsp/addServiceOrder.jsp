@@ -20,7 +20,7 @@
 
 <header>
     <jsp:include page="header.jsp">
-        <jsp:param name="page_path" value="/jsp/addServiceOrder.jsp"/>
+        <jsp:param name="page_path" value="addServiceOrder"/>
     </jsp:include>
 </header>
 

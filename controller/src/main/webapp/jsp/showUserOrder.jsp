@@ -30,7 +30,7 @@
     <body>
         <header>
             <jsp:include page="header.jsp">
-                <jsp:param name="page_path" value="/jsp/showUserOrder.jsp"/>
+                <jsp:param name="page_path" value="showUserOrder"/>
             </jsp:include>
         </header>
 

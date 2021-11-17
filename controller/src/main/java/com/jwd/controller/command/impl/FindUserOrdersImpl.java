@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 public class FindUserOrdersImpl  implements Command {
@@ -61,7 +62,7 @@ public class FindUserOrdersImpl  implements Command {
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             request.setAttribute(PAGEABLE, paginationResult);
-            page = ConfigurationBundle.getProperty("path.page.show.user.order");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         }  catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find user's orders.");
             throw new ControllerException(e);

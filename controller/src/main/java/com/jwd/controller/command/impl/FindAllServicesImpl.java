@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
@@ -59,7 +60,7 @@ public class FindAllServicesImpl implements Command {
             request.setAttribute(LAST_COMMAND, SHOW_SERVICE_ALL);
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            page = ConfigurationBundle.getProperty("path.page.services");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
             HttpSession session = request.getSession();
             session.getAttribute("userRole");
         } catch (ServiceException e) {

@@ -51,6 +51,7 @@ public final class ParameterAttributeType {
     public static final String SELECTED_SORT_BY_PARAMETER= "selected_sort_by_parameter";
     public static final String SELECTED_DIRECTION_PARAMETER= "selected_direction_parameter";
     public static final String DIRECTION = "direction";
+    public static final String PATH = "path";
 
     public static final String SHOW_ORDERS_BY_SERVICE_TYPE  = "show_orders_by_service_type";
     public static final String SHOW_SERVICE_ALL  = "show_all_services";

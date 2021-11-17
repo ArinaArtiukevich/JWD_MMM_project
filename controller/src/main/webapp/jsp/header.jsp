@@ -25,12 +25,13 @@
         <div align="center">
             <table>
                 <tr>
-                    <th><a href="../index.jsp" class="eight"> <c:out value="${button_main}"/></a></th>
-                    <th><a href="../jsp/services.jsp" class="eight"> <c:out value="${button_service}"/></a></th>
-                    <th><a href="../jsp/authorization.jsp" class="eight"> <c:out value="${button_authorization}"/></a></th>
-                    <th><a href="../jsp/work.jsp" class="eight"> <c:out value="${button_user_account}"/></a></th>
+                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>
+                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>
+                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>
+                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>
                 </tr>
             </table>
+
         </div>
 
         <form name="change_language" method="POST"

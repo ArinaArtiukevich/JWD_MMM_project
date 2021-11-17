@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.ERROR;
 import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
+import static com.jwd.controller.util.Util.pathToJsp;
 
 public class LoginCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
@@ -37,7 +38,7 @@ public class LoginCommandImpl implements Command {
                 Long idUser = userService.getIdUserByLogin(login);
                 UserRole userRole = userService.getRoleByID(idUser);
 
-                page = ConfigurationBundle.getProperty("path.page.work");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
                 request.setAttribute(ParameterAttributeType.USER_ID, idUser);
                 request.setAttribute(ParameterAttributeType.LOGIN, login);
 
@@ -47,7 +48,7 @@ public class LoginCommandImpl implements Command {
                 session.setAttribute(USER_ROLE, userRole.getName());
             } else {
                 request.setAttribute("errorLoginMessage", "Invalid login or password");
-                page = ConfigurationBundle.getProperty("path.page.login");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.login"));
             }
         } catch (ServiceException e) {
             logger.error("Can't login user.");

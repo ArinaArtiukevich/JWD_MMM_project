@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
@@ -62,7 +63,7 @@ public class FindOrdersByServiceTypeImpl implements Command {
             request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            page = ConfigurationBundle.getProperty("path.page.services");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
         } catch (ServiceException e) {
             logger.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");

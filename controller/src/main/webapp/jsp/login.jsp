@@ -28,7 +28,7 @@
 <body>
 <header>
     <jsp:include page="header.jsp">
-        <jsp:param name="page_path" value="/jsp/login.jsp"/>
+        <jsp:param name="page_path" value="login"/>
     </jsp:include>
 </header>
 

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 
 
 public class AddServiceOrderImpl implements Command {
@@ -43,11 +44,11 @@ public class AddServiceOrderImpl implements Command {
         Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
         try {
             if (orderService.addServiceOrder(orderItem, login)){
-                page = ConfigurationBundle.getProperty("path.page.work");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             }
             else {
                 request.setAttribute("errorWorkMessage", "Could not add an order. Please, try again.");
-                page = ConfigurationBundle.getProperty("path.page.work");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             }
 
         } catch (ServiceException e) {

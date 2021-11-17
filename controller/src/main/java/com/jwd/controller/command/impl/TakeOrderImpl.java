@@ -17,6 +17,8 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.util.Util.pathToJsp;
+
 
 public class TakeOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(TakeOrderImpl.class);
@@ -40,10 +42,10 @@ public class TakeOrderImpl implements Command {
             Long idOrder = Long.parseLong(idOrderParameter);
             if (orderService.takeOrder(idOrder, idWorker)) {
                 orderService.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
-                page = ConfigurationBundle.getProperty("path.page.services");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
             } else {
                 logger.error("Could not take order.");
-                page = ConfigurationBundle.getProperty("path.page.error");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
         } catch (ServiceException e) {
             logger.error("Could not take order.");

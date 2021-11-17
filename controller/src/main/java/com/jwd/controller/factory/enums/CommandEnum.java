@@ -88,6 +88,11 @@ public enum CommandEnum {
         {
             this.command = new FindUserInformationImpl();
         }
+    },
+    GO_TO_PAGE {
+        {
+            this.command = new GoToPageCommandImpl();
+        }
     }
     ;
 

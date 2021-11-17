@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 
 public class RegistrationCommandImpl implements Command {
     private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
@@ -54,7 +55,7 @@ public class RegistrationCommandImpl implements Command {
             idUser = userService.getIdUserByLogin(login);
 
             if(isRegistered) {
-                page = ConfigurationBundle.getProperty("path.page.work");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
 
                 request.setAttribute(LOGIN, login);
 

@@ -33,7 +33,7 @@
 
 <header>
     <jsp:include page="header.jsp">
-        <jsp:param name="page_path" value="/jsp/registration.jsp"/>
+        <jsp:param name="page_path" value="registration"/>
     </jsp:include>
 </header>
 

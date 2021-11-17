@@ -17,6 +17,8 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.util.Util.pathToJsp;
+
 
 public class CloseOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(CloseOrderImpl.class);
@@ -32,10 +34,10 @@ public class CloseOrderImpl implements Command {
             validator.isValid(idOrderString);
             Long idOrder = Long.parseLong(String.valueOf(idOrderString));
             if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
-                page = ConfigurationBundle.getProperty("path.page.services");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
             } else {
                 logger.error("Order was not closed.");
-                page = ConfigurationBundle.getProperty("path.page.error");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not close order.");

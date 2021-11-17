@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
@@ -65,7 +66,7 @@ public class FindWorkerResponseImpl implements Command {
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             request.setAttribute(LAST_COMMAND, FIND_WORKER_RESPONSE);
-            page = ConfigurationBundle.getProperty("path.page.order.worker.responses");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");

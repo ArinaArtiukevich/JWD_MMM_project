@@ -17,6 +17,8 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.util.Util.pathToJsp;
+
 
 public class ApproveOrderImpl implements Command {
     private static final Logger logger = LogManager.getLogger(ApproveOrderImpl.class);
@@ -32,14 +34,14 @@ public class ApproveOrderImpl implements Command {
             validator.isValid(idOrderString);
             Long idOrder = Long.parseLong(idOrderString);
             if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
-                page = ConfigurationBundle.getProperty("path.page.services");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
             } else {
                 logger.error("Could not approve order.");
-                page = ConfigurationBundle.getProperty("path.page.error");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
         } catch (NumberFormatException e) {
             logger.error("Invalid number format.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
         } catch (ServiceException e) {
             logger.error("Could not approve order.");
             throw new ControllerException(e);

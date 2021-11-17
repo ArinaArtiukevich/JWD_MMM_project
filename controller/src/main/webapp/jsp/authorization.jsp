@@ -27,7 +27,7 @@
 
 <header>
     <jsp:include page="header.jsp">
-        <jsp:param name="page_path" value="/jsp/authorization.jsp"/>
+        <jsp:param name="page_path" value="authorization"/>
     </jsp:include>
 </header>
 
@@ -38,8 +38,8 @@
 <br/>
 <h3>${title_authorization}</h3><hr/>
 <form name="startForm" action="${pageContext.request.contextPath}/controller" method="POST">
-    <a href="../jsp/login.jsp"><c:out value="${button_login}"/></a><br/>
-    <a href="../jsp/registration.jsp"><c:out value="${button_registration}"/></a>
+    <a href="/controller?command=go_to_page&path=login"><c:out value="${button_login}"/></a><br/>
+    <a href="/controller?command=go_to_page&path=registration"><c:out value="${button_registration}"/></a>
 </form>
 
 </body>

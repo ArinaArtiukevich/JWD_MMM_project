@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
+import static com.jwd.controller.util.Util.pathToJspCheckIsIndexPage;
 
 
 public class ChangeLanguageImpl implements Command {
@@ -17,14 +19,14 @@ public class ChangeLanguageImpl implements Command {
     public String execute(HttpServletRequest request) {
         logger.info("Start ChangeLanguageImpl.");
         String page = null;
-        page = request.getParameter("parent_page");
+        page = pathToJspCheckIsIndexPage(request.getParameter("parent_page"));
         String language = request.getParameter(CHANGE_LANGUAGE);
         if (language != null) {
             request.setAttribute(CHANGE_LANGUAGE, language);
             request.getSession(true).setAttribute(LANGUAGE, language);
         } else {
             logger.error("Can not find locale.");
-            page = ConfigurationBundle.getProperty("path.page.error");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
         }
         return page;
 

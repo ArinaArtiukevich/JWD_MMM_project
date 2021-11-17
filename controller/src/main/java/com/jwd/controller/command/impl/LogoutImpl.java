@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import static com.jwd.controller.util.Util.*;
+
 public class LogoutImpl implements Command {
     private static final Logger logger = LogManager.getLogger(LogoutImpl.class);
 
@@ -17,7 +19,7 @@ public class LogoutImpl implements Command {
         if(session != null) {
             session.invalidate();
         }
-        String page = ConfigurationBundle.getProperty("path.page.index");
+        String page = pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index"));
         return page;
     }
 

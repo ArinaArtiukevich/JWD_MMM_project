@@ -8,6 +8,7 @@ import com.jwd.controller.validator.ControllerValidator;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 
 public class WorkImpl implements Command {
     private final ControllerValidator validator = new ControllerValidator();
@@ -17,16 +18,16 @@ public class WorkImpl implements Command {
         String action = request.getParameter(WORK_ACTION);
         validator.isValid(action);
         if (ADD_SERVICE_ORDER.equals(action)) {
-            page = ConfigurationBundle.getProperty("path.page.add.service.order");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.add.service.order"));
         }
         if (SHOW_USER_ORDER.equals(action)) {
-            page = ConfigurationBundle.getProperty("path.page.show.user.order");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         }
         if (FIND_CLIENT_RESPONSE.equals(action)) {
-            page = ConfigurationBundle.getProperty("path.page.order.client.order.responses");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses"));
         }
         if (FIND_WORKER_RESPONSE.equals(action)) {
-            page = ConfigurationBundle.getProperty("path.page.order.worker.responses");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
         }
         return page;
     }

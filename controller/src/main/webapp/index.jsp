@@ -14,7 +14,7 @@
 
 <header>
     <jsp:include page="/jsp/header.jsp">
-        <jsp:param name="page_path" value="/index.jsp"/>
+        <jsp:param name="page_path" value="index"/>
     </jsp:include>
 </header>
 

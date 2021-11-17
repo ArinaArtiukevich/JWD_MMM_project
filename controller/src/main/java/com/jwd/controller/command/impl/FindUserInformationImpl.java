@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.pathToJsp;
 
 public class FindUserInformationImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindUserInformationImpl.class);
@@ -41,7 +42,7 @@ public class FindUserInformationImpl implements Command {
             request.setAttribute(LOGIN, user.getLogin());
             request.setAttribute(GENDER,user.getGender());
             request.setAttribute(LAST_COMMAND, FIND_USER_INFORMATION);
-            page = ConfigurationBundle.getProperty("path.page.work");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find user.");
             throw new ControllerException(e);

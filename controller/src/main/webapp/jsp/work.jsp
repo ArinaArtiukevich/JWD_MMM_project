@@ -38,7 +38,7 @@
     <body>
         <header>
             <jsp:include page="header.jsp">
-                <jsp:param name="page_path" value="/jsp/work.jsp"/>
+                <jsp:param name="page_path" value="work"/>
             </jsp:include>
         </header>
 
@@ -163,7 +163,7 @@
             </div>
         </c:if>
         <c:if test="${sessionScope.userId eq null}">
-            <a href="../jsp/authorization.jsp">
+            <a href="/controller?command=go_to_page&path=authorization">
                 <h2>Please login or register</h2>
             </a>
         </c:if>

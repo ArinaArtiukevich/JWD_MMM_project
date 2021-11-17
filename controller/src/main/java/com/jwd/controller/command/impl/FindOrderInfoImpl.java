@@ -20,6 +20,8 @@ import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.util.Util.pathToJsp;
+
 
 public class FindOrderInfoImpl implements Command {
     private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
@@ -45,7 +47,7 @@ public class FindOrderInfoImpl implements Command {
             HttpSession session = request.getSession();
             session.setAttribute(ParameterAttributeType.ORDER, order);
             session.setAttribute(ParameterAttributeType.CLIENT, client);
-            page = ConfigurationBundle.getProperty("path.page.order.info");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.info"));
 
         } catch (NumberFormatException | ServiceException e) {
             logger.error("Could not find order.");
