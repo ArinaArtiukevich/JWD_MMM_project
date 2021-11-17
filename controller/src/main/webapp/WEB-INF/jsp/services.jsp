@@ -25,6 +25,12 @@
         <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
         <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by" />
         <fmt:message bundle="${loc}" key="direction.change" var="direction_change" />
+        <fmt:message bundle="${loc}" key="service.type.electrical" var="service_type_electrical"/>
+        <fmt:message bundle="${loc}" key="service.type.gas" var="service_type_gas"/>
+        <fmt:message bundle="${loc}" key="service.type.roofing" var="service_type_roofing"/>
+        <fmt:message bundle="${loc}" key="service.type.painting" var="service_type_painting"/>
+        <fmt:message bundle="${loc}" key="service.type.plumbing" var="service_type_plumbing"/>
+
 
     </head>
     <body>
@@ -73,11 +79,11 @@
                         <div id="service_type" class="form-row">
                             <div class="col-auto my-1">
                                 <select class="custom-select mr-sm-2" name="service_type">
-                                    <option value="ELECTRICAL" ${"ELECTRICAL" == requestScope.selected_service_type ? 'selected':''}> ELECTRICAL</option>
-                                    <option value="GAS" ${"GAS" == requestScope.selected_service_type ? 'selected':''}> GAS</option>
-                                    <option value="ROOFING" ${"ROOFING" == requestScope.selected_service_type ? 'selected':''}> ROOFING</option>
-                                    <option value="PAINTING" ${"PAINTING" == requestScope.selected_service_type ? 'selected':''}> PAINTING</option>
-                                    <option value="PLUMBING" ${"PLUMBING" == requestScope.selected_service_type ? 'selected':''}> PLUMBING</option>
+                                    <option value="ELECTRICAL" ${"ELECTRICAL" == requestScope.selected_service_type ? 'selected':''}> ${service_type_electrical}</option>
+                                    <option value="GAS" ${"GAS" == requestScope.selected_service_type ? 'selected':''}> ${service_type_gas}</option>
+                                    <option value="ROOFING" ${"ROOFING" == requestScope.selected_service_type ? 'selected':''}> ${service_type_roofing}</option>
+                                    <option value="PAINTING" ${"PAINTING" == requestScope.selected_service_type ? 'selected':''}> ${service_type_painting}</option>
+                                    <option value="PLUMBING" ${"PLUMBING" == requestScope.selected_service_type ? 'selected':''}> ${service_type_plumbing}</option>
                                 </select> <br/>
                             </div>
                         </div>
@@ -105,17 +111,27 @@
         </form>
 
         <div>
-            <c:forEach var="order" items="${requestScope.pageable.elements}" >
-                <a href = "/controller?command=find_order_info&idService=${order.idService}">
+            <table>
+                <c:if test="${requestScope.pageable.elements.size() ne 0}">
                     <tr>
-                        <td>${description} : ${order.description}</td>
-                        <td>${serviceType} : ${order.serviceType}</td>
-                        <td>${status} : ${order.status}</td>
-                        <td>${orderCreationDate} : <fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                        <td>${description}</td>
+                        <td>${serviceType}</td>
+                        <td>${status}</td>
+                        <td>${orderCreationDate} </td>
                     </tr>
-                    <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
-                </a>
-            </c:forEach>
+                </c:if>
+                <c:forEach var="order" items="${requestScope.pageable.elements}" >
+                    <a href = "/controller?command=find_order_info&idService=${order.idService}">
+                        <tr>
+                            <td>${order.description}</td>
+                            <td>${order.serviceType}</td>
+                            <td>${order.status}</td>
+                            <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                        </tr>
+                        <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                    </a>
+                </c:forEach>
+            </table>
         </div>
         <div style="margin-left: center">
             <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">

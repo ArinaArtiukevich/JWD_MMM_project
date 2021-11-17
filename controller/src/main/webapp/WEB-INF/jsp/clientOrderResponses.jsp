@@ -35,7 +35,7 @@
         </header>
 
         <form id="find_client_response" method="GET" action="${pageContext.request.contextPath}/controller">
-            <input type="hidden" name="command" value="find_client_response">
+        <input type="hidden" name="command" value="find_client_response">
             <input type="hidden" name="idClient" value="${sessionScope.userId}">
                 <div>
                     <button type="submit" name="find_client_response">
@@ -61,19 +61,29 @@
                     </div>
                 </div>
             </input>
-            </input>
-        </form>
+        </input>
+    </form>
         <div>
             <c:if test="${sessionScope.userRole eq 'client'}">
+                <c:if test="${requestScope.pageable.elements.size() ne 0}">
+                    <tr>
+                        <td>${idClient}</td>
+                        <td>${idWorker}</td>
+                        <td>${description}</td>
+                        <td>${serviceType}</td>
+                        <td>${status}</td>
+                        <td>${orderCreationDate} </td>
+                    </tr>
+                </c:if>
                 <c:forEach var="response" items="${requestScope.pageable.elements}" >
                     <a href = "/controller?command=find_order_info&idService=${response.idService}">
                         <tr>
-                            <td>${idClient} : ${response.idClient}</td>
-                            <td>${idWorker} : ${response.idWorker}</td>
-                            <td>${description} : ${response.description}</td>
-                            <td>${serviceType} : ${response.serviceType}</td>
-                            <td>${status} : ${response.status}</td>
-                            <td>${orderCreationDate} : <fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                            <td>${response.idClient}</td>
+                            <td>${response.idWorker}</td>
+                            <td>${response.description}</td>
+                            <td>${response.serviceType}</td>
+                            <td>${response.status}</td>
+                            <td><fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
                         </tr>
                         <input type="hidden" name="idService" id="idService" value="${response.idService}"/>
                     </a>

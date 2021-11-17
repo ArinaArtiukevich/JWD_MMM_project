@@ -65,3 +65,14 @@ INSERT INTO roles(user_role) VALUES ('CLIENT'),
 ('WORKER');
 
 ALTER TABLE users ADD CONSTRAINT fk_users_role FOREIGN KEY (user_role) REFERENCES roles (user_role);
+
+
+
+CREATE TABLE service_statuses (
+    service_status text PRIMARY KEY
+);
+INSERT INTO service_statuses(service_status) VALUES ('FREE'),
+('IN_PROCESS') , ('DONE') , ('APPROVED');
+
+ALTER TABLE orders ADD CONSTRAINT fk_service_status FOREIGN KEY (service_status) REFERENCES service_statuses (service_status);
+

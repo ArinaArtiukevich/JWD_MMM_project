@@ -391,6 +391,47 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return page;
     }
 
+    @Override
+    public Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus) throws DaoException {
+        logger.info("Start Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus).");
+        final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        PreparedStatement statement_total_elements = null;
+        ResultSet resultSet_total_elements = null;
+        Page<Order> page = new Page<>();
+        try {
+            connection = getConnection(false);
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.by.serviceStatus"));
+            statement_total_elements.setString(1, serviceStatus.toString());
+            resultSet_total_elements = statement_total_elements.executeQuery();
+
+            final String findPageOrderedQuery =
+                    String.format(DataBaseConfig.getQuery("page.filter.sorted.by.serviceStatus"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+            statement = connection.prepareStatement(findPageOrderedQuery);
+            statement.setString(1, serviceStatus.toString());
+            statement.setInt(2, daoOrderPage.getLimit());
+            statement.setInt(3, offset);
+            resultSet = statement.executeQuery();
+            connection.commit();
+            page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
+
+        } catch (ParseException e) {
+            logger.error("Invalid date format");
+            throw new DaoException("Invalid date format");
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        }
+        finally {
+            close(resultSet, resultSet_total_elements);
+            close(statement, statement_total_elements);
+            retrieve(connection);
+        }
+        return page;
+    }
+
     private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;

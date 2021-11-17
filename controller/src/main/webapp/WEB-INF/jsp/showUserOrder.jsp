@@ -4,14 +4,14 @@
 
 <html>
     <head>
-        <title>${title_find_worker_response}</title>
+        <title>${title_showUserOrders}</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="title.find.worker.response" var="title_find_worker_response"/>
+        <fmt:message bundle="${loc}" key="title.showUserOrders" var="title_showUserOrders"/>
         <fmt:message bundle="${loc}" key="work.add.order" var="work_add_service"/>
         <fmt:message bundle="${loc}" key="show.user.orders" var="show_user_orders"/>
 
@@ -25,6 +25,11 @@
         <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
         <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by" />
         <fmt:message bundle="${loc}" key="direction.change" var="direction_change" />
+        <fmt:message bundle="${loc}" key="button.find.client.order.by.status" var="button_find_client_order_by_status" />
+        <fmt:message bundle="${loc}" key="service.status.free" var="service_status_free" />
+        <fmt:message bundle="${loc}" key="service.status.in_process" var="service_status_in_process" />
+        <fmt:message bundle="${loc}" key="service.status.done" var="service_status_done" />
+        <fmt:message bundle="${loc}" key="service.status.approved" var="service_status_approved" />
 
     </head>
     <body>
@@ -68,18 +73,69 @@
         </input>
         </form>
 
+        <form id="find_client_order_by_status" method="GET" action="${pageContext.request.contextPath}/controller">
+            <input type="hidden" name="command" value="find_client_order_by_status"/>
+            <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
+            <div id="menu">
+                <div id="button">
+                    <button type="submit" name="find_client_order_by_status">
+                            ${button_find_client_order_by_status}
+                    </button>
+                </div>
+                <div id="sort_by">
+                    <h7>${message_sort_by}</h7>
+                    <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
+                        <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
+                        <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
+                        <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
+                        <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>
+                        <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>
+                    </select>
+                </div>
+                <div id="direction">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
+                        <label class="form-check-label" for="direction">
+                                ${direction_change}
+                        </label>
+                    </div>
+                </div>
+                <div id="requested_service_type" class="form-row">
+                    <div class="col-auto my-1">
+                        <select class="custom-select mr-sm-2" name="service_status">
+                            <option value="FREE" ${"FREE" == requestScope.selected_service_status ? 'selected':''}>${service_status_free}</option>
+                            <option value="IN_PROCESS" ${"IN_PROCESS" == requestScope.selected_service_status ? 'selected':''}>${service_status_in_process}</option>
+                            <option value="DONE" ${"DONE" == requestScope.selected_service_status ? 'selected':''}>${service_status_done}</option>
+                            <option value="APPROVED" ${"APPROVED" == requestScope.selected_service_status ? 'selected':''}>${service_status_approved}</option>
+                        </select> <br/>
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <div>
             <table>
+                <c:if test="${requestScope.pageable.elements.size() ne 0}">
+                    <tr>
+                        <td>${idService}</td>
+                        <td>${idClient}</td>
+                        <td>${description}</td>
+                        <td>${address}</td>
+                        <td>${serviceType}</td>
+                        <td>${status}</td>
+                        <td>${orderCreationDate} </td>
+                    </tr>
+                </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
                     <a href = "/controller?command=show_user_orders&idService=${order.idService}">
                         <tr>
-                            <td>${idService} : ${order.idService}</td>
-                            <td>${idClient} : ${order.idClient}</td>
-                            <td>${description} : ${order.description}</td>
-                            <td>${address} : ${order.address}</td>
-                            <td>${serviceType} : ${order.serviceType}</td>
-                            <td>${status} : ${order.status}</td>
-                            <td>${orderCreationDate} : <fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                            <td>${order.idService}</td>
+                            <td>${order.idClient}</td>
+                            <td>${order.description}</td>
+                            <td>${order.address}</td>
+                            <td>${order.serviceType}</td>
+                            <td>${order.status}</td>
+                            <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
                         </tr>
                         <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
                     </a>

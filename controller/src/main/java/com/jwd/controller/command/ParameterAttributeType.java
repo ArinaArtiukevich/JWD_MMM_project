@@ -29,7 +29,7 @@ public final class ParameterAttributeType {
     public static final String CREATION_DATE = "creationDate";
     public static final String COMPLETION_DATE = "completionDate";
     public static final String SERVICE_TYPE = "service_type";
-    public static final String SERVICE_STATUS = "status";
+    public static final String SERVICE_STATUS = "service_status";
     public static final String IN_PROCESS = "in_process";
 
     public static final String WORK_ACTION = "work_action";
@@ -48,10 +48,11 @@ public final class ParameterAttributeType {
     public static final String RESPONSES = "responses";
     public static final String SORT_BY = "sort_by";
     public static final String SELECTED_SERVICE_TYPE = "selected_service_type";
-    public static final String SELECTED_SORT_BY_PARAMETER= "selected_sort_by_parameter";
-    public static final String SELECTED_DIRECTION_PARAMETER= "selected_direction_parameter";
+    public static final String SELECTED_SORT_BY_PARAMETER = "selected_sort_by_parameter";
+    public static final String SELECTED_DIRECTION_PARAMETER = "selected_direction_parameter";
     public static final String DIRECTION = "direction";
     public static final String PATH = "path";
+    public static final String SELECTED_SERVICE_STATUS = "selected_service_status";
 
     public static final String SHOW_ORDERS_BY_SERVICE_TYPE  = "show_orders_by_service_type";
     public static final String SHOW_SERVICE_ALL  = "show_all_services";
@@ -62,6 +63,7 @@ public final class ParameterAttributeType {
     public final static String SHOW_USER_ORDER = "showUserOrder";
     public final static String FIND_CLIENT_RESPONSE = "find_client_response";
     public final static String FIND_WORKER_RESPONSE = "find_worker_response";
+    public final static String FIND_CLIENT_ORDER_BY_STATUS = "find_client_order_by_status";
 
     private ParameterAttributeType() {
     }

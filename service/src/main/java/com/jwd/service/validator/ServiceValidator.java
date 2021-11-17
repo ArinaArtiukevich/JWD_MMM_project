@@ -56,7 +56,7 @@ public class ServiceValidator {
 
     public void validate(ServiceStatus serviceStatus) throws ServiceException {
         if (serviceStatus == null) {
-            throw new ServiceException("Service type is null.");
+            throw new ServiceException("Service status is null.");
         }
     }
 

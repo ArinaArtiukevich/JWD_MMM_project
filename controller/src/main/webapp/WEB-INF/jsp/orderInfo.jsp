@@ -41,17 +41,25 @@
         </header>
 
         <form method="GET" action="${pageContext.request.contextPath}/controller">
-
             <div>
                 <table>
                     <tr>
-                        <td>${idService} : ${sessionScope.order.idService}<br/></td>
-                        <td>${idClient} : ${sessionScope.order.idClient}<br/></td>
-                        <td>${description} : ${sessionScope.order.description}<br/></td>
-                        <td>${address} : ${sessionScope.order.address}<br/></td>
-                        <td>${serviceType} : ${sessionScope.order.serviceType}<br/></td>
-                        <td>${status} : ${sessionScope.order.status}<br/></td>
-                        <td>${orderCreationDate} : <fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd" /><br/></td>
+                        <td>${idService}</td>
+                        <td>${idClient}</td>
+                        <td>${description}</td>
+                        <td>${address}</td>
+                        <td>${serviceType}</td>
+                        <td>${status}</td>
+                        <td>${orderCreationDate} </td>
+                    </tr>
+                    <tr>
+                        <td>${sessionScope.order.idService}<br/></td>
+                        <td>${sessionScope.order.idClient}<br/></td>
+                        <td>${sessionScope.order.description}<br/></td>
+                        <td>${sessionScope.order.address}<br/></td>
+                        <td>${sessionScope.order.serviceType}<br/></td>
+                        <td>${sessionScope.order.status}<br/></td>
+                        <td><fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd" /><br/></td>
                     </tr>
                 </table>
             </div>
@@ -59,11 +67,18 @@
                 <table>
                     <div>Client info :</div>
                     <tr>
-                        <td>${user_firstName} : ${sessionScope.client.firstName}<br/></td>
-                        <td>${user_lastName} : ${sessionScope.client.lastName}<br/></td>
-                        <td>${user_gender} : ${sessionScope.client.gender}<br/></td>
-                        <td>${user_email} : ${sessionScope.client.email}<br/></td>
-                        <td>${user_city} : ${sessionScope.client.city}<br/></td>
+                        <td>${user_firstName}<br/></td>
+                        <td>${user_lastName}<br/></td>
+                        <td>${user_gender}<br/></td>
+                        <td>${user_email}<br/></td>
+                        <td>${user_city}<br/></td>
+                    </tr>
+                    <tr>
+                        <td>${sessionScope.client.firstName}<br/></td>
+                        <td>${sessionScope.client.lastName}<br/></td>
+                        <td>${sessionScope.client.gender}<br/></td>
+                        <td>${sessionScope.client.email}<br/></td>
+                        <td>${sessionScope.client.city}<br/></td>
                     </tr>
                 </table>
                 <c:if test="${sessionScope.order.status.toString() eq 'FREE'}">

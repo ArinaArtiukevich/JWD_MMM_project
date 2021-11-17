@@ -93,6 +93,11 @@ public enum CommandEnum {
         {
             this.command = new GoToPageCommandImpl();
         }
+    },
+    FIND_CLIENT_ORDER_BY_STATUS {
+        {
+            this.command = new FindClientOrderByStatusImpl();
+        }
     }
     ;
 
