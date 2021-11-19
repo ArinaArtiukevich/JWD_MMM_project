@@ -23,6 +23,7 @@ public class GoToPageCommandImpl implements Command {
         String page_path = request.getParameter(PATH);
         validator.isValid(page_path);
         page = pathToJspCheckIsIndexPage(page_path);
+        // todo if catch from frontController
         return page;
     }
 }

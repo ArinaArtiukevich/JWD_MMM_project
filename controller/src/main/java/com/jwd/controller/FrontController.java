@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.ConnectException;
 
@@ -51,7 +52,8 @@ public class FrontController extends HttpServlet {
             //  выбрасывается после валидвции данных
             logger.error("Operation went wrong.");
             Throwable cause = getCause(e);
-            request.setAttribute(ERROR, "Exception: " + cause.getMessage());
+            HttpSession session = request.getSession();
+            session.setAttribute(ERROR, "Exception: " + cause.getMessage());
             response.sendRedirect( "/controller?command=go_to_page&path=error");
         }
     }

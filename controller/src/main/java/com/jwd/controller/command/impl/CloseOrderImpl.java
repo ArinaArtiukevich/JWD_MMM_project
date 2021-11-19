@@ -34,7 +34,7 @@ public class CloseOrderImpl implements Command {
             validator.isValid(idOrderString);
             Long idOrder = Long.parseLong(String.valueOf(idOrderString));
             if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
                 logger.error("Order was not closed.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));

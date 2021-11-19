@@ -78,14 +78,14 @@
         <label for="passwordInput" class="col-sm-2 col-form-label form-control-lg">${registration_password}</label>
         <div class="col-sm-10">
             <input type="password" class="form-control" id="passwordInput" name="password" value=""/>
-            <span class="form-text">Enter 1-100 symbols.</span>
+            <span class="form-text">Enter 5-20 symbols.</span>
         </div>
     </div>
     <div class="row mb-3">
         <label for="confirmPasswordInput" class="col-sm-2 col-form-label form-control-lg">${registration_confirmPassword}</label>
         <div class="col-sm-10">
             <input type="confirmPassword" class="form-control" id="confirmPasswordInput" name="confirmPassword" value=""/>
-            <span class="form-text">Enter 1-100 symbols.</span>
+            <span class="form-text">Enter 5-20 symbols.</span>
         </div>
     </div>
     <fieldset class="row mb-3" name="gender">

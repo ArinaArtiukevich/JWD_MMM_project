@@ -11,11 +11,13 @@ import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.repository.impl.UserDaoImpl;
 import com.jwd.service.exception.ServiceException;
+import com.jwd.service.util.ParameterAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
+import static com.jwd.service.util.ParameterAttribute.*;
 import static java.util.Objects.isNull;
 
 public class ServiceValidator {
@@ -24,6 +26,7 @@ public class ServiceValidator {
     private final List<String> availableSortByParameters = Arrays.asList("order_creation_date", "address", "service_type",
             "service_status", "description");
     private final List<String> availableDirectionParameters = Arrays.asList("ASC", "DESC");
+
 
     public void validate(Page<Order> orderPageRequest) throws ServiceException {
         // TODO validate other parameters
@@ -88,13 +91,13 @@ public class ServiceValidator {
     public boolean validateUserWithPassword(Registration userInfo) throws ServiceException {
         logger.info("Start validateUserWithPassword(Registration registration)." );
         validateEmptyFieldsWithPassword(userInfo);
-        boolean result = ( checkCity(userInfo.getCity()) &&
+        boolean result = (checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail())) &&
                 checkPassword(userInfo.getPassword(), userInfo.getConfirmPassword());
         if (result) {
             logger.info("User data is ready to be updated" );
         } else {
-            logger.info("User data is not ready to be updated" );
+            logger.info("Invalid user data." );
         }
         return result;
     }
@@ -105,7 +108,7 @@ public class ServiceValidator {
         boolean result = ( checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
-            logger.info("User data is ready to be updated" );
+            logger.info("Invalid user data." );
         } else {
             logger.info("User data is not ready to be updated" );
         }
@@ -137,11 +140,11 @@ public class ServiceValidator {
         if (result) {
             logger.info("User data is ready to be register" );
         } else {
-            logger.info("User data is not ready to be register" );
+            logger.info("Invalid user data." );
+            throw new ServiceException("Invalid user data.");
         }
         return result;
     }
-
 
     private void validateEmptyFields(Registration registration) throws ServiceException {
         logger.info("Start validateEmptyFields(Registration registration)." );
@@ -159,31 +162,22 @@ public class ServiceValidator {
 
     private boolean checkCity(String city) {
         logger.info("Start checkCity(String city)." );
-        boolean result = false;
-        //TODO !!!
-
-        result =  true;
-        logger.info("Input city is correct." );
-        return result;
+        return city.matches(PATTERN_CITY);
     }
 
     private boolean checkEmail(String email) {
         logger.info("Start checkEmail(String email)." );
-        boolean result = false;
-        //TODO !!!
-
-        result =  true;
-        logger.info("Input email is correct." );
-        return result;
+        return email.matches(PATTERN_EMAIL);
     }
 
     private boolean checkLogin(String login) throws ServiceException {
         logger.info("Start checkLogin(Registration registration)." );
-        boolean result = true;
+        boolean result = false;
         if (userDao.isLoginExist(login)){
-            result = false;
             logger.error("Login = " + login + " has already been taken" );
             throw new ServiceException("Login has already been taken");
+        } else if (login.matches(PATTERN_LOGIN)) {
+            result = true;
         }
         logger.info("Input login is available." );
         return result;
@@ -192,9 +186,9 @@ public class ServiceValidator {
     private boolean checkPassword(String password, String confirmPassword) throws ServiceException {
         logger.info("Start checkPassword(Registration registration)." );
         boolean result = false;
-        //TODO max/ min length
-        int maxLength = 100;
-        int minLength = 1;
+        //TODO now min is 1
+        int maxLength = PASSWORD_MAX_LENGTH;
+        int minLength = PASSWORD_MIN_LENGTH;
         Integer length = password.length();
         if ((length >= minLength) && (length <= maxLength)) {
             result = confirmPassword.equals(password);
