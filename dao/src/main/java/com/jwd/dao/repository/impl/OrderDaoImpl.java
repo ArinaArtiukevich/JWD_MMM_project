@@ -392,7 +392,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     @Override
-    public Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus) throws DaoException {
+    public Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus, Long idClient) throws DaoException {
         logger.info("Start Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
@@ -403,16 +403,18 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         Page<Order> page = new Page<>();
         try {
             connection = getConnection(false);
-            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.by.serviceStatus"));
+            statement_total_elements = connection.prepareStatement(DataBaseConfig.getQuery("orders.number.by.serviceStatus.and.id_client"));
             statement_total_elements.setString(1, serviceStatus.toString());
+            statement_total_elements.setLong(2, idClient);
             resultSet_total_elements = statement_total_elements.executeQuery();
 
             final String findPageOrderedQuery =
-                    String.format(DataBaseConfig.getQuery("page.filter.sorted.by.serviceStatus"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
+                    String.format(DataBaseConfig.getQuery("page.filter.by.id_client.sorted.by.serviceStatus"), daoOrderPage.getSortBy(), daoOrderPage.getDirection());
             statement = connection.prepareStatement(findPageOrderedQuery);
             statement.setString(1, serviceStatus.toString());
-            statement.setInt(2, daoOrderPage.getLimit());
-            statement.setInt(3, offset);
+            statement.setLong(2, idClient);
+            statement.setInt(3, daoOrderPage.getLimit());
+            statement.setInt(4, offset);
             resultSet = statement.executeQuery();
             connection.commit();
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);

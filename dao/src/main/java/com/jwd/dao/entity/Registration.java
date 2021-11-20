@@ -15,8 +15,6 @@ public class Registration {
     private Gender gender;
     private UserRole userRole;
 
-    public Registration() {}
-
     public Registration(String firstName, String lastName, String email, String city, String login, String password, String confirmPassword, Gender gender, UserRole userRole) {
         this.firstName = firstName;
         this.lastName = lastName;

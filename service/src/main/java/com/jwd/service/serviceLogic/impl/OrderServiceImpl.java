@@ -164,13 +164,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus) throws ServiceException {
-        logger.info("Start age<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus) in OrderService.");
+    public Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) throws ServiceException {
+        logger.info("Start age<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
             validator.validate(serviceStatus);
-            orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus);
+            validator.validate(idClient);
+            orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus, idClient);
         }
         catch(DaoException e) {
             throw new ServiceException(e);

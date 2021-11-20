@@ -1,23 +1,19 @@
 package com.jwd.service.serviceLogic.impl;
 
-import com.jwd.dao.config.DataBaseConfig;
-import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.entity.enums.UserRole;
-import com.jwd.dao.factory.DaoFactory;
-import com.jwd.dao.repository.OrderDao;
-import com.jwd.dao.repository.UserDao;
-import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.repository.impl.LoginDaoImpl;
-import com.jwd.dao.repository.impl.UserDaoImpl;
 import com.jwd.dao.exception.DaoException;
+import com.jwd.dao.factory.DaoFactory;
+import com.jwd.dao.repository.LoginDao;
+import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
@@ -31,6 +27,8 @@ public class UserServiceImpl implements UserService {
         boolean isRegistered = false;
         try {
             if (validator.validateData(registration)) {
+                registration.setPassword(BCrypt.hashpw(registration.getPassword(), BCrypt.gensalt()));
+                registration.setConfirmPassword(BCrypt.hashpw(registration.getConfirmPassword(), BCrypt.gensalt()));
                 isRegistered = userDao.addUser(registration);
             }
         } catch (DaoException e) {
@@ -64,11 +62,14 @@ public class UserServiceImpl implements UserService {
         try {
             if (validator.validateUserWithPassword(userInfo)) {
                 validator.validate(idUser);
+                userInfo.setPassword(BCrypt.hashpw(userInfo.getPassword(), BCrypt.gensalt()));
+                userInfo.setConfirmPassword(BCrypt.hashpw(userInfo.getConfirmPassword(), BCrypt.gensalt()));
                 isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
-                UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
-                loginDao.updateUserDTO(userDto);
+                if (isUpdated) {
+                    UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
+                    isUpdated = loginDao.updateUserDTO(userDto);
+                }
             }
-
         } catch (DaoException e) {
             logger.error("Invalid input parameters.");
             throw new ServiceException(e);
@@ -77,14 +78,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkLoginAndPassword(String login, String password) throws ServiceException {
+    public boolean isLoginAndPasswordExist(String login, String password) throws ServiceException {
         logger.info("Start checkLoginAndPassword(String login, String password).");
         boolean result = false;
-        validator.validate(login);
-        validator.validate(password);
         try {
-            result = loginDao.isLoginAndPasswordExist(login, password);
-        } catch (DaoException e) {
+            validator.validate(login);
+            validator.validate(password);
+            String userPassword = loginDao.findPasswordByLogin(login);
+            validator.validate(userPassword);
+
+            if (BCrypt.checkpw(password, userPassword)) {
+                result = true;
+                logger.info("User exists.");
+            }
+        } catch (DaoException | IllegalArgumentException e) {
             throw new ServiceException(e);
         }
         return result;

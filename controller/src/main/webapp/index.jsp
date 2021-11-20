@@ -27,7 +27,7 @@
 </div>
 
 <div id="error">
-    <h1 style="color:red;">${internalError}</h1>
+    <h4>${requestScope.internalError}</h4>
 </div>
 
 </body>

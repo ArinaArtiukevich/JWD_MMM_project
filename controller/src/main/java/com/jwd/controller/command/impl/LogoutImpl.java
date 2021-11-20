@@ -19,8 +19,7 @@ public class LogoutImpl implements Command {
         if(session != null) {
             session.invalidate();
         }
-        String page = pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index"));
-        return page;
+        return pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index"));
     }
 
 

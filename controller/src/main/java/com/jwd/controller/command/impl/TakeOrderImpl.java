@@ -30,7 +30,6 @@ public class TakeOrderImpl implements Command {
         logger.info("Start TakeOrderImpl.");
         String page = null;
         try {
-            // todo check
             HttpSession session = request.getSession();
             Object idWorkerObject = session.getAttribute(ParameterAttributeType.USER_ID);
             validator.isValid(idWorkerObject);
@@ -47,7 +46,7 @@ public class TakeOrderImpl implements Command {
                 logger.error("Could not take order.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
-        } catch (ServiceException e) {
+        } catch (ServiceException | NumberFormatException e) {
             logger.error("Could not take order.");
             throw new ControllerException(e);
         }

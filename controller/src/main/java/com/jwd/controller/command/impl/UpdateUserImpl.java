@@ -65,8 +65,11 @@ public class UpdateUserImpl implements Command {
                 request.setAttribute(EMAIL, userInfo.getEmail());
                 request.setAttribute(CITY, userInfo.getCity());
                 request.setAttribute(LAST_COMMAND, UPDATE_USER);
-            } // TODO else
-        } catch (ServiceException e) {
+            } else {
+                logger.error("Personal information was not updated.");
+                throw new ControllerException("Personal information was not updated.");
+            }
+        } catch (ServiceException | NumberFormatException e) {
             logger.error("Could not update user information.");
             throw new ControllerException(e);
         }

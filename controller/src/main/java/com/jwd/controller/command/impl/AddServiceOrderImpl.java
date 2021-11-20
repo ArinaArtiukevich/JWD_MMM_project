@@ -35,9 +35,8 @@ public class AddServiceOrderImpl implements Command {
         String serviceTypeString = request.getParameter(SERVICE_TYPE);
         String login = (String)request.getSession().getAttribute("login");
         validator.isValid(serviceTypeString);
-        validator.isValid(serviceTypeString);
-        Date orderCreationDate = new Date();
         ServiceType serviceType = ServiceType.valueOf(serviceTypeString.toUpperCase());
+        Date orderCreationDate = new Date();
 
         validateParameters(description, address, serviceType, orderCreationDate, login);
         Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);

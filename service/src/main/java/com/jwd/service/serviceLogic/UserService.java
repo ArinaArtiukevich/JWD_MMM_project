@@ -12,7 +12,7 @@ public interface UserService {
 
     boolean updateUserWithPassword(Long idUser, Registration userInfo) throws ServiceException;
 
-    boolean checkLoginAndPassword(String login, String password) throws ServiceException;
+    boolean isLoginAndPasswordExist(String login, String password) throws ServiceException;
 
     String getUserNameByLogin(String login) throws ServiceException;
 

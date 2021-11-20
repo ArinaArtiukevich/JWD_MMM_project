@@ -65,7 +65,7 @@ public class FindClientOrderByStatusImpl implements Command {
             String serviceStatusString = request.getParameter(SERVICE_STATUS);
             validator.isValid(serviceStatusString);
             ServiceStatus serviceStatus = ServiceStatus.valueOf(serviceStatusString);
-            Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus);
+            Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus, idClient);
             request.setAttribute(PAGEABLE, paginationResult);
             request.setAttribute(LAST_COMMAND, FIND_CLIENT_ORDER_BY_STATUS);
             request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatus);

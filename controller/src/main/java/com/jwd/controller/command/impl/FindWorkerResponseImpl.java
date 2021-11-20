@@ -53,7 +53,6 @@ public class FindWorkerResponseImpl implements Command {
             validator.isValid(idWorkerParameter);
             Long idWorker = Long.parseLong(idWorkerParameter);
             validator.isValid(idWorker);
-            // TODO check parameters
             String sortByParameter = request.getParameter(SORT_BY);
             validator.isValid(sortByParameter);
             paginationRequest.setSortBy(sortByParameter);

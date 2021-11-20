@@ -189,7 +189,7 @@ public class ServiceValidator {
         //TODO now min is 1
         int maxLength = PASSWORD_MAX_LENGTH;
         int minLength = PASSWORD_MIN_LENGTH;
-        Integer length = password.length();
+        int length = password.length();
         if ((length >= minLength) && (length <= maxLength)) {
             result = confirmPassword.equals(password);
         } else {

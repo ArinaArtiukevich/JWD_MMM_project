@@ -122,16 +122,17 @@
                     </table>
                 </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
-                    <table class="table">
-                        <a href="/controller?command=find_order_info&idService=${order.idService}">
+                    <a href="/controller?command=find_order_info&idService=${order.idService}">
+                        <table class="table">
                             <tr>
                                 <td>${order.description}</td>
                                 <td>${order.serviceType}</td>
                                 <td>${order.status}</td>
                                 <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
                             </tr>
-                        </a>
-                    </table>
+                        </table>
+                    </a>
+
                 </c:forEach>
         </div>
         <div style="margin-left: center">

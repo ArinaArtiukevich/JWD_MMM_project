@@ -30,7 +30,7 @@ public class ApproveOrderImpl implements Command {
         logger.info("Start ApproveOrderImpl.");
         String page = null;
         try {
-            String idOrderString = String.valueOf(request.getParameter(ParameterAttributeType.ID_SERVICE));
+            String idOrderString = request.getParameter(ParameterAttributeType.ID_SERVICE);
             validator.isValid(idOrderString);
             Long idOrder = Long.parseLong(idOrderString);
             if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {

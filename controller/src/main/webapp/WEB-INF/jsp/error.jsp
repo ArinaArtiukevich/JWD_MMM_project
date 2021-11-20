@@ -22,8 +22,8 @@
         </header>
 
         <div>
-            <h1>${sessionScope.error}</h1>
-            <h2>${error_message}</h2>
+            <h4>${sessionScope.error}</h4>
+            <h4>${error_message}</h4>
         </div>
 
     </body>

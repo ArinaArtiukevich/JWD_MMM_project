@@ -63,12 +63,13 @@ public class RegistrationCommandImpl implements Command {
                 session.setAttribute(USER_ID, idUser);
                 session.setAttribute(LOGIN, login);
                 session.setAttribute(USER_ROLE, userRole.getName());
-            } // TODO else
+            } else {
+                logger.error("Registration failed.");
+                throw new ControllerException("Registration failed. Please, try again.");
+            }
         } catch (ServiceException e) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute(ERROR, "Registration failed " + e.getMessage());
             logger.error("Problems with user registration.");
-            throw new ControllerException(e);
+            throw new ControllerException("Registration failed " + e.getMessage());
         }
         return page;
     }

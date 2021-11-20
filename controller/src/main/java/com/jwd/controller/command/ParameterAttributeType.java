@@ -41,6 +41,7 @@ public final class ParameterAttributeType {
     public static final String PAGEABLE = "pageable";
 
     public static final String ERROR = "error";
+    public static final String ERROR_WORK_MESSAGE = "errorWorkMessage";
     public static final String LAST_COMMAND = "last_command";
     public static final String COMMAND = "command";
     public static final String MESSAGE="message";

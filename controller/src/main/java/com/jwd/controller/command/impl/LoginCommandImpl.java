@@ -34,7 +34,7 @@ public class LoginCommandImpl implements Command {
         validateParameters(login, password);
 
         try {
-            if(userService.checkLoginAndPassword(login, password)) {
+            if(userService.isLoginAndPasswordExist(login, password)) {
                 Long idUser = userService.getIdUserByLogin(login);
                 UserRole userRole = userService.getRoleByID(idUser);
 

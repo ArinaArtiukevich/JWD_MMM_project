@@ -48,7 +48,7 @@
         </div>
 
         <div id="error">
-            <h1 style="color:red;"> ${errorWorkMessage}</h1>
+            <h4 style="color:red;"> ${requestScope.errorWorkMessage}</h4>
         </div>
         <div id="message">
             <h1> ${requestScope.message}</h1>

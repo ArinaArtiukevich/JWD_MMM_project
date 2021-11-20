@@ -27,7 +27,7 @@ public interface OrderDao {
 
     Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient) throws DaoException;
 
-    Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus) throws DaoException;
+    Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus, Long idClient) throws DaoException;
 
     boolean deleteById(Long idOrder) throws DaoException;
 

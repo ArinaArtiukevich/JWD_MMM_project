@@ -68,14 +68,14 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
-                logger.info("A login was added into user_dtos.");
+                logger.info("User password was updated.");
                 isAdded = true;
             } else {
-                throw new DaoException("A login was not added into user_dtos.");
+                throw new DaoException("User password was not updated.");
             }
         }
         catch(SQLException e) {
-            throw new DaoException("A login was not added into user_dtos.");
+            throw new DaoException("Could bot update user password.");
         }
         finally {
             close(statement);
@@ -149,24 +149,25 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
     }
 
     @Override
-    public Boolean isLoginAndPasswordExist(String login, String password) throws DaoException {
-        logger.info("Start isExistInList(String login, String password). Login = " + login + ", password = " + password);
-        boolean isExist = false;
+    public String findPasswordByLogin(String login) throws DaoException {
+        logger.info("Start isExistInList(String login, String password). Login = " + login);
+        String password = null;
+        boolean isLoginExist = false;
         PreparedStatement statement = null;
         Connection connection = null;
         ResultSet resultSet = null;
         try {
             connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.by.login.and.password"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.password.by.login"));
             statement.setString(1, login);
-            statement.setString(2, password);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {
-                isExist = true;
+                password = resultSet.getString(1);
+                isLoginExist = true;
                 logger.info("User with login:" + login + " was found.");
             }
-            if (!isExist) {
-                throw new DaoException("Could not find user_dto with login = " + login);
+            if (!isLoginExist) {
+                throw new DaoException("Could not find user with login = " + login);
             }
         } catch(SQLException e) {
             logger.error("User was not found.");
@@ -177,7 +178,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
             close(statement);
             retrieve(connection);
         }
-        return isExist;
+        return password;
     }
 
     @Override

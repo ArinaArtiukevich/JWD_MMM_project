@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.jwd.controller.command.ParameterAttributeType.USER_ID;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 public class DeleteOrderByIdImpl implements Command {
@@ -35,15 +35,14 @@ public class DeleteOrderByIdImpl implements Command {
             Long idClient = Long.parseLong(idClientParameter);
             validator.isValid(idClient);
 
-            String idServiceParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
+            String idServiceParameter = request.getParameter(ID_SERVICE);
             validator.isValid(idServiceParameter);
             Long idService = Long.parseLong(idServiceParameter);
             validator.isValid(idService);
             if (orderService.deleteById(idService ,idClient)){
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-            }
-            else {
-                request.setAttribute("errorWorkMessage", "Could not delete an order. Please, try again.");
+            } else {
+                request.setAttribute(ERROR_WORK_MESSAGE, "Could not delete an order. Please, try again.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             }
 
