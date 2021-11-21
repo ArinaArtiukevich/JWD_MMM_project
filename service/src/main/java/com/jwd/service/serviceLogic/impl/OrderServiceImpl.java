@@ -1,32 +1,25 @@
 package com.jwd.service.serviceLogic.impl;
 
-import com.jwd.dao.config.DataBaseConfig;
-import com.jwd.dao.connection.ConnectionPool;
-import com.jwd.dao.connection.impl.ConnectionPoolImpl;
+import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
-import com.jwd.dao.factory.DaoFactory;
-import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.repository.UserDao;
-import com.jwd.dao.repository.OrderDao;
-import com.jwd.dao.repository.impl.UserDaoImpl;
-import com.jwd.dao.repository.impl.OrderDaoImpl;
-import com.jwd.dao.entity.Order;
 import com.jwd.dao.exception.DaoException;
+import com.jwd.dao.repository.OrderDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
 import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
-    private final UserDao userDao = DaoFactory.getInstance().getUserDao();
-    private final OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
+    private final OrderDao orderDao;
     private final ServiceValidator validator = new ServiceValidator();
+
+    public OrderServiceImpl(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
 
     @Override
     public Page<Order> getAllServices(Page<Order> orderPageRequest) throws ServiceException {
@@ -36,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(orderPageRequest);
             orderPage = orderDao.getServiceList(orderPageRequest);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -51,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(serviceType);
             orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -66,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(orderPageRequest);
             orderPage = orderDao.findOrdersByIdUser(orderPageRequest, idUser);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -80,24 +73,22 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idService);
             order = orderDao.findOrderById(idService);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return order;
     }
 
     @Override
-    public boolean addServiceOrder(Order order, String login) throws ServiceException {
-        logger.info("Start boolean addServiceOrder(Order order, String login) in OrderService.");
-        ArrayList<Order> list = new ArrayList<>();
+    public boolean addServiceOrder(Order order, Long idClient) throws ServiceException {
+        logger.info("Start boolean addServiceOrder(Order order, Long idClient) in OrderService.");
         boolean isAdded = false;
         try {
             validator.validate(order);
-            Long idClient = userDao.findIdByLogin(login);
             validator.validate(idClient);
             isAdded = orderDao.add(order, idClient);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isAdded;
@@ -112,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idWorker);
             isTaken = orderDao.takeOrder(idOrder, idWorker);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isTaken;
@@ -127,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(serviceStatus);
             isSet = orderDao.setOrderStatus(idOrder, serviceStatus);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isSet;
@@ -142,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idWorker);
             orderPage = orderDao.getOrdersByWorkerId(orderPageRequest, idWorker);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -157,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(orderPageRequest);
             orderPage = orderDao.getOrdersResponseByClientId(orderPageRequest, idClient);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -173,7 +164,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idClient);
             orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus, idClient);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -197,7 +188,7 @@ public class OrderServiceImpl implements OrderService {
             }
             isDeleted = orderDao.deleteById(idOrder);
         }
-        catch(DaoException e) {
+        catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isDeleted;

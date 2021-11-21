@@ -30,18 +30,21 @@ public class AddServiceOrderImpl implements Command {
     public String execute(HttpServletRequest request) throws ControllerException {
         logger.info("Start addServiceOrder.");
         String page = null;
-        String description = request.getParameter(SERVICE_DESCRIPTION);
-        String address = request.getParameter(SERVICE_ADDRESS);
-        String serviceTypeString = request.getParameter(SERVICE_TYPE);
-        String login = (String)request.getSession().getAttribute("login");
-        validator.isValid(serviceTypeString);
-        ServiceType serviceType = ServiceType.valueOf(serviceTypeString.toUpperCase());
-        Date orderCreationDate = new Date();
-
-        validateParameters(description, address, serviceType, orderCreationDate, login);
-        Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
         try {
-            if (orderService.addServiceOrder(orderItem, login)){
+            String description = request.getParameter(SERVICE_DESCRIPTION);
+            String address = request.getParameter(SERVICE_ADDRESS);
+            String serviceTypeString = request.getParameter(SERVICE_TYPE);
+            String idClientString = String.valueOf(request.getSession().getAttribute("userId"));
+            validator.isValid(idClientString);
+            Long idClient = Long.parseLong(idClientString);
+            validator.isValid(serviceTypeString);
+            ServiceType serviceType = ServiceType.valueOf(serviceTypeString.toUpperCase());
+            Date orderCreationDate = new Date();
+
+            validateParameters(description, address, serviceType, orderCreationDate, idClient);
+            Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
+
+            if (orderService.addServiceOrder(orderItem, idClient)){
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             }
             else {
@@ -55,12 +58,12 @@ public class AddServiceOrderImpl implements Command {
         }
         return page;
     }
-    private void validateParameters(String description, String address, ServiceType serviceType, Date orderCreationDate, String login) throws ControllerException {
+    private void validateParameters(String description, String address, ServiceType serviceType, Date orderCreationDate, Long idClient) throws ControllerException {
         validator.isValid(description);
         validator.isValid(address);
         validator.isValid(serviceType);
         validator.isValid(orderCreationDate);
-        validator.isValid(login);
+        validator.isValid(idClient);
     }
 
 }

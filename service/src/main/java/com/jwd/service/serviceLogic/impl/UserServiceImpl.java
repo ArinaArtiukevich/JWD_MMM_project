@@ -7,6 +7,7 @@ import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.factory.DaoFactory;
 import com.jwd.dao.repository.LoginDao;
+import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
@@ -17,16 +18,21 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private final UserDao userDao = DaoFactory.getInstance().getUserDao();
-    private final LoginDao loginDao = DaoFactory.getInstance().getLoginDao();
+    private final UserDao userDao;
+    private final LoginDao loginDao;
     private final ServiceValidator validator = new ServiceValidator();
+
+    public UserServiceImpl(UserDao userDao, LoginDao loginDao) {
+        this.userDao = userDao;
+        this.loginDao = loginDao;
+    }
 
     @Override
     public boolean register(Registration registration) throws ServiceException {
         logger.info("Start register(Registration registration).");
         boolean isRegistered = false;
         try {
-            if (validator.validateData(registration)) {
+            if (validator.validateRegistrationData(registration)) {
                 registration.setPassword(BCrypt.hashpw(registration.getPassword(), BCrypt.gensalt()));
                 registration.setConfirmPassword(BCrypt.hashpw(registration.getConfirmPassword(), BCrypt.gensalt()));
                 isRegistered = userDao.addUser(registration);

@@ -29,7 +29,9 @@ public class ServiceValidator {
 
 
     public void validate(Page<Order> orderPageRequest) throws ServiceException {
-        // TODO validate other parameters
+        validateIsNullPage(orderPageRequest);
+
+        // TODO validate other parameters (pageNumber, limit)
         if ((isNull(orderPageRequest.getSortBy()) || orderPageRequest.getSortBy().isEmpty()) &&
                 !availableSortByParameters.contains(orderPageRequest.getSortBy())) {
             throw new ServiceException("Sort by parameter is not available.");
@@ -69,6 +71,7 @@ public class ServiceValidator {
         }
     }
     public void validate(Order orderToBeAdded) throws ServiceException {
+        validateIsNullOrder(orderToBeAdded);
         validate(orderToBeAdded.getDescription());
         validate(orderToBeAdded.getAddress());
         validate(orderToBeAdded.getServiceType());
@@ -130,8 +133,9 @@ public class ServiceValidator {
         validate(userInfo.getCity());
     }
 
-    public boolean validateData(Registration registration) throws ServiceException {
+    public boolean validateRegistrationData(Registration registration) throws ServiceException {
         logger.info("Start checkData(Registration registration)." );
+        isNullRegistrationData(registration);
         validateEmptyFields(registration);
         boolean result = (checkPassword(registration.getPassword(), registration.getConfirmPassword()) &&
                 checkLogin(registration.getLogin()) &&
@@ -144,6 +148,12 @@ public class ServiceValidator {
             throw new ServiceException("Invalid user data.");
         }
         return result;
+    }
+
+    private void isNullRegistrationData(Registration registration) throws ServiceException {
+        if (isNull(registration)) {
+            throw new ServiceException("User data is null.");
+        }
     }
 
     private void validateEmptyFields(Registration registration) throws ServiceException {
@@ -197,5 +207,17 @@ public class ServiceValidator {
             throw new ServiceException("Invalid password");
         }
         return result;
+    }
+
+    private void validateIsNullPage(Page<Order> orderPageRequest) throws ServiceException {
+        if (isNull(orderPageRequest)) {
+            throw new ServiceException("OrderPageRequest is null.");
+        }
+    }
+
+    private void validateIsNullOrder(Order order) throws ServiceException {
+        if (isNull(order)) {
+            throw new ServiceException("Order is null.");
+        }
     }
 }

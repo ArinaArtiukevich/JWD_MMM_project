@@ -107,4 +107,17 @@ public class Page<T> {
         result = 31 * result + (direction != null ? direction.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "pageNumber=" + pageNumber +
+                ", totalElements=" + totalElements +
+                ", limit=" + limit +
+                ", elements=" + elements +
+                ", filter=" + filter +
+                ", sortBy='" + sortBy + '\'' +
+                ", direction='" + direction + '\'' +
+                '}';
+    }
 }
