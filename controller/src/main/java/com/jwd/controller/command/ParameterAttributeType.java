@@ -46,6 +46,7 @@ public final class ParameterAttributeType {
             ERROR_WORK_MESSAGE = "errorWorkMessage",
             ERROR_INTERNAL = "internalError",
             ERROR_LOGIN_MESSAGE = "errorLoginMessage",
+            ERROR_REGISTRATION = "errorRegistration",
 
             LAST_COMMAND = "last_command",
             COMMAND = "command",

@@ -11,11 +11,14 @@ import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class UpdateUserCommandImpl extends AbstractCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(UpdateUserCommandImpl.class);
@@ -31,30 +34,26 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
         String lastName = request.getParameter(LAST_NAME);
         String email = request.getParameter(EMAIL);
         String city = request.getParameter(CITY);
-//         todo
-//        char[] password = request.getParameter(PASSWORD).toCharArray();
-//        char[] confirmPassword = request.getParameter(CONFIRM_PASSWORD).toCharArray();
+        validateParameters(firstName, lastName, email, city);
         String password = request.getParameter(PASSWORD);
         String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
-        validateParameters(firstName, lastName, email, city);
         boolean isUpdated = false;
         try {
             Long idUser = getUserId(request);
-            if (validatePassword(password)) {
+            if (validatePasswords(password, confirmPassword)) {
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                String hashedConfirmPassword = BCrypt.hashpw(confirmPassword, BCrypt.gensalt());
+                userInfo = new Registration(firstName, lastName, email, city, hashedPassword, hashedConfirmPassword);
+                isUpdated = userService.updateUserWithPassword(idUser, userInfo);
+            } else {
                 userInfo = new Registration(firstName, lastName, email, city);
                 isUpdated = userService.updateUserWithoutPassword(idUser, userInfo);
-            } else {
-                userInfo = new Registration(firstName, lastName, email, city, password, confirmPassword);
-                isUpdated = userService.updateUserWithPassword(idUser, userInfo);
             }
             if (isUpdated) {
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
                 request.setAttribute(MESSAGE, "Profile information was changed.");
 
-                request.setAttribute(FIRST_NAME, userInfo.getFirstName());
-                request.setAttribute(LAST_NAME, userInfo.getLastName());
-                request.setAttribute(EMAIL, userInfo.getEmail());
-                request.setAttribute(CITY, userInfo.getCity());
+                request.setAttribute(USER, userInfo);
                 request.setAttribute(LAST_COMMAND, UPDATE_USER);
             } else {
                 LOGGER.error("Personal information was not updated.");
@@ -67,8 +66,14 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
         return page;
     }
 
-    private boolean validatePassword(String password) {
-        return (password.isEmpty());
+    private boolean validatePasswords(String password, String confirmPassword) {
+        boolean isValidated = false;
+        if (nonNull(password) && !password.isEmpty() && nonNull(confirmPassword) && !confirmPassword.isEmpty()) {
+            if (password.equals(confirmPassword)) {
+                isValidated = true;
+            }
+        }
+        return isValidated;
     }
 
     private void validateParameters(String firstName, String lastName, String email, String city) throws ControllerException {

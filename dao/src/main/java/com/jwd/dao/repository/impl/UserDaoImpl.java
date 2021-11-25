@@ -22,6 +22,7 @@ import java.sql.SQLException;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
+    LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
 
     public UserDaoImpl(ConnectionPool connectionPool) {
         super(connectionPool);
@@ -50,7 +51,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 isAdded = true;
                 Long idClient = findIdByLogin(registration.getLogin());
                 UserDTO userLogin = new UserDTO(idClient, registration.getLogin(), registration.getPassword());
-                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.add(userLogin);
             } else {
                 logger.error("User was not added.");
@@ -142,7 +142,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (affectedRows > 0) {
                 logger.info("A client was deleted.");
                 isDeleted = true;
-                LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
                 loginDao.deleteLoginById(id);
             } else {
                 logger.error("User was not deleted.");

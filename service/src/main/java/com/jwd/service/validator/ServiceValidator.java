@@ -95,8 +95,7 @@ public class ServiceValidator {
         logger.info("Start validateUserWithPassword(Registration registration)." );
         validateEmptyFieldsWithPassword(userInfo);
         boolean result = (checkCity(userInfo.getCity()) &&
-                checkEmail(userInfo.getEmail())) &&
-                checkPassword(userInfo.getPassword(), userInfo.getConfirmPassword());
+                checkEmail(userInfo.getEmail()));
         if (result) {
             logger.info("User data is ready to be updated" );
         } else {
@@ -137,8 +136,7 @@ public class ServiceValidator {
         logger.info("Start checkData(Registration registration)." );
         isNullRegistrationData(registration);
         validateEmptyFields(registration);
-        boolean result = (checkPassword(registration.getPassword(), registration.getConfirmPassword()) &&
-                checkLogin(registration.getLogin()) &&
+        boolean result = ( checkLogin(registration.getLogin()) &&
                 checkCity(registration.getCity()) &&
                 checkEmail(registration.getEmail()));
         if (result) {
@@ -192,22 +190,22 @@ public class ServiceValidator {
         logger.info("Input login is available." );
         return result;
     }
-
-    private boolean checkPassword(String password, String confirmPassword) throws ServiceException {
-        logger.info("Start checkPassword(Registration registration)." );
-        boolean result = false;
-        //TODO now min is 1
-        int maxLength = PASSWORD_MAX_LENGTH;
-        int minLength = PASSWORD_MIN_LENGTH;
-        int length = password.length();
-        if ((length >= minLength) && (length <= maxLength)) {
-            result = confirmPassword.equals(password);
-        } else {
-            logger.error("Input password is not available." );
-            throw new ServiceException("Invalid password");
-        }
-        return result;
-    }
+// todo delete
+//    private boolean checkPassword(String password, String confirmPassword) throws ServiceException {
+//        logger.info("Start checkPassword(Registration registration)." );
+//        boolean result = false;
+//        //TODO now min is 1
+//        int maxLength = PASSWORD_MAX_LENGTH;
+//        int minLength = PASSWORD_MIN_LENGTH;
+//        int length = password.length();
+//        if ((length >= minLength) && (length <= maxLength)) {
+//            result = confirmPassword.equals(password);
+//        } else {
+//            logger.error("Input password is not available." );
+//            throw new ServiceException("Invalid password");
+//        }
+//        return result;
+//    }
 
     private void validateIsNullPage(Page<Order> orderPageRequest) throws ServiceException {
         if (isNull(orderPageRequest)) {

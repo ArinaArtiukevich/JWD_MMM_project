@@ -33,8 +33,6 @@ public class UserServiceImpl implements UserService {
         boolean isRegistered = false;
         try {
             if (validator.validateRegistrationData(registration)) {
-                registration.setPassword(BCrypt.hashpw(registration.getPassword(), BCrypt.gensalt()));
-                registration.setConfirmPassword(BCrypt.hashpw(registration.getConfirmPassword(), BCrypt.gensalt()));
                 isRegistered = userDao.addUser(registration);
             }
         } catch (DaoException e) {
@@ -68,12 +66,10 @@ public class UserServiceImpl implements UserService {
         try {
             if (validator.validateUserWithPassword(userInfo)) {
                 validator.validate(idUser);
-                userInfo.setPassword(BCrypt.hashpw(userInfo.getPassword(), BCrypt.gensalt()));
-                userInfo.setConfirmPassword(BCrypt.hashpw(userInfo.getConfirmPassword(), BCrypt.gensalt()));
                 isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
                 if (isUpdated) {
                     UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
-                    isUpdated = loginDao.updateUserDTO(userDto);
+                    isUpdated = loginDao.updateUserDTO(userDto); // todo in one commit
                 }
             }
         } catch (DaoException e) {

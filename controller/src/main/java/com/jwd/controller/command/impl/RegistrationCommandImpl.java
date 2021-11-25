@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.exception.ControllerException;
@@ -14,6 +15,7 @@ import com.jwd.dao.entity.enums.Gender;
 import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
-public class RegistrationCommandImpl implements Command {
+public class RegistrationCommandImpl extends AbstractCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(RegistrationCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
@@ -29,42 +31,48 @@ public class RegistrationCommandImpl implements Command {
     public String execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start registration.");
         String page = null;
-        String firstName = request.getParameter(FIRST_NAME);
-        String lastName = request.getParameter(LAST_NAME);
-        String email = request.getParameter(EMAIL);
-        String city = request.getParameter(CITY);
-        String login = request.getParameter(LOGIN);
-//         todo
-//        char[] password = request.getParameter(PASSWORD).toCharArray();
-//        char[] confirmPassword = request.getParameter(CONFIRM_PASSWORD).toCharArray();
-        String password = request.getParameter(PASSWORD);
-        String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
-        String genderString = request.getParameter(GENDER);
-        validator.isValid(genderString);
-        String userRoleString = request.getParameter(USER_ROLE);
-        validator.isValid(userRoleString);
-        Gender gender = Gender.valueOf(genderString.toUpperCase());
-        UserRole userRole = UserRole.valueOf(userRoleString.toUpperCase());
-        Registration registration = new Registration(firstName, lastName, email, city, login, password, confirmPassword, gender, userRole);
-        validateParameters(registration);
-        boolean isRegistered = false;
-        Long idUser = 0L;
         try {
-            isRegistered = userService.register(registration);
-            idUser = userService.getIdUserByLogin(login);
+            String firstName = request.getParameter(FIRST_NAME);
+            String lastName = request.getParameter(LAST_NAME);
+            String email = request.getParameter(EMAIL);
+            String city = request.getParameter(CITY);
+            String login = request.getParameter(LOGIN);
+            String genderString = request.getParameter(GENDER);
+            validator.isValid(genderString);
+            String userRoleString = request.getParameter(USER_ROLE);
+            validator.isValid(userRoleString);
+            Gender gender = Gender.valueOf(genderString.toUpperCase());
+            UserRole userRole = UserRole.valueOf(userRoleString.toUpperCase());
+            String password = request.getParameter(PASSWORD);
+            String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
+            validatePassword(password, confirmPassword);
+            if (password.equals(confirmPassword)) {
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                String hashedConfirmPassword = BCrypt.hashpw(confirmPassword, BCrypt.gensalt());
+                Registration registration = new Registration(firstName, lastName, email, city, login, hashedPassword, hashedConfirmPassword, gender, userRole);
+                validateParameters(registration);
+                boolean isRegistered = false;
+                Long idUser = 0L;
+                isRegistered = userService.register(registration);
+                idUser = userService.getIdUserByLogin(login);
 
-            if (isRegistered) {
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                if (isRegistered) {
+                    page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
 
-                request.setAttribute(LOGIN, login);
+                    request.setAttribute(LOGIN, login);
+                    request.setAttribute(USER, registration);
 
-                HttpSession session = request.getSession(true);
-                session.setAttribute(USER_ID, idUser);
-                session.setAttribute(LOGIN, login);
-                session.setAttribute(USER_ROLE, userRole.getName());
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute(USER_ID, idUser);
+                    session.setAttribute(LOGIN, login);
+                    session.setAttribute(USER_ROLE, userRole.getName());
+                } else {
+                    LOGGER.error("Registration failed.");
+                    throw new ControllerException("Registration failed. Please, try again.");
+                }
             } else {
-                LOGGER.error("Registration failed.");
-                throw new ControllerException("Registration failed. Please, try again.");
+                request.setAttribute(ERROR_REGISTRATION, "Passwords are not equal.");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.registration"));
             }
         } catch (ServiceException e) {
             LOGGER.error("Problems with user registration.");
@@ -79,10 +87,13 @@ public class RegistrationCommandImpl implements Command {
         validator.isValid(registration.getEmail());
         validator.isValid(registration.getCity());
         validator.isValid(registration.getLogin());
-        validator.isValid(registration.getPassword());
-        validator.isValid(registration.getConfirmPassword());
         validator.isValid(registration.getGender());
         validator.isValid(registration.getUserRole());
+    }
+
+    private void validatePassword(String password, String confirmPassword) throws ControllerException {
+        validator.isValid(password);
+        validator.isValid(confirmPassword);
     }
 
 }

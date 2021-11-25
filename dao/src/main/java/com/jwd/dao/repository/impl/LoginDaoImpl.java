@@ -31,21 +31,21 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         boolean isAdded = false;
         try {
             connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.insert.login"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.insert.login"));
             statement.setLong(1, login.getIdUser());
             statement.setString(2, login.getLogin());
             statement.setString(3, login.getPassword());
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
-                logger.info("A login was added into user_dtos.");
+                logger.info("A login was added into user_logins.");
                 isAdded = true;
             } else {
-                throw new DaoException("A login was not added into user_dtos.");
+                throw new DaoException("A login was not added into user_logins.");
             }
         }
         catch(SQLException e) {
-            throw new DaoException("A login was not added into user_dtos.");
+            throw new DaoException("A login was not added into user_logins.");
         }
         finally {
             close(statement);
@@ -62,7 +62,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         boolean isAdded = false;
         try {
             connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.update.with.password.by.id"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.update.with.password.by.id"));
             statement.setString(1, userDTO.getPassword());
             statement.setLong(2, userDTO.getIdUser());
             int affectedRows = statement.executeUpdate();
@@ -92,7 +92,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         Connection connection = null;
         try {
             connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.delete.login.by.id"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.delete.login.by.id"));
             statement.setInt(1, id);
             int affectedRows = statement.executeUpdate();
             connection.commit();
@@ -100,7 +100,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
                 logger.info("Login was deleted.");
                 isDeleted = true;
             } else {
-                throw new DaoException("A login was not deleted into user_dtos.");
+                throw new DaoException("A login was not deleted into user_logins.");
             }
 
         }
@@ -124,7 +124,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         ResultSet resultSet = null;
         try {
             connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.id.by.login"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.find.id.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {
@@ -158,7 +158,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         ResultSet resultSet = null;
         try {
             connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.password.by.login"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.find.password.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {
@@ -191,7 +191,7 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         ResultSet resultSet = null;
         try {
             connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_dtos.find.password.by.id"));
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.find.password.by.id"));
             statement.setLong(1, idUser);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {

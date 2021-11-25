@@ -27,6 +27,16 @@ public class Registration {
         this.userRole = userRole;
     }
 
+    public Registration(String firstName, String lastName, String email, String city, String login, Gender gender, UserRole userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.city = city;
+        this.login = login;
+        this.gender = gender;
+        this.userRole = userRole;
+    }
+
     public Registration(String firstName, String lastName, String email, String city) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -38,7 +38,7 @@
 </header>
 
     <div id="error">
-        <h1 style="color:red;">${errorRegistration}</h1>
+        <h1 style="color:red;">${requestScope.errorRegistration}</h1>
     </div>
 
 <form method="POST" action="${pageContext.request.contextPath}/controller">

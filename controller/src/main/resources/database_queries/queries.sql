@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS public.users
 (
-    id_client bigserial NOT NULL,
+    id_user bigserial NOT NULL,
     first_name text NOT NULL,
     last_name text,
     email text,
@@ -11,13 +11,23 @@ CREATE TABLE IF NOT EXISTS public.users
     CONSTRAINT users_pkey PRIMARY KEY (id_client)
 )
 
-CREATE TABLE IF NOT EXISTS public.user_dtos
- (
-    id_client bigint NOT NULL,
- 	login text,
- 	password text,
- 	CONSTRAINT fk_user_dtos_id_client FOREIGN KEY(id_client) REFERENCES users(id_client)
- );
+CREATE TABLE IF NOT EXISTS public.user_logins
+(
+    id_user bigint NOT NULL,
+    login text COLLATE pg_catalog."default" NOT NULL,
+    password text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT id_user PRIMARY KEY (id_user),
+    CONSTRAINT login UNIQUE (login),
+    CONSTRAINT fk_user_logins_id_user FOREIGN KEY (id_user)
+        REFERENCES public.users (id_user) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.user_logins
+    OWNER to postgres;
 
   CREATE TABLE IF NOT EXISTS public.orders
  (
@@ -28,8 +38,8 @@ CREATE TABLE IF NOT EXISTS public.user_dtos
 	 service_type text,
 	 service_status text,
 	 id_worker bigint,
- 	CONSTRAINT fk_orders_id_client FOREIGN KEY(id_client) REFERENCES users(id_client)
-	 CONSTRAINT fk_orders_id_worker FOREIGN KEY(id_worker) REFERENCES users(id_client)
+ 	CONSTRAINT fk_orders_id_client FOREIGN KEY(id_client) REFERENCES users(id_user)
+	 CONSTRAINT fk_orders_id_worker FOREIGN KEY(id_worker) REFERENCES users(id_user)
  );
 
 ALTER TABLE orders ADD COLUMN order_creation_date text;
