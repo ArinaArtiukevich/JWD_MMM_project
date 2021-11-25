@@ -2,6 +2,7 @@ package com.jwd.controller.validator;
 
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.dao.entity.enums.Gender;
+import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.dao.entity.enums.UserRole;
 
@@ -19,6 +20,12 @@ public class ControllerValidator {
     public void isValid(Object object) throws ControllerException {
         if (isNull(object)) {
             throw new ControllerException("Object is null.");
+        }
+    }
+
+    public void isValid(ServiceStatus serviceStatus) throws ControllerException {
+        if (isNull(serviceStatus)) {
+            throw new ControllerException("ServiceStatus is null.");
         }
     }
 

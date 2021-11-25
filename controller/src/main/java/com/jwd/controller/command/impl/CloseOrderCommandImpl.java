@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,33 +18,29 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.command.ParameterAttributeType.MESSAGE;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
-public class ApproveOrderImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(ApproveOrderImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
+public class CloseOrderCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(CloseOrderCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start ApproveOrderImpl.");
+        LOGGER.info("Start CloseOrderCommandImpl.");
         String page = null;
         try {
-            String idOrderString = request.getParameter(ParameterAttributeType.ID_SERVICE);
-            validator.isValid(idOrderString);
-            Long idOrder = Long.parseLong(idOrderString);
-            if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
+            Long idOrder = getOrderId(request);
+            if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
+                request.setAttribute(MESSAGE, "Order status was changed. Order is done.");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
-                logger.error("Could not approve order.");
+                LOGGER.error("Order was not closed.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
-        } catch (NumberFormatException e) {
-            logger.error("Invalid number format.");
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
-        } catch (ServiceException e) {
-            logger.error("Could not approve order.");
+        } catch (NumberFormatException | ServiceException e) {
+            LOGGER.error("Could not close order.");
             throw new ControllerException(e);
         }
         return page;

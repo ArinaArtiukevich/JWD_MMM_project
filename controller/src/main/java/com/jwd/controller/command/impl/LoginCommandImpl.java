@@ -13,29 +13,28 @@ import com.jwd.service.serviceLogic.UserService;
 import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static com.jwd.controller.command.ParameterAttributeType.ERROR;
-import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 public class LoginCommandImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(LoginCommandImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoginCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start LoginCommandImpl.");
+        LOGGER.info("Start LoginCommandImpl.");
         String page = null;
-        String login = request.getParameter(ParameterAttributeType.LOGIN);
-        String password = request.getParameter(ParameterAttributeType.PASSWORD);
-        validateParameters(login, password);
-
         try {
-            if(userService.isLoginAndPasswordExist(login, password)) {
-                Long idUser = userService.getIdUserByLogin(login);
+            String login = request.getParameter(ParameterAttributeType.LOGIN);
+            String password = request.getParameter(ParameterAttributeType.PASSWORD);
+            validateParameters(login, password);
+            if (userService.isLoginAndPasswordExist(login, password)) {
+                Long idUser = userService.getIdUserByLogin(login);// todo in one request?
                 UserRole userRole = userService.getRoleByID(idUser);
 
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
@@ -47,13 +46,13 @@ public class LoginCommandImpl implements Command {
                 session.setAttribute(ParameterAttributeType.LOGIN, login);
                 session.setAttribute(USER_ROLE, userRole.getName());
             } else {
-                request.setAttribute("errorLoginMessage", "Invalid login or password");
+                request.setAttribute(ERROR_LOGIN_MESSAGE, "Invalid login or password");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.login"));
             }
         } catch (ServiceException e) {
-            logger.error("Can't login user.");
+            LOGGER.error("Can't login user.");
             HttpSession session = request.getSession(true);
-            session.setAttribute(ERROR,"Can't login user.");
+            session.setAttribute(ERROR, "Can't login user.");
             throw new ControllerException(e);
         }
         return page;

@@ -13,12 +13,12 @@ import static com.jwd.controller.command.ParameterAttributeType.PATH;
 import static com.jwd.controller.util.Util.pathToJspCheckIsIndexPage;
 
 public class GoToPageCommandImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(GoToPageCommandImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(GoToPageCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start GoToPageCommandImpl.");
+        LOGGER.info("Start GoToPageCommandImpl.");
         String page = null;
         String page_path = request.getParameter(PATH);
         validator.isValid(page_path);

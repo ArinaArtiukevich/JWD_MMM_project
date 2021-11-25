@@ -12,6 +12,7 @@ import static com.jwd.controller.util.Util.pathToJsp;
 
 public class WorkImpl implements Command {
     private final ControllerValidator validator = new ControllerValidator();
+
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
         String page = null;

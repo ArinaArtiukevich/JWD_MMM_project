@@ -12,20 +12,20 @@ import static com.jwd.controller.util.Util.pathToJsp;
 import static com.jwd.controller.util.Util.pathToJspCheckIsIndexPage;
 
 
-public class ChangeLanguageImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(ChangeLanguageImpl.class);
+public class ChangeLanguageCommandImpl implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(ChangeLanguageCommandImpl.class);
 
     @Override
     public String execute(HttpServletRequest request) {
-        logger.info("Start ChangeLanguageImpl.");
+        LOGGER.info("Start ChangeLanguageCommandImpl.");
         String page = null;
-        page = pathToJspCheckIsIndexPage(request.getParameter("parent_page"));
+        page = pathToJspCheckIsIndexPage(request.getParameter(PARENT_PAGE));
         String language = request.getParameter(CHANGE_LANGUAGE);
         if (language != null) {
             request.setAttribute(CHANGE_LANGUAGE, language);
             request.getSession(true).setAttribute(LANGUAGE, language);
         } else {
-            logger.error("Can not find locale.");
+            LOGGER.error("Can not find locale.");
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
         }
         return page;

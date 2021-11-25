@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.exception.ControllerException;
@@ -23,34 +24,30 @@ import org.apache.logging.log4j.Logger;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
-public class FindOrderInfoImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(FindOrderInfoImpl.class);
+public class FindOrderInfoCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(FindOrderInfoCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start FindOrderInfoImpl.");
+        LOGGER.info("Start FindOrderInfoCommandImpl.");
 
         String page = null;
         try {
-            String idServiceParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
-            validator.isValid(idServiceParameter);
-            Long idService = Long.parseLong(idServiceParameter);
-            validator.isValid(idService);
+            Long idService = getOrderId(request);
             Order order = orderService.getOrderById(idService);
             Long idClient = order.getIdClient();
             validator.isValid(idClient);
             User client = userService.getUserById(idClient);
-            // TODO check parameters
             HttpSession session = request.getSession();
             session.setAttribute(ParameterAttributeType.ORDER, order);
             session.setAttribute(ParameterAttributeType.CLIENT, client);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.info"));
 
         } catch (NumberFormatException | ServiceException e) {
-            logger.error("Could not find order.");
+            LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
         return page;

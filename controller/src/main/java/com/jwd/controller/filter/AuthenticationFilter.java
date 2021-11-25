@@ -18,46 +18,47 @@ import static com.jwd.controller.factory.enums.CommandEnum.*;
 import static com.jwd.controller.util.Util.pathToJspIndexPage;
 
 public class AuthenticationFilter implements Filter {
-    private static final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
+    private static final Logger LOGGER = LogManager.getLogger(AuthenticationFilter.class);
+
+    private static final List<String> alwaysAvailableCommands = Arrays.asList(
+            REGISTRATION.toString().toLowerCase(),
+            LOGIN.toString().toLowerCase(),
+            SHOW_ALL_SERVICES.toString().toLowerCase(),
+            CHANGE_LANGUAGE.toString().toLowerCase(),
+            SHOW_ORDERS_BY_SERVICE_TYPE.toString().toLowerCase(),
+            FIND_ORDER_INFO.toString().toLowerCase(),
+            GO_TO_PAGE.toString().toLowerCase()
+    );
+    private static final List<String> clientAvailableCommands = Arrays.asList(
+            FIND_CLIENT_RESPONSE.toString().toLowerCase(),
+            APPROVE_ORDER.toString().toLowerCase(),
+            SHOW_USER_ORDERS.toString().toLowerCase(),
+            WORK.toString().toLowerCase(),
+            ADD_SERVICE_ORDER.toString().toLowerCase(),
+            LOGOUT.toString().toLowerCase(),
+            UPDATE_USER.toString().toLowerCase(),
+            FIND_USER_INFORMATION.toString().toLowerCase(),
+            FIND_CLIENT_ORDER_BY_STATUS.toString().toLowerCase(),
+            DELETE_ORDER_BY_ID.toString().toLowerCase()
+    );
+    private static final List<String> workerAvailableCommands = Arrays.asList(
+            FIND_WORKER_RESPONSE.toString().toLowerCase(),
+            CLOSE_ORDER.toString().toLowerCase(),
+            TAKE_ORDER.toString().toLowerCase(),
+            WORK.toString().toLowerCase(),
+            LOGOUT.toString().toLowerCase(),
+            UPDATE_USER.toString().toLowerCase(),
+            FIND_USER_INFORMATION.toString().toLowerCase()
+    );
 
     @Override
     public void init(FilterConfig filterConfig) {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
-        logger.debug("Start AuthenticationFilter");
+        LOGGER.debug("Start AuthenticationFilter");
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        final List<String> alwaysAvailableCommands = Arrays.asList(
-                REGISTRATION.toString().toLowerCase(),
-                LOGIN.toString().toLowerCase(),
-                SHOW_ALL_SERVICES.toString().toLowerCase(),
-                CHANGE_LANGUAGE.toString().toLowerCase(),
-                SHOW_ORDERS_BY_SERVICE_TYPE.toString().toLowerCase(),
-                FIND_ORDER_INFO.toString().toLowerCase(),
-                GO_TO_PAGE.toString().toLowerCase()
-        );
-        final List<String> clientAvailableCommands = Arrays.asList(
-                FIND_CLIENT_RESPONSE.toString().toLowerCase(),
-                APPROVE_ORDER.toString().toLowerCase(),
-                SHOW_USER_ORDERS.toString().toLowerCase(),
-                WORK.toString().toLowerCase(),
-                ADD_SERVICE_ORDER.toString().toLowerCase(),
-                LOGOUT.toString().toLowerCase(),
-                UPDATE_USER.toString().toLowerCase(),
-                FIND_USER_INFORMATION.toString().toLowerCase(),
-                FIND_CLIENT_ORDER_BY_STATUS.toString().toLowerCase(),
-                DELETE_ORDER_BY_ID.toString().toLowerCase()
-        );
-        final List<String> workerAvailableCommands = Arrays.asList(
-                FIND_WORKER_RESPONSE.toString().toLowerCase(),
-                CLOSE_ORDER.toString().toLowerCase(),
-                TAKE_ORDER.toString().toLowerCase(),
-                WORK.toString().toLowerCase(),
-                LOGOUT.toString().toLowerCase(),
-                UPDATE_USER.toString().toLowerCase(),
-                FIND_USER_INFORMATION.toString().toLowerCase()
-        );
         boolean result = false;
         String currentCommand = req.getParameter(COMMAND);
         if ((request.getSession().getAttribute(USER_ROLE) == null)
@@ -75,7 +76,7 @@ public class AuthenticationFilter implements Filter {
         if (result) {
             filterChain.doFilter(request, response);
         } else {
-            logger.debug("Current command: " + currentCommand + " is unavailable.");
+            LOGGER.debug("Current command: " + currentCommand + " is unavailable.");
             response.sendRedirect(pathToJspIndexPage(ConfigurationBundle.getProperty("path.page.index")));
         }
     }

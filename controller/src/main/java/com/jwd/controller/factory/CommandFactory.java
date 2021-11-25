@@ -8,27 +8,29 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static java.util.Objects.isNull;
+
 public class CommandFactory {
 
-    private static final Logger logger = LogManager.getLogger(CommandFactory.class);
+    private static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
 
     public Command defineManager(HttpServletRequest request) {
-        logger.info("Start defineManager(HttpServletRequest request).");
+        LOGGER.info("Start defineManager(HttpServletRequest request).");
 
         Command command = new DefaultCommandImpl();
-        String commandParameter = request.getParameter("command").toUpperCase();
+        String commandParameter = request.getParameter("command");
 
-        if(commandParameter != null && !commandParameter.isEmpty()) {
+        if (!isNull(commandParameter) && !commandParameter.isEmpty()) {
             try {
-                CommandEnum currentCommand = CommandEnum.valueOf(commandParameter);
+                CommandEnum currentCommand = CommandEnum.valueOf(commandParameter.toUpperCase());
                 command = currentCommand.getCommand();
-                logger.info("command = " + commandParameter);
+                LOGGER.info("command = " + commandParameter);
 
-            } catch(IllegalArgumentException e) {
-                logger.error("Illegal parameters");
+            } catch (IllegalArgumentException e) {
+                LOGGER.error("Illegal parameters");
             }
         } else {
-            logger.error("Invalid command parameter = " + commandParameter);
+            LOGGER.error("Invalid command parameter = " + commandParameter);
         }
         return command;
     }

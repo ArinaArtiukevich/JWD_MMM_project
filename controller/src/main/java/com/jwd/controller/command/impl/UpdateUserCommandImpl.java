@@ -1,36 +1,30 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
-import com.jwd.dao.config.DataBaseConfig;
-import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Registration;
-import com.jwd.dao.entity.UserDTO;
-import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.repository.impl.LoginDaoImpl;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.UserService;
-import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
-public class UpdateUserImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
+public class UpdateUserCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(UpdateUserCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start UpdateUserImpl.");
+        LOGGER.info("Start UpdateUserCommandImpl.");
         String page = null;
         Registration userInfo;
         String firstName = request.getParameter(FIRST_NAME);
@@ -45,18 +39,15 @@ public class UpdateUserImpl implements Command {
         validateParameters(firstName, lastName, email, city);
         boolean isUpdated = false;
         try {
-            String idUserString = request.getParameter(USER_ID);
-            validator.isValid(idUserString);
-            Long idUser = Long.parseLong(idUserString);
-            validator.isValid(idUser);
+            Long idUser = getUserId(request);
             if (validatePassword(password)) {
-                userInfo = new Registration(firstName, lastName, email, city) ;
+                userInfo = new Registration(firstName, lastName, email, city);
                 isUpdated = userService.updateUserWithoutPassword(idUser, userInfo);
             } else {
-                userInfo = new Registration(firstName, lastName, email, city, password, confirmPassword) ;
+                userInfo = new Registration(firstName, lastName, email, city, password, confirmPassword);
                 isUpdated = userService.updateUserWithPassword(idUser, userInfo);
             }
-            if(isUpdated) {
+            if (isUpdated) {
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
                 request.setAttribute(MESSAGE, "Profile information was changed.");
 
@@ -66,11 +57,11 @@ public class UpdateUserImpl implements Command {
                 request.setAttribute(CITY, userInfo.getCity());
                 request.setAttribute(LAST_COMMAND, UPDATE_USER);
             } else {
-                logger.error("Personal information was not updated.");
+                LOGGER.error("Personal information was not updated.");
                 throw new ControllerException("Personal information was not updated.");
             }
         } catch (ServiceException | NumberFormatException e) {
-            logger.error("Could not update user information.");
+            LOGGER.error("Could not update user information.");
             throw new ControllerException(e);
         }
         return page;

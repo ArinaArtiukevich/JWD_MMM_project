@@ -22,12 +22,12 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 public class RegistrationCommandImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(RegistrationCommandImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start registration.");
+        LOGGER.info("Start registration.");
         String page = null;
         String firstName = request.getParameter(FIRST_NAME);
         String lastName = request.getParameter(LAST_NAME);
@@ -45,16 +45,15 @@ public class RegistrationCommandImpl implements Command {
         validator.isValid(userRoleString);
         Gender gender = Gender.valueOf(genderString.toUpperCase());
         UserRole userRole = UserRole.valueOf(userRoleString.toUpperCase());
-
-        validateParameters(firstName, lastName, email, city, login, password, confirmPassword, genderString, gender, userRole);
-        Registration registration = new Registration(firstName, lastName, email, city , login, password, confirmPassword, gender, userRole);
+        Registration registration = new Registration(firstName, lastName, email, city, login, password, confirmPassword, gender, userRole);
+        validateParameters(registration);
         boolean isRegistered = false;
         Long idUser = 0L;
         try {
             isRegistered = userService.register(registration);
             idUser = userService.getIdUserByLogin(login);
 
-            if(isRegistered) {
+            if (isRegistered) {
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
 
                 request.setAttribute(LOGIN, login);
@@ -64,29 +63,27 @@ public class RegistrationCommandImpl implements Command {
                 session.setAttribute(LOGIN, login);
                 session.setAttribute(USER_ROLE, userRole.getName());
             } else {
-                logger.error("Registration failed.");
+                LOGGER.error("Registration failed.");
                 throw new ControllerException("Registration failed. Please, try again.");
             }
         } catch (ServiceException e) {
-            logger.error("Problems with user registration.");
+            LOGGER.error("Problems with user registration.");
             throw new ControllerException("Registration failed " + e.getMessage());
         }
         return page;
     }
 
-    private void validateParameters(String firstName, String lastName, String email, String city, String login, String password, String confirmPassword, String genderString, Gender gender, UserRole userRole) throws ControllerException {
-        validator.isValid(firstName);
-        validator.isValid(lastName);
-        validator.isValid(email);
-        validator.isValid(city);
-        validator.isValid(login);
-        validator.isValid(password);
-        validator.isValid(confirmPassword);
-        validator.isValid(genderString);
-        validator.isValid(gender);
-        validator.isValid(userRole);
+    private void validateParameters(Registration registration) throws ControllerException {
+        validator.isValid(registration.getFirstName());
+        validator.isValid(registration.getLastName());
+        validator.isValid(registration.getEmail());
+        validator.isValid(registration.getCity());
+        validator.isValid(registration.getLogin());
+        validator.isValid(registration.getPassword());
+        validator.isValid(registration.getConfirmPassword());
+        validator.isValid(registration.getGender());
+        validator.isValid(registration.getUserRole());
     }
-
 
 }
 

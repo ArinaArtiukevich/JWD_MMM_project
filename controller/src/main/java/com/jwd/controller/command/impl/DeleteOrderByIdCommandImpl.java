@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.exception.ControllerException;
@@ -20,34 +21,28 @@ import javax.servlet.http.HttpSession;
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
-public class DeleteOrderByIdImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(FindAllServicesImpl.class);
+public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(DeleteOrderByIdCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start DeleteOrderByIdImpl.");
+        LOGGER.info("Start DeleteOrderByIdCommandImpl.");
         String page = null;
         try {
-            HttpSession session = request.getSession();
-            String idClientParameter = String.valueOf(session.getAttribute(USER_ID));
-            validator.isValid(idClientParameter);
-            Long idClient = Long.parseLong(idClientParameter);
-            validator.isValid(idClient);
+            Long idClient = getUserId(request);
+            Long idService = getOrderId(request);
 
-            String idServiceParameter = request.getParameter(ID_SERVICE);
-            validator.isValid(idServiceParameter);
-            Long idService = Long.parseLong(idServiceParameter);
-            validator.isValid(idService);
             if (orderService.deleteById(idService ,idClient)){
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                request.setAttribute(MESSAGE, "Order was deleted.");
             } else {
                 request.setAttribute(ERROR_WORK_MESSAGE, "Could not delete an order. Please, try again.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                request.setAttribute(MESSAGE, "Order was not deleted.");
             }
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
 
         } catch (NumberFormatException | ServiceException e) {
-            logger.error("Problems with deleting order.");
+            LOGGER.error("Problems with deleting order.");
             throw new ControllerException(e);
         }
         return page;

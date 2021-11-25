@@ -7,6 +7,7 @@ import com.jwd.controller.factory.CommandFactory;
 import com.jwd.controller.resources.ConfigurationBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,23 +39,19 @@ public class FrontController extends HttpServlet {
             Command command = commandFactory.defineManager(request);
             page = command.execute(request);
             logger.debug("using " + command);
-
-            if(page != null) {
+            if (page != null) {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
                 dispatcher.forward(request, response);
-            }
-            else {
+            } else {
                 logger.error("Operation went wrong.");
-                response.sendRedirect( "/controller?command=go_to_page&path=index");
+                response.sendRedirect("/controller?command=go_to_page&path=index");
             }
         } catch (ControllerException e) {
-            // TODO
-            //  выбрасывается после валидвции данных
             logger.error("Operation went wrong.");
             Throwable cause = getCause(e);
             HttpSession session = request.getSession();
             session.setAttribute(ERROR, "Exception: " + cause.getMessage());
-            response.sendRedirect( "/controller?command=go_to_page&path=error");
+            response.sendRedirect("/controller?command=go_to_page&path=error");
         }
     }
 

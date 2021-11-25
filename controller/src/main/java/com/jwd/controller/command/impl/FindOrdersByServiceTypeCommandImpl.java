@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
@@ -22,33 +23,22 @@ import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
-public class FindOrdersByServiceTypeImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(FindOrdersByServiceTypeImpl.class);
+public class FindOrdersByServiceTypeCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(FindOrdersByServiceTypeCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start FindOrdersBySpecializationImpl.");
+        LOGGER.info("Start FindOrdersByServiceTypeCommandImpl.");
         String page = null;
-
-        String currentPageParam = request.getParameter(CURRENT_PAGE);
-        if (currentPageParam == null || currentPageParam.isEmpty()) {
-            currentPageParam = "1";
-        }
-        String currentLimitParam = request.getParameter(PAGE_LIMIT);
-        if (currentLimitParam == null || currentLimitParam.isEmpty()) {
-            currentLimitParam = "5";
-        }
-        int currentPage = Integer.parseInt(currentPageParam);
-        int pageLimit = Integer.parseInt(currentLimitParam);
-
+        int currentPage = getCurrentPageParam(request);
+        int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
         paginationRequest.setPageNumber(currentPage);
         paginationRequest.setLimit(pageLimit);
         try {
-            String sortByParameter = request.getParameter(SORT_BY);
-            validator.isValid(sortByParameter);
+            String sortByParameter = getSortByParameter(request);
             paginationRequest.setSortBy(sortByParameter);
             String direction = request.getParameter(DIRECTION);
             if (nonNull(direction) && !direction.isEmpty()) {
@@ -56,7 +46,7 @@ public class FindOrdersByServiceTypeImpl implements Command {
             }
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
             validator.isValid(serviceTypeString);
-            ServiceType serviceType  = ServiceType.valueOf(serviceTypeString);
+            ServiceType serviceType = ServiceType.valueOf(serviceTypeString);
             Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
             request.setAttribute(PAGEABLE, paginationResult);
             request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
@@ -65,7 +55,7 @@ public class FindOrdersByServiceTypeImpl implements Command {
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
         } catch (ServiceException e) {
-            logger.error("Could not get a list of services.");
+            LOGGER.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");
         }
         return page;

@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,37 +18,32 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.command.ParameterAttributeType.MESSAGE;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
-public class TakeOrderImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(TakeOrderImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
+public class ApproveOrderCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(ApproveOrderCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start TakeOrderImpl.");
+        LOGGER.info("Start ApproveOrderCommandImpl.");
         String page = null;
         try {
-            HttpSession session = request.getSession();
-            Object idWorkerObject = session.getAttribute(ParameterAttributeType.USER_ID);
-            validator.isValid(idWorkerObject);
-            String idWorkerParameter = String.valueOf(idWorkerObject);
-            String idOrderParameter = request.getParameter(ParameterAttributeType.ID_SERVICE);
-            validator.isValid(idWorkerParameter);
-            validator.isValid(idOrderParameter);
-            Long idWorker = Long.parseLong(idWorkerParameter);
-            Long idOrder = Long.parseLong(idOrderParameter);
-            if (orderService.takeOrder(idOrder, idWorker)) {
-                orderService.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
+            Long idOrder = getOrderId(request);
+            if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
+                request.setAttribute(MESSAGE, "Order was approved.");
+                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
-                logger.error("Could not take order.");
+                LOGGER.error("Could not approve order.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
-        } catch (ServiceException | NumberFormatException e) {
-            logger.error("Could not take order.");
+        } catch (NumberFormatException e) {
+            LOGGER.error("Invalid number format.");
+            page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
+        } catch (ServiceException e) {
+            LOGGER.error("Could not approve order.");
             throw new ControllerException(e);
         }
         return page;

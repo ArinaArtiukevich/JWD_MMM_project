@@ -57,10 +57,10 @@
         <table>
             <div><h5>User info :</h5></div>
             <tr>
-                <td>${user_firstName} : ${requestScope.firstName}<br/></td>
-                <td>${user_lastName} : ${requestScope.lastName}<br/></td>
-                <td>${user_email} : ${requestScope.email}<br/></td>
-                <td>${user_city} : ${requestScope.city}<br/></td>
+                <td>${user_firstName} : ${requestScope.user.firstName}<br/></td>
+                <td>${user_lastName} : ${requestScope.user.lastName}<br/></td>
+                <td>${user_email} : ${requestScope.user.email}<br/></td>
+                <td>${user_city} : ${requestScope.user.city}<br/></td>
             </tr>
         </table>
 
@@ -118,25 +118,25 @@
                         <div class="row mb-3">
                             <label for="firstNameInput" class="col-sm-2 col-form-label form-control-lg">${registration_firstName}</label>
                             <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="firstNameInput" name="firstName" value="${requestScope.firstName}" />
+                                <input form="update_user" type="text" class="form-control" id="firstNameInput" name="firstName" value="${requestScope.user.firstName}" />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="lastNameInput" class="col-sm-2 col-form-label form-control-lg">${registration_lastName}</label>
                             <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="lastNameInput" name="lastName" value="${requestScope.lastName}"/>
+                                <input form="update_user" type="text" class="form-control" id="lastNameInput" name="lastName" value="${requestScope.user.lastName}"/>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="emailInput" class="col-sm-2 col-form-label form-control-lg">${registration_email}</label>
                             <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="emailInput" name="email" value="${requestScope.email}"/>
+                                <input form="update_user" type="text" class="form-control" id="emailInput" name="email" value="${requestScope.user.email}"/>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="cityInput" class="col-sm-2 col-form-label form-control-lg">${registration_city}</label>
                             <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="cityInput" name="city" value="${requestScope.city}"/>
+                                <input form="update_user" type="text" class="form-control" id="cityInput" name="city" value="${requestScope.user.city}"/>
                             </div>
                         </div>
                         <div class="row mb-3">

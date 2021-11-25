@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
@@ -18,33 +19,22 @@ import javax.servlet.http.HttpSession;
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
-public class FindUserInformationImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(FindUserInformationImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
+public class FindUserInformationCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(FindUserInformationCommandImpl.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start FindUserInformationImpl.");
+        LOGGER.info("Start FindUserInformationCommandImpl.");
         String page = null;
         try {
-            String idUserString = request.getParameter(USER_ID);
-            validator.isValid(idUserString);
-            Long idUser = Long.parseLong(idUserString);
-            validator.isValid(idUser);
-            User user = new User();
-            user = userService.getUserById(idUser);
-            // todo session?
-            request.setAttribute(FIRST_NAME, user.getFirstName());
-            request.setAttribute(LAST_NAME, user.getLastName());
-            request.setAttribute(EMAIL, user.getEmail());
-            request.setAttribute(CITY, user.getCity());
-            request.setAttribute(LOGIN, user.getLogin());
-            request.setAttribute(GENDER,user.getGender());
+            Long idUser = getUserId(request);
+            User user = userService.getUserById(idUser);
+            request.setAttribute(USER, user);
             request.setAttribute(LAST_COMMAND, FIND_USER_INFORMATION);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
         } catch (NumberFormatException | ServiceException e) {
-            logger.error("Could not find user.");
+            LOGGER.error("Could not find user.");
             throw new ControllerException(e);
         }
         return page;

@@ -165,5 +165,17 @@ public class OrderServiceImplUnitTest {
         }
         assertEquals(new ServiceException(daoException).getMessage(), actual.getMessage());
     }
+// todo
+//    @Test
+//    public void testTakeOrder_positive() throws ServiceException, DaoException {
+//        Order order = new Order(description, address, serviceType, status, orderCreationDate);
+//        boolean expectedResult = true;
+//        orderService.addServiceOrder(order, idUser);
+//
+//        doReturn(Boolean.TRUE).when(orderDao).takeOrder(order.getIdService(), idWorker);
+//
+//        boolean actualResult = orderService.takeOrder(order.getIdService(), idWorker);
+//        assertEquals(expectedResult, actualResult);
+//    }
 
 }

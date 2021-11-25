@@ -8,13 +8,12 @@ import javax.servlet.*;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
-
-    private static final Logger logger = LogManager.getLogger(EncodingFilter.class);
+    private static final Logger LOGGER = LogManager.getLogger(EncodingFilter.class);
     private String encoding;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger.info("Init FilterConfig filter");
+        LOGGER.info("Init FilterConfig filter");
         encoding = filterConfig.getInitParameter(ParameterAttributeType.ENCODING_INIT_PARAM_NAME);
         if (encoding == null) {
             encoding = ParameterAttributeType.DEFAULT_ENCODING;
@@ -23,7 +22,7 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        logger.debug("Start EncodingFilter");
+        LOGGER.debug("Start EncodingFilter");
         String contentType = request.getContentType();
         if (contentType != null && contentType.startsWith(ParameterAttributeType.FILTERABLE_CONTENT_TYPE)) {
             request.setCharacterEncoding(encoding);

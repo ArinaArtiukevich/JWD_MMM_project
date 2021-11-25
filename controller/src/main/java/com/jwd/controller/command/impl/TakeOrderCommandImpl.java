@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,30 +18,31 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.controller.command.ParameterAttributeType.MESSAGE;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
-public class CloseOrderImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(CloseOrderImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
+public class TakeOrderCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(TakeOrderCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start CloseOrderImpl.");
+        LOGGER.info("Start TakeOrderCommandImpl.");
         String page = null;
         try {
-            String idOrderString = request.getParameter(ParameterAttributeType.ID_SERVICE);
-            validator.isValid(idOrderString);
-            Long idOrder = Long.parseLong(String.valueOf(idOrderString));
-            if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
+            Long idWorker = getUserId(request);
+            Long idOrder = getOrderId(request);
+            if (orderService.takeOrder(idOrder, idWorker)) { // todo in one command?
+                orderService.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
+                request.setAttribute(MESSAGE, "Order was taken.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
-                logger.error("Order was not closed.");
+                LOGGER.error("Could not take order.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
-        } catch (NumberFormatException | ServiceException e) {
-            logger.error("Could not close order.");
+        } catch (ServiceException | NumberFormatException e) {
+            LOGGER.error("Could not take order.");
             throw new ControllerException(e);
         }
         return page;

@@ -1,5 +1,6 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,36 +24,22 @@ import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
 
-public class FindClientResponseImpl implements Command {
-    private static final Logger logger = LogManager.getLogger(FindClientResponseImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
+public class FindClientResponseCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(FindClientResponseCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start FindClientResponseImpl.");
+        LOGGER.info("Start FindClientResponseCommandImpl.");
         String page = null;
-        String currentPageParam = request.getParameter(CURRENT_PAGE);
-        if (currentPageParam == null || currentPageParam.isEmpty()) {
-            currentPageParam = "1";
-        }
-        String currentLimitParam = request.getParameter(PAGE_LIMIT);
-        if (currentLimitParam == null || currentLimitParam.isEmpty()) {
-            currentLimitParam = "5";
-        }
-        int currentPage = Integer.parseInt(currentPageParam);
-        int pageLimit = Integer.parseInt(currentLimitParam);
+        int currentPage = getCurrentPageParam(request);
+        int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
         paginationRequest.setPageNumber(currentPage);
         paginationRequest.setLimit(pageLimit);
         try {
-            HttpSession session = request.getSession();
-            String idClientParameter = String.valueOf(session.getAttribute(USER_ID));
-            validator.isValid(idClientParameter);
-            Long idClient = Long.parseLong(idClientParameter);
-            validator.isValid(idClient);
-            String sortByParameter = request.getParameter(SORT_BY);
-            validator.isValid(sortByParameter);
+            Long idClient = getUserId(request);
+            String sortByParameter = getSortByParameter(request);
             paginationRequest.setSortBy(sortByParameter);
             String direction = request.getParameter(DIRECTION);
             if (nonNull(direction) && !direction.isEmpty()) {
@@ -66,7 +53,7 @@ public class FindClientResponseImpl implements Command {
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses"));
 
         } catch (NumberFormatException | ServiceException e) {
-            logger.error("Could not find order.");
+            LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
         return page;

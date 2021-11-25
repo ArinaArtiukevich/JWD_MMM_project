@@ -1,11 +1,14 @@
 package com.jwd.controller.command.impl;
 
+import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
+
 import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
+import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.factory.ServiceFactory;
@@ -21,54 +24,44 @@ import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 import static java.util.Objects.nonNull;
 
-public class FindUserOrdersImpl  implements Command {
-    private static final Logger logger = LogManager.getLogger(FindUserOrdersImpl.class);
+
+public class FindClientOrderByStatusCommandImpl extends AbstractCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(FindClientOrderByStatusCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {
-        logger.info("Start FindUserOrdersImpl.");
+        LOGGER.info("Start FindClientOrderByStatusCommandImpl.");
         String page = null;
-
-        String currentPageParam = request.getParameter(CURRENT_PAGE);
-        if (currentPageParam == null || currentPageParam.isEmpty()) {
-            currentPageParam = "1";
-        }
-        String currentLimitParam = request.getParameter(PAGE_LIMIT);
-        if (currentLimitParam == null || currentLimitParam.isEmpty()) {
-            currentLimitParam = "5";
-        }
-        int currentPage = Integer.parseInt(currentPageParam);
-        int pageLimit = Integer.parseInt(currentLimitParam);
+        int currentPage = getCurrentPageParam(request);
+        int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
         paginationRequest.setPageNumber(currentPage);
         paginationRequest.setLimit(pageLimit);
         try {
-            HttpSession session = request.getSession();
-            String idUserParameter =  String.valueOf(session.getAttribute(USER_ID));
-            validator.isValid(idUserParameter);
-            Long idUser = Long.parseLong(idUserParameter);
-            validator.isValid(idUser);
-            String sortByParameter = request.getParameter(SORT_BY);
-            validator.isValid(sortByParameter);
+            Long idClient = getUserId(request);
+            String sortByParameter = getSortByParameter(request);
             paginationRequest.setSortBy(sortByParameter);
             String direction = request.getParameter(DIRECTION);
             if (nonNull(direction) && !direction.isEmpty()) {
                 paginationRequest.setDirection(direction);
             }
-            Page<Order> paginationResult = orderService.getOrdersByUserId(paginationRequest, idUser);
-            request.setAttribute(LAST_COMMAND, SHOW_USER_ORDERS);
+            String serviceStatusString = request.getParameter(SERVICE_STATUS);
+            validator.isValid(serviceStatusString);
+            ServiceStatus serviceStatus = ServiceStatus.valueOf(serviceStatusString);
+            Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus, idClient);
+            request.setAttribute(PAGEABLE, paginationResult);
+            request.setAttribute(LAST_COMMAND, FIND_CLIENT_ORDER_BY_STATUS);
+            request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatus);
             request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
             request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            request.setAttribute(PAGEABLE, paginationResult);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
-        }  catch (NumberFormatException | ServiceException e) {
-            logger.error("Could not find user's orders.");
-            throw new ControllerException(e);
+        } catch (NumberFormatException | ServiceException e) {
+            LOGGER.error("Could not get a list of responses.");
+            throw new ControllerException("Could not get a list of responses.");
         }
         return page;
     }
 
 }
-
