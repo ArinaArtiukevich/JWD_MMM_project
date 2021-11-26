@@ -15,10 +15,11 @@ import org.apache.logging.log4j.Logger;
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDao orderDao;
-    private final ServiceValidator validator = new ServiceValidator();
+    private final ServiceValidator validator;
 
-    public OrderServiceImpl(OrderDao orderDao) {
+    public OrderServiceImpl(OrderDao orderDao, ServiceValidator validator) {
         this.orderDao = orderDao;
+        this.validator = validator;
     }
 
     @Override
@@ -95,13 +96,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean takeOrder(Long idOrder, Long idWorker) throws ServiceException {
-        logger.info("Start boolean setOrderStatus(Order order, ServiceStatus serviceStatus) in OrderService.");
+    public boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) throws ServiceException {
+        logger.info("Start boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) in OrderService.");
         boolean isTaken = false;
         try {
             validator.validate(idOrder);
             validator.validate(idWorker);
-            isTaken = orderDao.takeOrder(idOrder, idWorker);
+            validator.validate(serviceStatus);
+            isTaken = orderDao.takeOrder(idOrder, idWorker, serviceStatus);
         }
         catch (DaoException e) {
             throw new ServiceException(e);
@@ -182,7 +184,6 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus serviceStatus = orderDao.getServiceStatusById(idOrder);
-            validator.validate(serviceStatus);
             if (!(serviceStatus.toString()).equals(ServiceStatus.FREE.toString().toUpperCase())) {
                 throw new ServiceException("It is impossible to delete order.");
             }

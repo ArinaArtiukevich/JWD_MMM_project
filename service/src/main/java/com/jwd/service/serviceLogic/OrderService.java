@@ -17,7 +17,7 @@ public interface OrderService {
 
     boolean addServiceOrder(Order order, Long idClient) throws ServiceException;
 
-    boolean takeOrder(Long idOrder, Long idWorker) throws ServiceException;
+    boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws ServiceException;
 
     boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws ServiceException;
 

@@ -10,6 +10,7 @@ import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
+import com.jwd.service.validator.ServiceValidator;
 import org.junit.Test;
 import org.postgresql.util.PSQLException;
 import org.postgresql.util.PSQLState;
@@ -28,7 +29,8 @@ public class OrderServiceImplTest {
 
     private OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
     // testing class
-    private OrderService orderService = new OrderServiceImpl(orderDao);
+    private ServiceValidator serviceValidator = new ServiceValidator();
+    private OrderService orderService = new OrderServiceImpl(orderDao, serviceValidator);
 
     // region parameters
     private int pageNumber = 1;

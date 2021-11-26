@@ -72,11 +72,13 @@ public final class ParameterAttributeType {
             FIND_CLIENT_RESPONSE = "find_client_response",
             FIND_WORKER_RESPONSE = "find_worker_response",
             FIND_CLIENT_ORDER_BY_STATUS = "find_client_order_by_status",
+            GO_TO_PAGE = "go_to_page",
 
             DEFAULT_CURRENT_PAGE_PARAM = "1",
             DEFAULT_CURRENT_LIMIT_PARAM = "5",
 
-            COMMAND_DOES_NOT_CONTAIN = "^((?!<|>|script).)*$";
+            COMMAND_DOES_NOT_CONTAIN = "^((?!<|>|script).)*$",
+            INDEX = "index";
 
 
     private ParameterAttributeType() {

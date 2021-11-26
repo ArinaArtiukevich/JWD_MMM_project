@@ -18,10 +18,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.ConnectException;
 
-import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
-import static com.jwd.controller.command.ParameterAttributeType.ERROR;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 import static com.jwd.controller.util.Util.pathToJspIndexPage;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
@@ -49,10 +49,16 @@ public class FrontController extends HttpServlet {
             }
         } catch (ControllerException e) {
             logger.error("Operation went wrong.");
+            String lastCommand = (String)request.getAttribute(LAST_COMMAND);
             Throwable cause = getCause(e);
             HttpSession session = request.getSession();
-            session.setAttribute(ERROR, "Exception: " + cause.getMessage());
-            response.sendRedirect("/controller?command=go_to_page&path=error");
+            if (!isNull(lastCommand) && !lastCommand.isEmpty() && lastCommand.equals(GO_TO_PAGE)) {
+                request.setAttribute(ERROR_INTERNAL, "Operation went wrong.");
+                request.getRequestDispatcher(pathToJspIndexPage(INDEX)).forward(request, response);
+            } else {
+                session.setAttribute(ERROR, "Exception: " + cause.getMessage());
+                response.sendRedirect("/controller?command=go_to_page&path=error");
+            }
         }
     }
 

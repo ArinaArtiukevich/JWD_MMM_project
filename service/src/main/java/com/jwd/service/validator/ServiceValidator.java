@@ -30,37 +30,42 @@ public class ServiceValidator {
 
     public void validate(Page<Order> orderPageRequest) throws ServiceException {
         validateIsNullPage(orderPageRequest);
-
-        // TODO validate other parameters (pageNumber, limit)
+        if (orderPageRequest.getPageNumber() < 1) {
+            throw new ServiceException("Page number is invalid.");
+        }
+        if (orderPageRequest.getLimit() < 1) {
+            throw new ServiceException("Page limit is invalid.");
+        }
         if ((isNull(orderPageRequest.getSortBy()) || orderPageRequest.getSortBy().isEmpty()) &&
                 !availableSortByParameters.contains(orderPageRequest.getSortBy())) {
             throw new ServiceException("Sort by parameter is not available.");
-        } if ((isNull(orderPageRequest.getDirection()) || orderPageRequest.getDirection().isEmpty()) &&
+        }
+        if ((isNull(orderPageRequest.getDirection()) || orderPageRequest.getDirection().isEmpty()) &&
                 !availableDirectionParameters.contains(orderPageRequest.getDirection())) {
             throw new ServiceException("Direction parameter is not available.");
         }
     }
 
     public void validate(ServiceType serviceType) throws ServiceException {
-        if (serviceType == null) {
+        if (isNull(serviceType)) {
             throw new ServiceException("Service type is null.");
         }
     }
 
     public void validate(UserRole userRole) throws ServiceException {
-        if(userRole == null) {
+        if (isNull(userRole)) {
             throw new ServiceException("UserRole type is null.");
         }
     }
 
     public void validate(Gender gender) throws ServiceException {
-        if (gender == null) {
+        if (isNull(gender)) {
             throw new ServiceException("Gender is null.");
         }
     }
 
     public void validate(ServiceStatus serviceStatus) throws ServiceException {
-        if (serviceStatus == null) {
+        if (isNull(serviceStatus)) {
             throw new ServiceException("Service status is null.");
         }
     }
@@ -70,6 +75,7 @@ public class ServiceValidator {
             throw new ServiceException("Id was not found.");
         }
     }
+
     public void validate(Order orderToBeAdded) throws ServiceException {
         validateIsNullOrder(orderToBeAdded);
         validate(orderToBeAdded.getDescription());
@@ -92,40 +98,40 @@ public class ServiceValidator {
     }
 
     public boolean validateUserWithPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateUserWithPassword(Registration registration)." );
+        logger.info("Start validateUserWithPassword(Registration registration).");
         validateEmptyFieldsWithPassword(userInfo);
         boolean result = (checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
-            logger.info("User data is ready to be updated" );
+            logger.info("User data is ready to be updated");
         } else {
-            logger.info("Invalid user data." );
+            logger.info("Invalid user data.");
         }
         return result;
     }
 
     public boolean validateUserWithoutPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateUserWithoutPassword(Registration registration)." );
+        logger.info("Start validateUserWithoutPassword(Registration registration).");
         validateEmptyFieldsWithoutPassword(userInfo);
-        boolean result = ( checkCity(userInfo.getCity()) &&
+        boolean result = (checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
-            logger.info("Invalid user data." );
+            logger.info("Invalid user data.");
         } else {
-            logger.info("User data is not ready to be updated" );
+            logger.info("User data is not ready to be updated");
         }
         return result;
     }
 
     private void validateEmptyFieldsWithPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration)." );
+        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
         validateEmptyFieldsWithoutPassword(userInfo);
         validate(userInfo.getPassword());
         validate(userInfo.getConfirmPassword());
     }
 
     private void validateEmptyFieldsWithoutPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration)." );
+        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
         validate(userInfo.getFirstName());
         validate(userInfo.getLastName());
         validate(userInfo.getEmail());
@@ -133,16 +139,16 @@ public class ServiceValidator {
     }
 
     public boolean validateRegistrationData(Registration registration) throws ServiceException {
-        logger.info("Start checkData(Registration registration)." );
+        logger.info("Start checkData(Registration registration).");
         isNullRegistrationData(registration);
         validateEmptyFields(registration);
-        boolean result = ( checkLogin(registration.getLogin()) &&
+        boolean result = (checkLogin(registration.getLogin()) &&
                 checkCity(registration.getCity()) &&
                 checkEmail(registration.getEmail()));
         if (result) {
-            logger.info("User data is ready to be register" );
+            logger.info("User data is ready to be register");
         } else {
-            logger.info("Invalid user data." );
+            logger.info("Invalid user data.");
             throw new ServiceException("Invalid user data.");
         }
         return result;
@@ -155,7 +161,7 @@ public class ServiceValidator {
     }
 
     private void validateEmptyFields(Registration registration) throws ServiceException {
-        logger.info("Start validateEmptyFields(Registration registration)." );
+        logger.info("Start validateEmptyFields(Registration registration).");
         boolean result = true;
         validate(registration.getLogin());
         validate(registration.getFirstName());
@@ -169,43 +175,27 @@ public class ServiceValidator {
     }
 
     private boolean checkCity(String city) {
-        logger.info("Start checkCity(String city)." );
+        logger.info("Start checkCity(String city).");
         return city.matches(PATTERN_CITY);
     }
 
     private boolean checkEmail(String email) {
-        logger.info("Start checkEmail(String email)." );
+        logger.info("Start checkEmail(String email).");
         return email.matches(PATTERN_EMAIL);
     }
 
     private boolean checkLogin(String login) throws ServiceException {
-        logger.info("Start checkLogin(Registration registration)." );
+        logger.info("Start checkLogin(Registration registration).");
         boolean result = false;
-        if (userDao.isLoginExist(login)){
-            logger.error("Login = " + login + " has already been taken" );
+        if (userDao.isLoginExist(login)) {
+            logger.error("Login = " + login + " has already been taken");
             throw new ServiceException("Login has already been taken");
         } else if (login.matches(PATTERN_LOGIN)) {
             result = true;
         }
-        logger.info("Input login is available." );
+        logger.info("Input login is available.");
         return result;
     }
-// todo delete
-//    private boolean checkPassword(String password, String confirmPassword) throws ServiceException {
-//        logger.info("Start checkPassword(Registration registration)." );
-//        boolean result = false;
-//        //TODO now min is 1
-//        int maxLength = PASSWORD_MAX_LENGTH;
-//        int minLength = PASSWORD_MIN_LENGTH;
-//        int length = password.length();
-//        if ((length >= minLength) && (length <= maxLength)) {
-//            result = confirmPassword.equals(password);
-//        } else {
-//            logger.error("Input password is not available." );
-//            throw new ServiceException("Invalid password");
-//        }
-//        return result;
-//    }
 
     private void validateIsNullPage(Page<Order> orderPageRequest) throws ServiceException {
         if (isNull(orderPageRequest)) {

@@ -19,7 +19,7 @@ public interface OrderDao {
 
     Order findOrderById(Long idService) throws DaoException;
 
-    boolean takeOrder(Long idOrder, Long idWorker) throws DaoException;
+    boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws DaoException;
 
     boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws DaoException;
 

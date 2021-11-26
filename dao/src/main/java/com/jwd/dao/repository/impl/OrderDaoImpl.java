@@ -239,22 +239,29 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     @Override
-    public boolean takeOrder(Long idOrder, Long idWorker) throws DaoException {
+    public boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws DaoException {
         logger.info("Start boolean takeOrder(Long idOrder, Long idWorker).");
         Connection connection = null;
-        PreparedStatement statement = null;
+        PreparedStatement statement_update = null;
+        PreparedStatement statement_set_status = null;
         boolean isTaken = false;
         if(idOrder <= 0 || idWorker <= 0) {
             throw new DaoException("Invalid id");
         }
         try {
             connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.update.worker"));
-            statement.setLong(1, idWorker);
-            statement.setLong(2, idOrder);
-            int affectedRows = statement.executeUpdate();
+            statement_update = connection.prepareStatement(DataBaseConfig.getQuery("orders.update.worker"));
+            statement_update.setLong(1, idWorker);
+            statement_update.setLong(2, idOrder);
+            int affectedRowsUpdate= statement_update.executeUpdate();
+
+            statement_set_status = connection.prepareStatement(DataBaseConfig.getQuery("orders.update.order.status"));
+            statement_set_status.setString(1, serviceStatus.toString());
+            statement_set_status.setLong(2, idOrder);
+            int affectedRowsSetStatus = statement_set_status.executeUpdate();
             connection.commit();
-            if (affectedRows == 1) {
+
+            if (affectedRowsUpdate == 1 && affectedRowsSetStatus == 1) {
                 isTaken = true;
                 logger.info("Order was taken.");
             } else {
@@ -266,7 +273,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException(e);
         }
         finally {
-            close(statement);
+            close(statement_update, statement_set_status);
             retrieve(connection);
         }
         return isTaken;

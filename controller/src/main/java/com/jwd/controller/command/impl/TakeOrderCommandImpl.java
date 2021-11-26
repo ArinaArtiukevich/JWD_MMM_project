@@ -33,8 +33,7 @@ public class TakeOrderCommandImpl extends AbstractCommand implements Command {
         try {
             Long idWorker = getUserId(request);
             Long idOrder = getOrderId(request);
-            if (orderService.takeOrder(idOrder, idWorker)) { // todo in one command?
-                orderService.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
+            if (orderService.takeOrder(idOrder, idWorker, ServiceStatus.IN_PROCESS)) {
                 request.setAttribute(MESSAGE, "Order was taken.");
                 page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {

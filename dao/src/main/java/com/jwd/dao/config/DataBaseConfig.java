@@ -7,30 +7,29 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.MissingResourceException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import static com.jwd.dao.util.ParameterAttribute.*;
+
 
 public class DataBaseConfig {
     public static Logger logger = LogManager.getLogger(DataBaseConfig.class);
-    private final static ResourceBundle RESOURCE_BUNDLE =
-            ResourceBundle.getBundle("database_en_US", new Locale("en", "US"));
-    private final static String FILE_PROPERTIES_NAME ="database_en_US.properties";
-    private final String
-            URL = "database.url",
-            USERNAME = "database.username",
-            DATABASE_NAME = "database.name",
-            PASSWORD = "database.password",
-            DRIVER = "database.driver";
-    private Properties properties;
+    //    private final static ResourceBundle RESOURCE_BUNDLE =
+//            ResourceBundle.getBundle("database_en_US", new Locale("en", "US"));
 
-    private boolean  driverIsLoaded = false;
+    private Properties properties;
+    private static Properties propertyQueries = new Properties();
+
+    private boolean driverIsLoaded = false;
 
     public DataBaseConfig() {
         loadProperties();
+        loadQueryProperties();
     }
 
     public String getProperty(String key) {
@@ -40,9 +39,9 @@ public class DataBaseConfig {
     public static String getQuery(String key) {
         String result = null;
         try {
-            result = RESOURCE_BUNDLE.getString(key);
-        }
-        catch(MissingResourceException e) {
+            // result = RESOURCE_BUNDLE.getString(key);
+            result = propertyQueries.getProperty(key);
+        } catch (MissingResourceException e) {
             logger.error("There is no such key");
             result = "There is no such key";
         }
@@ -73,10 +72,17 @@ public class DataBaseConfig {
     }
 
     private void loadProperties() {
-        try(InputStream is = DataBaseConfig.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES_NAME)) {
-            System.out.println(is);
+        try (InputStream is = DataBaseConfig.class.getClassLoader().getResourceAsStream(FILE_PROPERTIES_NAME)) {
             properties = new Properties();
             properties.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadQueryProperties() {
+        try (InputStream is = DataBaseConfig.class.getClassLoader().getResourceAsStream(FILE_QUERY_PROPERTIES_NAME)) {
+            propertyQueries.load(is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 
-import static com.jwd.controller.command.ParameterAttributeType.PATH;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJspCheckIsIndexPage;
 
 public class GoToPageCommandImpl implements Command {
@@ -20,10 +20,10 @@ public class GoToPageCommandImpl implements Command {
     public String execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start GoToPageCommandImpl.");
         String page = null;
+        request.setAttribute(LAST_COMMAND, GO_TO_PAGE);
         String page_path = request.getParameter(PATH);
         validator.isValid(page_path);
         page = pathToJspCheckIsIndexPage(page_path);
-        // todo !!! if catch from frontController stackoverflow
         return page;
     }
 }

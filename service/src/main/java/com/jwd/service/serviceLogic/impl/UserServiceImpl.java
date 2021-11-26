@@ -20,11 +20,12 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final UserDao userDao;
     private final LoginDao loginDao;
-    private final ServiceValidator validator = new ServiceValidator();
+    private final ServiceValidator validator;
 
-    public UserServiceImpl(UserDao userDao, LoginDao loginDao) {
+    public UserServiceImpl(UserDao userDao, LoginDao loginDao, ServiceValidator validator) {
         this.userDao = userDao;
         this.loginDao = loginDao;
+        this.validator = validator;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws ServiceException{
+    public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws ServiceException {
         logger.info("Start updateUserWithoutPassword(Long idUser, Registration userInfo).");
         boolean isUpdated = false;
         try {
@@ -51,7 +52,6 @@ public class UserServiceImpl implements UserService {
                 validator.validate(idUser);
                 isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
             }
-
         } catch (DaoException e) {
             logger.error("Invalid input parameters.");
             throw new ServiceException(e);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws ServiceException{
+    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws ServiceException {
         logger.info("Start updateUserWithPassword(Long idUser, Registration userInfo).");
         boolean isUpdated = false;
         try {
@@ -87,8 +87,6 @@ public class UserServiceImpl implements UserService {
             validator.validate(login);
             validator.validate(password);
             String userPassword = loginDao.findPasswordByLogin(login);
-            validator.validate(userPassword);
-
             if (BCrypt.checkpw(password, userPassword)) {
                 result = true;
                 logger.info("User exists.");
@@ -104,10 +102,9 @@ public class UserServiceImpl implements UserService {
         logger.info("Start getClientNameByLogin(String login). Login = " + login);
         String name;
         try {
+            validator.validate(login);
             name = userDao.findNameByLogin(login);
-            validator.validate(name);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             logger.error("Client name with login = " + login + " was not found.");
             throw new ServiceException(e);
         }
@@ -122,7 +119,6 @@ public class UserServiceImpl implements UserService {
         try {
             validator.validate(login);
             idClient = loginDao.findIdByLogin(login);
-            validator.validate(idClient);
         } catch (DaoException e) {
             logger.error("Client id with login = " + login + " was not found.");
             throw new ServiceException(e);
@@ -134,7 +130,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Long idUser) throws ServiceException {
         logger.info("Start User getIdUserById(Long idUser). idUser = " + idUser);
-        User user  = new User();
+        User user = new User();
         try {
             validator.validate(idUser);
             user = userDao.getUserById(idUser);
@@ -153,7 +149,6 @@ public class UserServiceImpl implements UserService {
         try {
             validator.validate(idUser);
             userRole = userDao.findRoleByID(idUser);
-            validator.validate(userRole);
         } catch (DaoException e) {
             logger.error("User role with idUser = " + idUser + " was not found.");
             throw new ServiceException(e);
@@ -168,7 +163,6 @@ public class UserServiceImpl implements UserService {
         try {
             validator.validate(idUser);
             password = loginDao.findPasswordById(idUser);
-            validator.validate(password);
         } catch (DaoException e) {
             logger.error("Password was not found.");
             throw new ServiceException(e);

@@ -13,6 +13,7 @@ import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
+import com.jwd.service.validator.ServiceValidator;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -30,7 +31,8 @@ public class OrderServiceImplUnitTest {
     // mock
     private OrderDao orderDao = Mockito.mock(OrderDao.class);
     // testing class
-    private OrderService orderService = new OrderServiceImpl(orderDao);
+    private ServiceValidator serviceValidator = new ServiceValidator();
+    private OrderService orderService = new OrderServiceImpl(orderDao, serviceValidator);
 
     // captors
     private ArgumentCaptor<Page<Order>> pageArgumentCaptor = ArgumentCaptor.forClass(Page.class);
