@@ -18,6 +18,7 @@ public final class ParameterAttributeType {
             ENCODING_INIT_PARAM_NAME = "encoding",
             FILTERABLE_CONTENT_TYPE = "application/x-www-form-urlencoded",
             DEFAULT_ENCODING = "UTF-8",
+            CONFIGURATION = "configuration",
 
             CHANGE_LANGUAGE = "change_language",
             LANGUAGE = "language",
@@ -73,7 +74,9 @@ public final class ParameterAttributeType {
             FIND_CLIENT_ORDER_BY_STATUS = "find_client_order_by_status",
 
             DEFAULT_CURRENT_PAGE_PARAM = "1",
-            DEFAULT_CURRENT_LIMIT_PARAM = "5";
+            DEFAULT_CURRENT_LIMIT_PARAM = "5",
+
+            COMMAND_DOES_NOT_CONTAIN = "^((?!<|>|script).)*$";
 
 
     private ParameterAttributeType() {

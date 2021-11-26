@@ -45,10 +45,7 @@ public class FindUserOrdersCommandImpl extends AbstractCommand implements Comman
                 paginationRequest.setDirection(direction);
             }
             Page<Order> paginationResult = orderService.getOrdersByUserId(paginationRequest, idUser);
-            request.setAttribute(LAST_COMMAND, SHOW_USER_ORDERS);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            request.setAttribute(PAGEABLE, paginationResult);
+            setParametersToRequest(request, paginationResult, SHOW_USER_ORDERS, sortByParameter, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find user's orders.");

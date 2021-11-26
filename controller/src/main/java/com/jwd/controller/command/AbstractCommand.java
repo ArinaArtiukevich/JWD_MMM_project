@@ -2,6 +2,8 @@ package com.jwd.controller.command;
 
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.validator.ControllerValidator;
+import com.jwd.dao.entity.Order;
+import com.jwd.dao.entity.Page;
 
 import javax.servlet.Registration;
 import javax.servlet.http.HttpServletRequest;
@@ -50,5 +52,11 @@ public abstract class AbstractCommand {
         String sortByParameter = request.getParameter(SORT_BY);
         validator.isValid(sortByParameter);
         return sortByParameter;
+    }
+    public void setParametersToRequest(HttpServletRequest request, Page<Order> paginationResult, String command, String sortByParameter, String direction) {
+        request.setAttribute(PAGEABLE, paginationResult);
+        request.setAttribute(LAST_COMMAND, command);
+        request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
+        request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
     }
 }

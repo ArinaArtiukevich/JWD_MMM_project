@@ -51,11 +51,8 @@ public class FindClientOrderByStatusCommandImpl extends AbstractCommand implemen
             validator.isValid(serviceStatusString);
             ServiceStatus serviceStatus = ServiceStatus.valueOf(serviceStatusString);
             Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus, idClient);
-            request.setAttribute(PAGEABLE, paginationResult);
-            request.setAttribute(LAST_COMMAND, FIND_CLIENT_ORDER_BY_STATUS);
+            setParametersToRequest(request, paginationResult, FIND_CLIENT_ORDER_BY_STATUS, sortByParameter, direction);
             request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatus);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not get a list of responses.");

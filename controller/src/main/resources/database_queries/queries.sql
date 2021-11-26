@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS public.users
     last_name text,
     email text,
     city text,
-    login text,
+    login text NOT NULL UNIQUE,
     gender text,
     user_role text,
     CONSTRAINT users_pkey PRIMARY KEY (id_client)

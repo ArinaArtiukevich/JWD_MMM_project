@@ -46,10 +46,7 @@ public class FindClientResponseCommandImpl extends AbstractCommand implements Co
                 paginationRequest.setDirection(direction);
             }
             Page<Order> paginationResult = orderService.getOrdersResponseByClientId(paginationRequest, idClient);
-            request.setAttribute(PAGEABLE, paginationResult);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            request.setAttribute(LAST_COMMAND, FIND_CLIENT_RESPONSE);
+            setParametersToRequest(request, paginationResult, FIND_CLIENT_RESPONSE, sortByParameter, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses"));
 
         } catch (NumberFormatException | ServiceException e) {

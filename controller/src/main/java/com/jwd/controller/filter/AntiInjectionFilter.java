@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.jwd.controller.command.ParameterAttributeType.COMMAND_DOES_NOT_CONTAIN;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 public class AntiInjectionFilter implements Filter {
 
-    private static final String DOES_NOT_CONTAIN = "^((?!<|>|script).)*$";
-
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
@@ -27,7 +26,7 @@ public class AntiInjectionFilter implements Filter {
         for (String[] v : params.values()) {
             sb.append(v[0]);
         }
-        if (sb.toString().trim().matches(DOES_NOT_CONTAIN)) {
+        if (sb.toString().trim().matches(COMMAND_DOES_NOT_CONTAIN)) {
             chain.doFilter(req, res);
         } else {
             request.getRequestDispatcher(pathToJsp(ConfigurationBundle.getProperty("path.page.error"))).forward(request, response);

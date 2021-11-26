@@ -48,11 +48,8 @@ public class FindOrdersByServiceTypeCommandImpl extends AbstractCommand implemen
             validator.isValid(serviceTypeString);
             ServiceType serviceType = ServiceType.valueOf(serviceTypeString);
             Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
-            request.setAttribute(PAGEABLE, paginationResult);
-            request.setAttribute(LAST_COMMAND, SHOW_ORDERS_BY_SERVICE_TYPE);
+            setParametersToRequest(request, paginationResult, SHOW_ORDERS_BY_SERVICE_TYPE, sortByParameter, direction);
             request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
         } catch (ServiceException e) {
             LOGGER.error("Could not get a list of services.");

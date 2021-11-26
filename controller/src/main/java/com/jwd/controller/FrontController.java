@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static com.jwd.controller.command.ParameterAttributeType.ERROR;
 import static com.jwd.controller.util.Util.pathToJsp;
 import static com.jwd.controller.util.Util.pathToJspIndexPage;
@@ -31,7 +32,7 @@ public class FrontController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.debug("Controller was started.");
-        logger.debug(request.getParameter("command"));
+        logger.debug(request.getParameter(COMMAND));
 
         String page = null;
         try {

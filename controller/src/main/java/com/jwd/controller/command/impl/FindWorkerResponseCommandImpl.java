@@ -48,10 +48,7 @@ public class FindWorkerResponseCommandImpl extends AbstractCommand implements Co
                 paginationRequest.setDirection(direction);
             }
             Page<Order> paginationResult = orderService.getOrdersByWorkerId(paginationRequest, idWorker);
-            request.setAttribute(PAGEABLE, paginationResult);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
-            request.setAttribute(LAST_COMMAND, FIND_WORKER_RESPONSE);
+            setParametersToRequest(request, paginationResult, FIND_WORKER_RESPONSE, sortByParameter, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
 
         } catch (NumberFormatException | ServiceException e) {

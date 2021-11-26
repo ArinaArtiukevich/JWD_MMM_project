@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static java.util.Objects.isNull;
 
 public class CommandFactory {
@@ -18,7 +19,7 @@ public class CommandFactory {
         LOGGER.info("Start defineManager(HttpServletRequest request).");
 
         Command command = new DefaultCommandImpl();
-        String commandParameter = request.getParameter("command");
+        String commandParameter = request.getParameter(COMMAND);
 
         if (!isNull(commandParameter) && !commandParameter.isEmpty()) {
             try {

@@ -46,10 +46,7 @@ public class FindAllServicesCommandImpl extends AbstractCommand implements Comma
                 paginationRequest.setDirection(direction);
             }
             Page<Order> paginationResult = orderService.getAllServices(paginationRequest);
-            request.setAttribute(PAGEABLE, paginationResult);
-            request.setAttribute(LAST_COMMAND, SHOW_SERVICE_ALL);
-            request.setAttribute(SELECTED_SORT_BY_PARAMETER, sortByParameter);
-            request.setAttribute(SELECTED_DIRECTION_PARAMETER, direction);
+            setParametersToRequest(request, paginationResult, SHOW_SERVICE_ALL, sortByParameter, direction);
             page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
         } catch (ServiceException e) {
             LOGGER.error("Could not get a list of services.");
