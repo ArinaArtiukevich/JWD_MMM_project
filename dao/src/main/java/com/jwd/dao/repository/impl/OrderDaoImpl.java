@@ -12,6 +12,7 @@ import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ import java.util.List;
 
 
 public class OrderDaoImpl extends AbstractDao implements OrderDao {
-    private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(OrderDaoImpl.class);
     private static final String DATE_FORMAT = "yyyy.MM.dd";
 
     public OrderDaoImpl(ConnectionPool connectionPool) {
@@ -32,7 +33,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
     }
 
     public boolean add(Order order, Long idClient) throws DaoException {
-        logger.info("Start add(Service service). Id = " + order.getIdService());
+        LOGGER.info("Start add(Service service). Id = " + order.getIdService());
         PreparedStatement statement = null;
         Connection connection = null;
         boolean isAdded = false;
@@ -50,18 +51,16 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows <= 0) {
-                logger.error("An order was not added into orders.");
+                LOGGER.error("An order was not added into orders.");
                 throw new DaoException("An order was not added into orders.");
             } else {
-                logger.info("An order was added into orders.");
+                LOGGER.info("An order was added into orders.");
                 isAdded = true;
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
+        } catch (SQLException e) {
+            LOGGER.error(e);
             throw new DaoException("An order was not added into orders.");
-        }
-        finally {
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -70,7 +69,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> getServiceList(Page<Order> daoOrderPage) throws DaoException {
-        logger.info("Start Page<Order> getServiceList(Page<Order> daoOrderPage).");
+        LOGGER.info("Start Page<Order> getServiceList(Page<Order> daoOrderPage).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -93,13 +92,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
         } catch (ParseException e) {
-            logger.error("Invalid date format");
+            LOGGER.error("Invalid date format");
             throw new DaoException(e);
         } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error(e);
+            throw new DaoException("Could not find orders.");
+        } finally {
             close(resultSet, resultSet_total_elements);
             close(statement, statement_total_elements);
             retrieve(connection);
@@ -109,7 +107,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> getOrdersByServiceType(Page<Order> daoOrderPage, ServiceType serviceType) throws DaoException {
-        logger.info("Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).");
+        LOGGER.info("Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -134,13 +132,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
         } catch (ParseException e) {
-            logger.error("Invalid date format");
-            throw new DaoException(e);
+            LOGGER.error("Invalid date format.");
+            throw new DaoException("Invalid date format.");
         } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error(e);
+            throw new DaoException("Could not find orders by service type.");
+        } finally {
             close(resultSet, resultSet_total_elements);
             close(statement, statement_total_elements);
             retrieve(connection);
@@ -150,7 +147,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> findOrdersByIdUser(Page<Order> daoOrderPage, Long idUser) throws DaoException {
-        logger.info("Start Page<Order> findOrdersByIdUser(Page<Order> daoOrderPage, Long idUser).");
+        LOGGER.info("Start Page<Order> findOrdersByIdUser(Page<Order> daoOrderPage, Long idUser).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -160,7 +157,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         Page<Order> page = new Page<>();
 
         List<Order> list = new ArrayList<>();
-        if(idUser <= 0) {
+        if (idUser <= 0) {
             throw new DaoException("Invalid idClient");
         }
         try {
@@ -176,20 +173,19 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setInt(2, daoOrderPage.getLimit());
             statement.setInt(3, offset);
 
-            logger.info("Query : {}", statement.toString());
+            LOGGER.info("Query : {}", statement.toString());
             resultSet = statement.executeQuery();
             connection.commit();
 
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
         } catch (ParseException e) {
-            logger.error("Invalid date format");
-            throw new DaoException(e);
+            LOGGER.error("Invalid date format");
+            throw new DaoException("Invalid date format");
         } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error("Could not find orders by id user.");
+            throw new DaoException("Could not find orders.");
+        } finally {
             close(resultSet, resultSet_total_elements);
             close(statement, statement_total_elements);
             retrieve(connection);
@@ -200,12 +196,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Order findOrderById(Long idService) throws DaoException {
-        logger.info("Start Order findOrderById(Long idService).");
+        LOGGER.info("Start Order findOrderById(Long idService).");
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Order order = new Order();
-        if(idService <= 0) {
+        if (idService <= 0) {
             throw new DaoException("Invalid idService");
         }
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
@@ -214,7 +210,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.by.idService"));
             statement.setLong(1, idService);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 order = new Order();
                 order.setIdService(resultSet.getLong("id_service"));
                 order.setIdClient(resultSet.getLong("id_client"));
@@ -225,11 +221,11 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                 order.setOrderCreationDate(format.parse(resultSet.getString("order_creation_date")));
             }
         } catch (ParseException e) {
-            logger.error("Invalid date format");
-            throw new DaoException(e);
-        } catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
+            LOGGER.error("Invalid date format");
+            throw new DaoException("Invalid date format");
+        } catch (SQLException e) {
+            LOGGER.error("Could not find order by id.");
+            throw new DaoException("Could not find order.");
         } finally {
             close(resultSet);
             close(statement);
@@ -240,12 +236,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws DaoException {
-        logger.info("Start boolean takeOrder(Long idOrder, Long idWorker).");
+        LOGGER.info("Start boolean takeOrder(Long idOrder, Long idWorker).");
         Connection connection = null;
         PreparedStatement statement_update = null;
         PreparedStatement statement_set_status = null;
         boolean isTaken = false;
-        if(idOrder <= 0 || idWorker <= 0) {
+        if (idOrder <= 0 || idWorker <= 0) {
             throw new DaoException("Invalid id");
         }
         try {
@@ -253,7 +249,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement_update = connection.prepareStatement(DataBaseConfig.getQuery("orders.update.worker"));
             statement_update.setLong(1, idWorker);
             statement_update.setLong(2, idOrder);
-            int affectedRowsUpdate= statement_update.executeUpdate();
+            int affectedRowsUpdate = statement_update.executeUpdate();
 
             statement_set_status = connection.prepareStatement(DataBaseConfig.getQuery("orders.update.order.status"));
             statement_set_status.setString(1, serviceStatus.toString());
@@ -263,16 +259,14 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
             if (affectedRowsUpdate == 1 && affectedRowsSetStatus == 1) {
                 isTaken = true;
-                logger.info("Order was taken.");
+                LOGGER.info("Order was taken.");
             } else {
-                logger.info("Order was not taken.");
+                LOGGER.info("Order was not taken.");
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not take order.");
+            throw new DaoException("Could not take order.");
+        } finally {
             close(statement_update, statement_set_status);
             retrieve(connection);
         }
@@ -281,7 +275,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws DaoException {
-        logger.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus).");
+        LOGGER.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus).");
         Connection connection = null;
         PreparedStatement statement = null;
         boolean isSet = false;
@@ -294,16 +288,14 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             connection.commit();
             if (affectedRows == 1) {
                 isSet = true;
-                logger.info("OrderStatus was set.");
+                LOGGER.info("OrderStatus was set.");
             } else {
-                logger.info("OrderStatus was not set.");
+                LOGGER.info("OrderStatus was not set.");
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not change status of order.");
+            throw new DaoException("Could not change status of order.");
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -312,7 +304,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> getOrdersByWorkerId(Page<Order> daoOrderPage, Long idWorker) throws DaoException {
-        logger.info("Start List<Order> getOrdersByWorkerId(Long idWorker).");
+        LOGGER.info("Start List<Order> getOrdersByWorkerId(Long idWorker).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -320,7 +312,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         PreparedStatement statement_total_elements = null;
         ResultSet resultSet_total_elements = null;
         Page<Order> page = new Page<>();
-        if(idWorker <= 0) {
+        if (idWorker <= 0) {
             throw new DaoException("Invalid idWorker");
         }
         try {
@@ -340,13 +332,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
             page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
         } catch (ParseException e) {
-            logger.error("Invalid date format");
-            throw new DaoException(e);
-        } catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error("Invalid date format");
+            throw new DaoException("Invalid date format");
+        } catch (SQLException e) {
+            LOGGER.error("Could not find orders by worker id.");
+            throw new DaoException("Could not find worker responses.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -356,7 +347,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient) throws DaoException {
-        logger.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient).");
+        LOGGER.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> daoOrderPage, Long idClient).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -364,7 +355,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         PreparedStatement statement_total_elements = null;
         ResultSet resultSet_total_elements = null;
         Page<Order> page = new Page<>();
-        if(idClient <= 0) {
+        if (idClient <= 0) {
             throw new DaoException("Invalid idClient");
         }
         try {
@@ -384,13 +375,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
             page = getResponsePage(daoOrderPage, resultSet, resultSet_total_elements);
         } catch (ParseException e) {
-            logger.error("Invalid date format");
-            throw new DaoException(e);
-        } catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error("Invalid date format");
+            throw new DaoException("Invalid date format");
+        } catch (SQLException e) {
+            LOGGER.error("Could not get client order responses.");
+            throw new DaoException("Could not get client order responses.");
+        } finally {
             close(resultSet, resultSet_total_elements);
             close(statement, statement_total_elements);
             retrieve(connection);
@@ -400,7 +390,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus, Long idClient) throws DaoException {
-        logger.info("Start Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus).");
+        LOGGER.info("Start Page<Order> getOrdersByServiceStatus(Page<Order> daoOrderPage, ServiceStatus serviceStatus).");
         final int offset = (daoOrderPage.getPageNumber() - 1) * daoOrderPage.getLimit();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -427,13 +417,12 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             page = getOrderPage(daoOrderPage, resultSet, resultSet_total_elements);
 
         } catch (ParseException e) {
-            logger.error("Invalid date format");
+            LOGGER.error("Invalid date format");
             throw new DaoException("Invalid date format");
         } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        }
-        finally {
+            LOGGER.error("Could not get orders by service status.");
+            throw new DaoException("Could not get orders by service status.");
+        } finally {
             close(resultSet, resultSet_total_elements);
             close(statement, statement_total_elements);
             retrieve(connection);
@@ -443,7 +432,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public boolean deleteById(Long idOrder) throws DaoException {
-        logger.info("Start boolean deleteById(Long idOrder). IdOrder: " + idOrder);
+        LOGGER.info("Start boolean deleteById(Long idOrder). IdOrder: " + idOrder);
         PreparedStatement statement = null;
         Connection connection = null;
         boolean isDeleted = false;
@@ -454,18 +443,16 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows <= 0) {
-                logger.error("An order was not deleted.");
+                LOGGER.error("An order was not deleted.");
                 throw new DaoException("An order was not deleted.");
             } else {
-                logger.info("An order was deleted.");
+                LOGGER.info("An order was deleted.");
                 isDeleted = true;
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
+        } catch (SQLException e) {
+            LOGGER.error(e);
             throw new DaoException("An order was not deleted.");
-        }
-        finally {
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -474,7 +461,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
 
     @Override
     public ServiceStatus getServiceStatusById(Long idOrder) throws DaoException {
-        logger.info("Start ServiceStatus getServiceStatusById(Long idOrder)");
+        LOGGER.info("Start ServiceStatus getServiceStatusById(Long idOrder)");
         PreparedStatement statement = null;
         Connection connection = null;
         ServiceStatus serviceStatus = null;
@@ -488,13 +475,10 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             while (resultSet.next()) {
                 serviceStatus = ServiceStatus.valueOf(resultSet.getString(1).toUpperCase());
             }
-
-        }
-        catch(SQLException e) {
-            logger.error(e);
-            throw new DaoException("An order was not deleted.");
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new DaoException("Could find get service status.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
+import com.jwd.dao.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,8 @@ import static com.jwd.dao.util.ParameterAttribute.*;
 
 
 public class DataBaseConfig {
-    public static Logger logger = LogManager.getLogger(DataBaseConfig.class);
+    public static Logger LOGGER = LogManager.getLogger(DataBaseConfig.class);
+    //todo delete
     //    private final static ResourceBundle RESOURCE_BUNDLE =
 //            ResourceBundle.getBundle("database_en_US", new Locale("en", "US"));
 
@@ -36,20 +38,20 @@ public class DataBaseConfig {
         return properties.getProperty(key);
     }
 
-    public static String getQuery(String key) {
+    public static String getQuery(String key) throws DaoException {
         String result = null;
         try {
             // result = RESOURCE_BUNDLE.getString(key);
             result = propertyQueries.getProperty(key);
         } catch (MissingResourceException e) {
-            logger.error("There is no such key");
-            result = "There is no such key";
+            LOGGER.error("There is no such key in property file.");
+            throw new DaoException("There is no such key in property file.");
         }
         return result;
     }
 
     public Connection getConnection() throws SQLException {
-        logger.info("Connection getConnection()");
+        LOGGER.info("Connection getConnection()");
         loadJdbcDriver();
         Connection connection;
         Properties properties = new Properties();

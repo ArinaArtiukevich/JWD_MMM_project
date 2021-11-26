@@ -14,6 +14,7 @@ import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ import java.sql.SQLException;
 
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
     LoginDao loginDao = new LoginDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
 
     public UserDaoImpl(ConnectionPool connectionPool) {
@@ -30,7 +31,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public boolean addUser(Registration registration) throws DaoException {
-        logger.info("Start addUser(Registration registration). Login = " + registration.getLogin());
+        LOGGER.info("Start addUser(Registration registration). Login = " + registration.getLogin());
         boolean isAdded = false;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -47,20 +48,18 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
-                logger.info("A client was added.");
+                LOGGER.info("A client was added.");
                 isAdded = true;
                 Long idClient = findIdByLogin(registration.getLogin());
                 UserDTO userLogin = new UserDTO(idClient, registration.getLogin(), registration.getPassword());
                 loginDao.add(userLogin);
             } else {
-                logger.error("User was not added.");
+                LOGGER.error("User was not added.");
                 throw new DaoException("User was not added.");
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DaoException("Registration failed.", e);
-        }
-        finally {
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -69,7 +68,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws DaoException {
-        logger.info("Start updateUserWithoutPassword(Registration userInfo). Login = " + userInfo.getLogin());
+        LOGGER.info("Start updateUserWithoutPassword(Registration userInfo). Login = " + userInfo.getLogin());
         boolean isUpdated = false;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -84,17 +83,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
-                logger.info("User was updated.");
+                LOGGER.info("User was updated.");
                 isUpdated = true;
             } else {
-                logger.error("User was not updated.");
+                LOGGER.error("User was not updated.");
                 throw new DaoException("User was not updated.");
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DaoException("User was not updated.", e);
-        }
-        finally {
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -115,11 +112,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (resultSet.next()) {
                 idClient = resultSet.getLong(1);
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find id by login.");
+            throw new DaoException("Could not find id by login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -129,7 +125,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public boolean deleteUserById(Integer id) throws DaoException {
-        logger.info("Start deleteUserById(Integer id). Id = " + id);
+        LOGGER.info("Start deleteUserById(Integer id). Id = " + id);
         boolean isDeleted = false;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -140,18 +136,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             int affectedRows = statement.executeUpdate();
             connection.commit();
             if (affectedRows > 0) {
-                logger.info("A client was deleted.");
+                LOGGER.info("A client was deleted.");
                 isDeleted = true;
                 loginDao.deleteLoginById(id);
             } else {
-                logger.error("User was not deleted.");
+                LOGGER.error("User was not deleted.");
                 throw new DaoException("User was not deleted.");
             }
-        }
-        catch(SQLException e) {
+        } catch (SQLException e) {
+            LOGGER.error("Deleting a client failed.");
             throw new DaoException("Deleting a client failed.", e);
-        }
-        finally {
+        } finally {
             close(statement);
             retrieve(connection);
         }
@@ -159,8 +154,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public boolean isLoginExist(String login) {
-        logger.info("Start hasLogin(String login). Login = " + login);
+    public boolean isLoginExist(String login) throws DaoException {
+        LOGGER.info("Start hasLogin(String login). Login = " + login);
         boolean isExist = false;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -170,14 +165,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 isExist = true;
             }
-        }
-        catch(SQLException | DaoException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find login.");
+            throw new DaoException("Could not find login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -187,7 +181,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User getUserByLogin(String login) throws DaoException {
-        logger.info("Start getClientByLogin(String login). Login = " + login);
+        LOGGER.info("Start getClientByLogin(String login). Login = " + login);
         User user = new User();
         PreparedStatement statement = null;
         Connection connection = null;
@@ -198,7 +192,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Long foundId = resultSet.getLong(1);
                 String firstName = resultSet.getString(2);
                 String lastName = resultSet.getString(3);
@@ -210,13 +204,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 isExist = true;
             }
             if (!isExist) {
-                throw new DaoException("Could not find client with login = " + login);
+                throw new DaoException("Could not find user by login = " + login);
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find user by login." + login);
+            throw new DaoException("Could not find client with login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -226,7 +219,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public String findNameByLogin(String login) throws DaoException {
-        logger.info("Start getClientByLogin(String login). Login = " + login);
+        LOGGER.info("Start getClientByLogin(String login). Login = " + login);
         String firstName = null;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -237,18 +230,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.first_name.by.login"));
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 firstName = resultSet.getString(2);
                 isExist = true;
             }
             if (!isExist) {
                 throw new DaoException("Could not find client with login = " + login);
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find name by login.");
+            throw new DaoException("Could not find name by login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
@@ -258,7 +250,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User getUserById(Long idUser) throws DaoException {
-        logger.info("Start getUserById(Long idUser). idUser = " + idUser);
+        LOGGER.info("Start getUserById(Long idUser). idUser = " + idUser);
         User user = new User();
         PreparedStatement statement = null;
         Connection connection = null;
@@ -269,7 +261,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.idUser"));
             statement.setLong(1, idUser);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String firstName = resultSet.getString(2);
                 String lastName = resultSet.getString(3);
                 String email = resultSet.getString(4);
@@ -283,20 +275,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (!isExist) {
                 throw new DaoException("Could not find client with idUser = " + idUser);
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find user by login.");
+            throw new DaoException("Could not find user by login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);
         }
         return user;
     }
+
     @Override
     public UserRole findRoleByID(Long idUser) throws DaoException {
-        logger.info("Start UserRole findRoleByID(Long idUser). idUser = " + idUser);
+        LOGGER.info("Start UserRole findRoleByID(Long idUser). idUser = " + idUser);
         UserRole userRole = null;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -307,18 +299,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.role.by.id"));
             statement.setLong(1, idUser);
             resultSet = statement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 userRole = UserRole.valueOf(resultSet.getString(1));
                 isExist = true;
             }
             if (!isExist) {
                 throw new DaoException("Could not find user with id = " + idUser);
             }
-        }
-        catch(SQLException e) {
-            logger.error(e);
-        }
-        finally {
+        } catch (SQLException e) {
+            LOGGER.error("Could not find user role by login.");
+            throw new DaoException("Could not find user role by login.");
+        } finally {
             close(resultSet);
             close(statement);
             retrieve(connection);

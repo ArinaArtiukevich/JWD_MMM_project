@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class OrderServiceImpl implements OrderService {
-    private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDao orderDao;
     private final ServiceValidator validator;
 
@@ -24,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getAllServices(Page<Order> orderPageRequest) throws ServiceException {
-        logger.info("Start Page<Order> getAllServices(Page<Order> orderPageRequest) in OrderService.");
+        LOGGER.info("Start Page<Order> getAllServices(Page<Order> orderPageRequest) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException {
-        logger.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
+        LOGGER.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) throws ServiceException {
-        logger.info("Start Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) in OrderService.");
+        LOGGER.info("Start Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(idUser);
@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long idService) throws ServiceException {
-        logger.info("Start Order getOrderById(Long idService) in OrderService.");
+        LOGGER.info("Start Order getOrderById(Long idService) in OrderService.");
         Order order = new Order();
         try {
             validator.validate(idService);
@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean addServiceOrder(Order order, Long idClient) throws ServiceException {
-        logger.info("Start boolean addServiceOrder(Order order, Long idClient) in OrderService.");
+        LOGGER.info("Start boolean addServiceOrder(Order order, Long idClient) in OrderService.");
         boolean isAdded = false;
         try {
             validator.validate(order);
@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) throws ServiceException {
-        logger.info("Start boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) in OrderService.");
+        LOGGER.info("Start boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) in OrderService.");
         boolean isTaken = false;
         try {
             validator.validate(idOrder);
@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws ServiceException {
-        logger.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
+        LOGGER.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
         boolean isSet = false;
         try {
             validator.validate(idOrder);
@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) throws ServiceException {
-        logger.info("Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.");
+        LOGGER.info("Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
@@ -143,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient) throws ServiceException {
-        logger.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient)in OrderService.");
+        LOGGER.info("Start Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient)in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(idClient);
@@ -158,7 +158,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) throws ServiceException {
-        logger.info("Start age<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) in OrderService.");
+        LOGGER.info("Start age<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
@@ -174,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean deleteById(Long idOrder, Long idUser) throws ServiceException {
-        logger.info("Start boolean deleteById(Long idOrder) in OrderService.");
+        LOGGER.info("Start boolean deleteById(Long idOrder) in OrderService.");
         boolean isDeleted = false;
         try {
             validator.validate(idOrder);

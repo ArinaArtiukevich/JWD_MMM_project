@@ -21,12 +21,8 @@ import static com.jwd.service.util.ParameterAttribute.*;
 import static java.util.Objects.isNull;
 
 public class ServiceValidator {
-    private static final Logger logger = LogManager.getLogger(ServiceValidator.class);
+    private static final Logger LOGGER = LogManager.getLogger(ServiceValidator.class);
     private final UserDaoImpl userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
-    private final List<String> availableSortByParameters = Arrays.asList("order_creation_date", "address", "service_type",
-            "service_status", "description");
-    private final List<String> availableDirectionParameters = Arrays.asList("ASC", "DESC");
-
 
     public void validate(Page<Order> orderPageRequest) throws ServiceException {
         validateIsNullPage(orderPageRequest);
@@ -98,40 +94,40 @@ public class ServiceValidator {
     }
 
     public boolean validateUserWithPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateUserWithPassword(Registration registration).");
+        LOGGER.info("Start validateUserWithPassword(Registration registration).");
         validateEmptyFieldsWithPassword(userInfo);
         boolean result = (checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
-            logger.info("User data is ready to be updated");
+            LOGGER.info("User data is ready to be updated");
         } else {
-            logger.info("Invalid user data.");
+            LOGGER.info("Invalid user data.");
         }
         return result;
     }
 
     public boolean validateUserWithoutPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateUserWithoutPassword(Registration registration).");
+        LOGGER.info("Start validateUserWithoutPassword(Registration registration).");
         validateEmptyFieldsWithoutPassword(userInfo);
         boolean result = (checkCity(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
-            logger.info("Invalid user data.");
+            LOGGER.info("Invalid user data.");
         } else {
-            logger.info("User data is not ready to be updated");
+            LOGGER.info("User data is not ready to be updated");
         }
         return result;
     }
 
     private void validateEmptyFieldsWithPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
+        LOGGER.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
         validateEmptyFieldsWithoutPassword(userInfo);
         validate(userInfo.getPassword());
         validate(userInfo.getConfirmPassword());
     }
 
     private void validateEmptyFieldsWithoutPassword(Registration userInfo) throws ServiceException {
-        logger.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
+        LOGGER.info("Start validateEmptyFieldsWithoutPassword(Registration registration).");
         validate(userInfo.getFirstName());
         validate(userInfo.getLastName());
         validate(userInfo.getEmail());
@@ -139,16 +135,16 @@ public class ServiceValidator {
     }
 
     public boolean validateRegistrationData(Registration registration) throws ServiceException {
-        logger.info("Start checkData(Registration registration).");
+        LOGGER.info("Start checkData(Registration registration).");
         isNullRegistrationData(registration);
         validateEmptyFields(registration);
-        boolean result = (checkLogin(registration.getLogin()) &&
-                checkCity(registration.getCity()) &&
-                checkEmail(registration.getEmail()));
+        checkLogin(registration.getLogin());
+        boolean result = checkCity(registration.getCity()) &&
+                checkEmail(registration.getEmail());
         if (result) {
-            logger.info("User data is ready to be register");
+            LOGGER.info("User data is ready to be register");
         } else {
-            logger.info("Invalid user data.");
+            LOGGER.info("Invalid user data.");
             throw new ServiceException("Invalid user data.");
         }
         return result;
@@ -161,7 +157,7 @@ public class ServiceValidator {
     }
 
     private void validateEmptyFields(Registration registration) throws ServiceException {
-        logger.info("Start validateEmptyFields(Registration registration).");
+        LOGGER.info("Start validateEmptyFields(Registration registration).");
         boolean result = true;
         validate(registration.getLogin());
         validate(registration.getFirstName());
@@ -175,26 +171,17 @@ public class ServiceValidator {
     }
 
     private boolean checkCity(String city) {
-        logger.info("Start checkCity(String city).");
+        LOGGER.info("Start checkCity(String city).");
         return city.matches(PATTERN_CITY);
     }
 
     private boolean checkEmail(String email) {
-        logger.info("Start checkEmail(String email).");
+        LOGGER.info("Start checkEmail(String email).");
         return email.matches(PATTERN_EMAIL);
     }
 
-    private boolean checkLogin(String login) throws ServiceException {
-        logger.info("Start checkLogin(Registration registration).");
-        boolean result = false;
-        if (userDao.isLoginExist(login)) {
-            logger.error("Login = " + login + " has already been taken");
-            throw new ServiceException("Login has already been taken");
-        } else if (login.matches(PATTERN_LOGIN)) {
-            result = true;
-        }
-        logger.info("Input login is available.");
-        return result;
+    private void checkLogin(String login) throws ServiceException {
+        validate(login);
     }
 
     private void validateIsNullPage(Page<Order> orderPageRequest) throws ServiceException {
@@ -206,6 +193,12 @@ public class ServiceValidator {
     private void validateIsNullOrder(Order order) throws ServiceException {
         if (isNull(order)) {
             throw new ServiceException("Order is null.");
+        }
+    }
+
+    public void validateLogin(String login) throws ServiceException {
+        if (!login.matches(PATTERN_LOGIN)) {
+            throw new ServiceException("Invalid login. Please, try again.");
         }
     }
 }
