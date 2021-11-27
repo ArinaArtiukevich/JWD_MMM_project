@@ -27,28 +27,28 @@ import static java.util.Objects.nonNull;
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class FrontController extends HttpServlet {
 
-    private static final Logger logger = LogManager.getLogger(FrontController.class);
+    private static final Logger LOGGER = LogManager.getLogger(FrontController.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.debug("Controller was started.");
-        logger.debug(request.getParameter(COMMAND));
+        LOGGER.debug("Controller was started.");
+        LOGGER.debug(request.getParameter(COMMAND));
 
         String page = null;
         try {
             CommandFactory commandFactory = new CommandFactory();
             Command command = commandFactory.defineManager(request);
             page = command.execute(request);
-            logger.debug("using " + command);
+            LOGGER.debug("using " + command);
             if (page != null) {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
                 dispatcher.forward(request, response);
             } else {
-                logger.error("Operation went wrong.");
+                LOGGER.error("Operation went wrong.");
                 response.sendRedirect("/controller?command=go_to_page&path=index");
             }
         } catch (ControllerException e) {
-            logger.error("Operation went wrong.");
+            LOGGER.error("Operation went wrong.");
             String lastCommand = (String)request.getAttribute(LAST_COMMAND);
             Throwable cause = getCause(e);
             HttpSession session = request.getSession();

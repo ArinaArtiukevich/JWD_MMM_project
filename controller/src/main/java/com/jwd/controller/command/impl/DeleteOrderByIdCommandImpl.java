@@ -23,7 +23,6 @@ import static com.jwd.controller.util.Util.pathToJsp;
 
 public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(DeleteOrderByIdCommandImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     @Override
     public String execute(HttpServletRequest request) throws ControllerException {

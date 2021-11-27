@@ -24,7 +24,6 @@ import static java.util.Objects.nonNull;
 
 public class FindUserOrdersCommandImpl extends AbstractCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(FindUserOrdersCommandImpl.class);
-    private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override

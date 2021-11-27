@@ -12,7 +12,6 @@ import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static java.util.Objects.isNull;
 
 public class CommandFactory {
-
     private static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
 
     public Command defineManager(HttpServletRequest request) {

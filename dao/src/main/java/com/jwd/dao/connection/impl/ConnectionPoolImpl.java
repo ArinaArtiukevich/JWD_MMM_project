@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final DataBaseConfig dataBaseConfig;
     private final BlockingQueue<Connection> pool;
     private final BlockingQueue<Connection> taken;
+    private static ReentrantLock lockConnection = new ReentrantLock();
 
     public ConnectionPoolImpl(final DataBaseConfig dataBaseConfig) {
         this.dataBaseConfig = dataBaseConfig;

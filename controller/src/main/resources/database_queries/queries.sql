@@ -13,16 +13,20 @@ CREATE TABLE IF NOT EXISTS public.users
 
 CREATE TABLE IF NOT EXISTS public.user_logins
 (
-    id_user bigint NOT NULL,
+    id_user bigint NOT NULL DEFAULT nextval('user_logins_id_user_seq'::regclass),
     login text COLLATE pg_catalog."default" NOT NULL,
     password text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT id_user PRIMARY KEY (id_user),
     CONSTRAINT login UNIQUE (login),
-    CONSTRAINT fk_user_logins_id_user FOREIGN KEY (id_user)
+    CONSTRAINT fk_user_logins_users FOREIGN KEY (id_user)
         REFERENCES public.users (id_user) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.user_logins
+    OWNER to postgres;
 
 TABLESPACE pg_default;
 

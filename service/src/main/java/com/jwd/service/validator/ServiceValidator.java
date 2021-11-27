@@ -19,10 +19,10 @@ import java.util.*;
 
 import static com.jwd.service.util.ParameterAttribute.*;
 import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 
 public class ServiceValidator {
     private static final Logger LOGGER = LogManager.getLogger(ServiceValidator.class);
-    private final UserDaoImpl userDao = new UserDaoImpl(new ConnectionPoolImpl(new DataBaseConfig()));
 
     public void validate(Page<Order> orderPageRequest) throws ServiceException {
         validateIsNullPage(orderPageRequest);
@@ -138,9 +138,9 @@ public class ServiceValidator {
         LOGGER.info("Start checkData(Registration registration).");
         isNullRegistrationData(registration);
         validateEmptyFields(registration);
-        checkLogin(registration.getLogin());
-        boolean result = checkCity(registration.getCity()) &&
-                checkEmail(registration.getEmail());
+        boolean result = (checkLogin(registration.getLogin()) &&
+                checkCity(registration.getCity()) &&
+                checkEmail(registration.getEmail()));
         if (result) {
             LOGGER.info("User data is ready to be register");
         } else {
@@ -180,10 +180,6 @@ public class ServiceValidator {
         return email.matches(PATTERN_EMAIL);
     }
 
-    private void checkLogin(String login) throws ServiceException {
-        validate(login);
-    }
-
     private void validateIsNullPage(Page<Order> orderPageRequest) throws ServiceException {
         if (isNull(orderPageRequest)) {
             throw new ServiceException("OrderPageRequest is null.");
@@ -196,9 +192,8 @@ public class ServiceValidator {
         }
     }
 
-    public void validateLogin(String login) throws ServiceException {
-        if (!login.matches(PATTERN_LOGIN)) {
-            throw new ServiceException("Invalid login. Please, try again.");
-        }
+    public boolean checkLogin(String login) {
+        LOGGER.info("Start validateLogin(String login).");
+        return login.matches(PATTERN_LOGIN);
     }
 }

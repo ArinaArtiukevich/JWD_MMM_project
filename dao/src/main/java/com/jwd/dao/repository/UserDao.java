@@ -11,7 +11,7 @@ public interface UserDao {
 
     boolean updateUserWithoutPassword(Long idUser, Registration registration) throws DaoException;
 
-    boolean deleteUserById(Integer id) throws DaoException;
+  //  boolean updateUserWithPassword(Long idUser, Registration registration) throws DaoException;
 
     Long findIdByLogin(String login) throws DaoException;
 
