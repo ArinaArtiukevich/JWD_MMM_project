@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -12,18 +12,18 @@
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
-        <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all" />
+        <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all"/>
         <fmt:message bundle="${loc}" key="work.find.worker.response" var="work_find_worker_response"/>
-        <fmt:message bundle="${loc}" key="title.order" var="title_services" />
-        <fmt:message bundle="${loc}" key="order.description" var="description" />
-        <fmt:message bundle="${loc}" key="order.address" var="address" />
-        <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
-        <fmt:message bundle="${loc}" key="order.status" var="status" />
-        <fmt:message bundle="${loc}" key="order.idWorker" var="idWorker" />
-        <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
-        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
-        <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by" />
-        <fmt:message bundle="${loc}" key="direction.change" var="direction_change" />
+        <fmt:message bundle="${loc}" key="title.order" var="title_services"/>
+        <fmt:message bundle="${loc}" key="order.description" var="description"/>
+        <fmt:message bundle="${loc}" key="order.address" var="address"/>
+        <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType"/>
+        <fmt:message bundle="${loc}" key="order.status" var="status"/>
+        <fmt:message bundle="${loc}" key="order.idWorker" var="idWorker"/>
+        <fmt:message bundle="${loc}" key="order.idClient" var="idClient"/>
+        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate"/>
+        <fmt:message bundle="${loc}" key="message.sort.by" var="message_sort_by"/>
+        <fmt:message bundle="${loc}" key="direction.change" var="direction_change"/>
 
     </head>
     <body>
@@ -35,7 +35,7 @@
 
         <form id="find_worker_response" method="GET" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="find_worker_response">
-            <input type="hidden" name="idWorker" value="${sessionScope.userId}">
+            <input type="hidden" name="idWorker" value="${sessionScope.user.idUser}">
                 <div>
                     <button type="submit" name="find_worker_response">
                             ${work_find_worker_response}
@@ -53,7 +53,8 @@
                     </div>
                     <div id="direction">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
+                            <input class="form-check-input" type="radio" id="direction" name="direction"
+                                   value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
                             <label class="form-check-label" for="direction">
                                     ${direction_change}
                             </label>
@@ -77,8 +78,8 @@
                         </tr>
                     </table>
                 </c:if>
-                <c:forEach var="response" items="${requestScope.pageable.elements}" >
-                    <a href = "/controller?command=find_order_info&idService=${response.idService}">
+                <c:forEach var="response" items="${requestScope.pageable.elements}">
+                    <a href="/controller?command=find_order_info&idService=${response.idService}">
                         <table class="table">
                             <tr>
                                 <td>${response.idClient}</td>
@@ -86,7 +87,7 @@
                                 <td>${response.description}</td>
                                 <td>${response.serviceType}</td>
                                 <td>${response.status}</td>
-                                <td><fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                                <td><fmt:formatDate value="${response.orderCreationDate}" pattern="yyyy.MM.dd"/></td>
                             </tr>
                         </table>
                     </a>
@@ -98,12 +99,14 @@
             <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
                 <c:if test="${i == pageable.pageNumber}">
                     <span>
-                        <button style="color:red" form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
+                        <button class="btn btn-light btn-sm" style="color:red" form="${requestScope.last_command}" type="submit" name="currentPage"
+                                value="${i}">${i}</button>
                     </span>
                 </c:if>
                 <c:if test="${i != pageable.pageNumber}">
                     <span>
-                        <button form="${requestScope.last_command}" type="submit" name="currentPage" value="${i}">${i}</button>
+                        <button class="btn btn-light btn-sm" form="${requestScope.last_command}" type="submit" name="currentPage"
+                                value="${i}">${i}</button>
                     </span>
                 </c:if>
             </c:forEach>

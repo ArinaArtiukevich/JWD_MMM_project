@@ -23,7 +23,7 @@ public class AuthenticationFilter implements Filter {
     private static final List<String> alwaysAvailableCommands = Arrays.asList(
             REGISTRATION.toString().toLowerCase(),
             LOGIN.toString().toLowerCase(),
-            SHOW_ALL_SERVICES.toString().toLowerCase(),
+//            SHOW_ALL_SERVICES.toString().toLowerCase(),
             CHANGE_LANGUAGE.toString().toLowerCase(),
             SHOW_ORDERS_BY_SERVICE_TYPE.toString().toLowerCase(),
             FIND_ORDER_INFO.toString().toLowerCase(),
@@ -32,7 +32,7 @@ public class AuthenticationFilter implements Filter {
     private static final List<String> clientAvailableCommands = Arrays.asList(
             FIND_CLIENT_RESPONSE.toString().toLowerCase(),
             APPROVE_ORDER.toString().toLowerCase(),
-            SHOW_USER_ORDERS.toString().toLowerCase(),
+           // SHOW_USER_ORDERS.toString().toLowerCase(),
             WORK.toString().toLowerCase(),
             ADD_SERVICE_ORDER.toString().toLowerCase(),
             LOGOUT.toString().toLowerCase(),

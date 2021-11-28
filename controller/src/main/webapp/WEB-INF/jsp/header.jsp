@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -6,7 +6,6 @@
     <head>
         <title>NAME</title>
         <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="../../resources/css/style.css"/>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <fmt:setLocale value="${sessionScope.language}"/>
@@ -24,10 +23,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-10">
-                    <p class="h2" style="margin: 10px 0;" >TOKAR</p>
+                    <p class="h2" style="margin: 10px 0;">MULTITOOL</p>
                 </div>
                 <div class="col-2">
-                    <form class="mb-0" name="change_language" method="POST" action="${pageContext.request.contextPath}/controller">
+                    <form class="mb-0" name="change_language" method="POST"
+                          action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="change_language">
                             <input type="hidden" name="parent_page" value="${param.page_path}">
 
@@ -43,19 +43,14 @@
                             </input>
                         </input>
                     </form>
-                    <div>
-                        <c:choose>
-                            <c:when test="${sessionScope.userRole eq 'client'}">
-                                <a class="btn btn-light btn-sm" href="/controller?command=logout">
-                                        ${button_logout}
-                                </a>
-                            </c:when>
-                            <c:when test="${sessionScope.userRole eq 'worker'}">
-                                <a class="btn btn-light btn-sm" href="/controller?command=logout">
-                                        ${button_logout}
-                                </a>
-                            </c:when>
-                        </c:choose>
+                    <div style="display:inline-block">
+                        <c:if test="${sessionScope.user.idUser > 0}">
+                            <a class="btn btn-light btn-sm" href="/controller?command=logout">
+                                    ${button_logout}
+                            </a>
+                            id:${sessionScope.user.idUser}
+                            login:${sessionScope.user.login}
+                        </c:if>
                     </div>
                 </div>
             </div>
@@ -66,29 +61,33 @@
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/controller?command=go_to_page&path=index"> <c:out value="${button_main}"/></a>
+                                <a class="nav-link" href="/controller?command=go_to_page&path=index"><c:out
+                                        value="${button_main}"/></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/controller?command=go_to_page&path=services"> <c:out value="${button_service}"/></a>
+                                <a class="nav-link" href="/controller?command=go_to_page&path=services"><c:out
+                                        value="${button_service}"/></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/controller?command=go_to_page&path=authorization"> <c:out value="${button_authorization}"/></a>
+                                <a class="nav-link" href="/controller?command=go_to_page&path=authorization"><c:out
+                                        value="${button_authorization}"/></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/controller?command=go_to_page&path=work"> <c:out value="${button_user_account}"/></a>
+                                <a class="nav-link" href="/controller?command=go_to_page&path=work"><c:out
+                                        value="${button_user_account}"/></a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
-<%--            <table>--%>
-<%--                <tr>--%>
-<%--                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>--%>
-<%--                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>--%>
-<%--                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>--%>
-<%--                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>--%>
-<%--                </tr>--%>
-<%--            </table>--%>
+                <%--            <table>--%>
+                <%--                <tr>--%>
+                <%--                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>--%>
+                <%--                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>--%>
+                <%--                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>--%>
+                <%--                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>--%>
+                <%--                </tr>--%>
+                <%--            </table>--%>
 
         </div>
 

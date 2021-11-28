@@ -20,7 +20,7 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.jwd.controller.command.ParameterAttributeType.MESSAGE;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
@@ -35,13 +35,15 @@ public class ApproveOrderCommandImpl extends AbstractCommand implements Command 
         String path = null;
         try {
             Long idOrder = getOrderId(request);
+            HttpSession session = request.getSession();
             if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
-                request.setAttribute(MESSAGE, "Order was approved.");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                session.setAttribute(MESSAGE, "Order was approved.");
             } else {
                 LOGGER.error("Could not approve order.");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
+                session.setAttribute(ERROR_WORK_MESSAGE, "Could not approve an order. Please, try again.");
             }
+            answer.setPath(GO_TO_WORK_PAGE);
+            answer.setAnswerType(AnswerType.REDIRECT);
         } catch (NumberFormatException e) {
             LOGGER.error("Invalid number format.");
             throw new ControllerException("Invalid number format.");
@@ -49,8 +51,6 @@ public class ApproveOrderCommandImpl extends AbstractCommand implements Command 
             LOGGER.error("Could not approve order.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

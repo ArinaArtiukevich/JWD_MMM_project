@@ -9,18 +9,16 @@ public class Page<T> {
     private long totalElements;
     private int limit;
     private List<T> elements = new ArrayList<>();
-    private T filter;
     private String sortBy = "name";
     private String direction = "ASC";
 
     public Page() {}
 
-    public Page(int pageNumber, long totalElements, int limit, List<T> elements, T filter, String sortBy, String direction) {
+    public Page(int pageNumber, long totalElements, int limit, List<T> elements, String sortBy, String direction) {
         this.pageNumber = pageNumber;
         this.totalElements = totalElements;
         this.limit = limit;
         this.elements = elements;
-        this.filter = filter;
         this.sortBy = sortBy;
         this.direction = direction;
     }
@@ -57,14 +55,6 @@ public class Page<T> {
         this.elements = elements;
     }
 
-    public T getFilter() {
-        return filter;
-    }
-
-    public void setFilter(T filter) {
-        this.filter = filter;
-    }
-
     public String getSortBy() {
         return sortBy;
     }
@@ -81,23 +71,6 @@ public class Page<T> {
         this.direction = direction;
     }
 
-//    @Override
-////    public boolean equals(Object o) {
-////        if (this == o) return true;
-////        if (o == null || getClass() != o.getClass()) return false;
-////
-////        Page<?> page = (Page<?>) o;
-////
-////        if (pageNumber != page.pageNumber) return false;
-////        if (totalElements != page.totalElements) return false;
-////        if (limit != page.limit) return false;
-////        if (elements != null ? !elements.equals(page.elements) : page.elements != null) return false;
-////        if (filter != null ? !filter.equals(page.filter) : page.filter != null) return false;
-////        if (sortBy != null ? !sortBy.equals(page.sortBy) : page.sortBy != null) return false;
-////        return direction != null ? direction.equals(page.direction) : page.direction == null;
-////    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,7 +80,6 @@ public class Page<T> {
                 totalElements == page.totalElements &&
                 limit == page.limit &&
                 Objects.equals(elements, page.elements) &&
-                Objects.equals(filter, page.filter) &&
                 Objects.equals(sortBy, page.sortBy) &&
                 Objects.equals(direction, page.direction);
     }
@@ -118,7 +90,6 @@ public class Page<T> {
         result = 31 * result + (int) (totalElements ^ (totalElements >>> 32));
         result = 31 * result + limit;
         result = 31 * result + (elements != null ? elements.hashCode() : 0);
-        result = 31 * result + (filter != null ? filter.hashCode() : 0);
         result = 31 * result + (sortBy != null ? sortBy.hashCode() : 0);
         result = 31 * result + (direction != null ? direction.hashCode() : 0);
         return result;
@@ -131,7 +102,6 @@ public class Page<T> {
                 ", totalElements=" + totalElements +
                 ", limit=" + limit +
                 ", elements=" + elements +
-                ", filter=" + filter +
                 ", sortBy='" + sortBy + '\'' +
                 ", direction='" + direction + '\'' +
                 '}';

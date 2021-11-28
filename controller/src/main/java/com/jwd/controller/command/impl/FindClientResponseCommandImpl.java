@@ -34,7 +34,6 @@ public class FindClientResponseCommandImpl extends AbstractCommand implements Co
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindClientResponseCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -50,15 +49,12 @@ public class FindClientResponseCommandImpl extends AbstractCommand implements Co
             }
             Page<Order> paginationResult = orderService.getOrdersResponseByClientId(paginationRequest, idClient);
             setParametersToRequest(request, paginationResult, FIND_CLIENT_RESPONSE, sortByParameter, direction);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses"));
-
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.order.client.order.responses")));
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
-
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

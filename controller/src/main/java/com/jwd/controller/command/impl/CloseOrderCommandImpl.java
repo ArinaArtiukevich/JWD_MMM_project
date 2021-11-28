@@ -21,7 +21,7 @@ import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.jwd.controller.command.ParameterAttributeType.MESSAGE;
+import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
 
 
@@ -36,19 +36,20 @@ public class CloseOrderCommandImpl extends AbstractCommand implements Command {
         String path = null;
         try {
             Long idOrder = getOrderId(request);
+            HttpSession session = request.getSession();
             if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
-                request.setAttribute(MESSAGE, "Order status was changed. Order is done.");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                session.setAttribute(MESSAGE, "Order status was changed. Order is done.");
             } else {
                 LOGGER.error("Order was not closed.");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
+                session.setAttribute(ERROR_WORK_MESSAGE, "Order was not closed.");
             }
+            answer.setPath(GO_TO_WORK_PAGE);
+            answer.setAnswerType(AnswerType.REDIRECT);
+
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not close order.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

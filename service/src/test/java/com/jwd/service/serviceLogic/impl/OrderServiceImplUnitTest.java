@@ -52,7 +52,6 @@ public class OrderServiceImplUnitTest {
             new Order(3L, 1L, "paint door", "esenina 7", ServiceType.PAINTING, ServiceStatus.FREE, new Date())
     );
     private List<Order> emptyOrders = new ArrayList<>();
-    private Order filter = new Order();
     private String sortBy = "description";
     private String direction = "ASC";
 
@@ -82,10 +81,10 @@ public class OrderServiceImplUnitTest {
 
     @Test
     public void testGetAllServices_positive() throws ServiceException, DaoException {
-        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, filter, sortBy, direction);
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         // Page<Order> changedOrderPageRequest = new Page<>(pageNumber, totalElements, 111, orders, filter, sortBy, direction);
-        Page<Order> orderPage = new Page<>(pageNumber, totalElements, limit, orders, filter, sortBy, direction);
-        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, orders, filter, sortBy, direction);
+        Page<Order> orderPage = new Page<>(pageNumber, totalElements, limit, orders, sortBy, direction);
+        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, orders, sortBy, direction);
 
         when(orderDao.getServiceList(orderPageRequest)).thenReturn(orderPage);
 
@@ -99,7 +98,7 @@ public class OrderServiceImplUnitTest {
 
     @Test
     public void testGetAllServices_daoException() throws DaoException {
-        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, filter, sortBy, direction);
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         final DaoException daoException = new DaoException("message");
 
         when(orderDao.getServiceList(orderPageRequest)).thenThrow(daoException);
@@ -139,21 +138,21 @@ public class OrderServiceImplUnitTest {
 
     @Test
     public void testGetOrdersByServiceType_positive() throws ServiceException, DaoException {
-        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, filter, sortBy, direction);
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         ServiceType serviceTypeRequest = ServiceType.PAINTING;
-        Page<Order> orderPage = new Page<>(pageNumber, totalElements, limit, ordersPainting, filter, sortBy, direction);
-        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, ordersPainting, filter, sortBy, direction);
+        Page<Order> orderPage = new Page<>(pageNumber, totalElements, limit, ordersPainting, sortBy, direction);
+        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, ordersPainting, sortBy, direction);
 
         when(orderDao.getOrdersByServiceType(orderPageRequest, serviceTypeRequest)).thenReturn(orderPage);
 
-        Page<Order> actualOrderPageResult = orderService.getOrdersByServiceType(orderPageRequest, serviceTypeRequest);
+        Page<Order> actualOrderPageResult = orderService.getOrdersByServiceType(orderPageRequest, serviceTypeRequest.toString());
 
         assertEquals(expectedOrderPageRequest, actualOrderPageResult);
     }
 
     @Test
     public void testGetOrdersByServiceType_daoException() throws DaoException {
-        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, filter, "sortBy", direction);
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, "sortBy", direction);
         final DaoException daoException = new DaoException("Invalid parameters.");
         ServiceType serviceTypeRequest = ServiceType.PAINTING;
 
@@ -161,7 +160,7 @@ public class OrderServiceImplUnitTest {
 
         ServiceException actual = null;
         try {
-            orderService.getOrdersByServiceType(orderPageRequest, serviceTypeRequest);
+            orderService.getOrdersByServiceType(orderPageRequest, serviceTypeRequest.toString());
         } catch (ServiceException e) {
             actual = e;
         }

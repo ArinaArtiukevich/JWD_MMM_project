@@ -36,7 +36,6 @@ public class FindOrderInfoCommandImpl extends AbstractCommand implements Command
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindOrderInfoCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             Long idService = getOrderId(request);
             Order order = orderService.getOrderById(idService);
@@ -46,14 +45,12 @@ public class FindOrderInfoCommandImpl extends AbstractCommand implements Command
             HttpSession session = request.getSession();
             session.setAttribute(ParameterAttributeType.ORDER, order);
             session.setAttribute(ParameterAttributeType.CLIENT, client);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.order.info"));
-
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.order.info")));
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

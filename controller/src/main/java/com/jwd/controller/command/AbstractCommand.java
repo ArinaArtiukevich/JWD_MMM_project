@@ -25,7 +25,7 @@ public abstract class AbstractCommand {
     }
 
     public Long getOrderId(HttpServletRequest request) throws ControllerException {
-        String idOrderString = request.getParameter(ParameterAttributeType.ID_SERVICE);
+        String idOrderString = request.getParameter(ID_SERVICE);
         validator.isValid(idOrderString);
         Long idOrder = Long.parseLong(idOrderString);
         validator.isValid(idOrder);

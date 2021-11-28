@@ -40,7 +40,6 @@ public class OrderServiceImplTest {
             new Order(137L, 42L, "change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021"))
     );
     private List<Order> emptyOrders = new ArrayList<>();
-    private Order filter = new Order();
     private String sortBy = "id_service";
     private String direction = "ASC";
 
@@ -63,8 +62,8 @@ public class OrderServiceImplTest {
      */
     @Test
     public void testGetAllServices_positive() throws ServiceException, ParseException {
-        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, filter, sortBy, direction);
-        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, orders, filter, sortBy, direction);
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
+        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, orders, sortBy, direction);
 
         Page<Order> actualOrderPageResult = orderService.getAllServices(orderPageRequest); // todo delete возвращаются реальные данные
         /*
@@ -81,7 +80,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void testGetAllServices_daoException() {
-        Page<Order> orderPageRequest = new Page<>(-123, totalElements, limit, emptyOrders, filter, sortBy, direction);
+        Page<Order> orderPageRequest = new Page<>(-123, totalElements, limit, emptyOrders, sortBy, direction);
         final PSQLException psqlException = new PSQLException("ERROR: OFFSET must not be negative", PSQLState.DATA_ERROR);
 
         ServiceException actual = null;

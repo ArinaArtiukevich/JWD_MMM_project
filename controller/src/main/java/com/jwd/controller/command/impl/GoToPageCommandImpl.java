@@ -22,13 +22,11 @@ public class GoToPageCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start GoToPageCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         request.setAttribute(LAST_COMMAND, GO_TO_PAGE);
         String page_path = request.getParameter(PATH);
         validator.isValid(page_path);
-        path = pathToJspCheckIsIndexPage(page_path);
         answer.setAnswerType(AnswerType.FORWARD);
-        answer.setPath(path);
+        answer.setPath(pathToJspCheckIsIndexPage(page_path));
         return answer;
     }
 }

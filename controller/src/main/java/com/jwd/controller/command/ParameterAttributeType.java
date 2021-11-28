@@ -79,7 +79,9 @@ public final class ParameterAttributeType {
 
             COMMAND_DOES_NOT_CONTAIN = "^((?!<|>|script).)*$",
             INDEX = "index",
-            GO_TO_WORK_PAGE = "/controller?command=go_to_page&path=work";
+            GO_TO_WORK_PAGE = "/controller?command=go_to_page&path=work",
+            GO_TO_LOGIN_PAGE = "/controller?command=go_to_page&path=login",
+            GO_TO_REGISTRATION_PAGE = "/controller?command=go_to_page&path=registration";
 
 
     private ParameterAttributeType() {

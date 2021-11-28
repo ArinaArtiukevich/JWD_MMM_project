@@ -36,7 +36,6 @@ public class FindClientOrderByStatusCommandImpl extends AbstractCommand implemen
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindClientOrderByStatusCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -52,17 +51,15 @@ public class FindClientOrderByStatusCommandImpl extends AbstractCommand implemen
             }
             String serviceStatusString = request.getParameter(SERVICE_STATUS);
             validator.isValid(serviceStatusString);
-            ServiceStatus serviceStatus = ServiceStatus.valueOf(serviceStatusString);
-            Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus, idClient);
+            Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatusString, idClient);
             setParametersToRequest(request, paginationResult, FIND_CLIENT_ORDER_BY_STATUS, sortByParameter, direction);
-            request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatus);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
+            request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatusString);
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order")));
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not get a list of responses.");
             throw new ControllerException("Could not get a list of responses.");
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 

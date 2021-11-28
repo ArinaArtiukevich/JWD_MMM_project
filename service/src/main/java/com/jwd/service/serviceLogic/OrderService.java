@@ -9,7 +9,7 @@ import com.jwd.service.exception.ServiceException;
 public interface OrderService {
     Page<Order> getAllServices(Page<Order> orderPageRequest) throws ServiceException;
 
-    Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException;
+    Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceType) throws ServiceException;
 
     Page<Order> getOrdersByUserId(Page<Order> orderPageRequest, Long idUser) throws ServiceException;
 
@@ -25,7 +25,7 @@ public interface OrderService {
 
     Page<Order> getOrdersResponseByClientId(Page<Order> orderPageRequest, Long idClient) throws ServiceException;
 
-    Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) throws ServiceException;
+    Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, String serviceStatus, Long idClient) throws ServiceException;
 
     boolean deleteById(Long idOrder, Long idUser) throws ServiceException;
 }

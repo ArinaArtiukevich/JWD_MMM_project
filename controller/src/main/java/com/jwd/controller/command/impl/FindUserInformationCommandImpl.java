@@ -35,13 +35,12 @@ public class FindUserInformationCommandImpl extends AbstractCommand implements C
             User user = userService.getUserById(idUser);
             request.setAttribute(USER, user);
             request.setAttribute(LAST_COMMAND, FIND_USER_INFORMATION);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.work")));
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find user.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

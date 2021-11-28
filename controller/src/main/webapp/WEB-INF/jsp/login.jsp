@@ -13,7 +13,6 @@
     <head>
         <title>${title_login}</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
@@ -33,7 +32,8 @@
         </header>
 
         <div id="error">
-            <h1 style="color:red;"> ${errorLoginMessage}</h1>
+            <c:out value="${sessionScope.errorLoginMessage}" />
+            <c:remove var="errorLoginMessage" scope="session" />
         </div>
         <form method="POST" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="login"/>
@@ -44,7 +44,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">${login_menu_login}</span>
                         </div>
-                        <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="loginHelp" value=""/>
+                        <input type="text" class="form-control" name="login" id="loginInput"
+                               aria-describedby="loginHelp" value=""/>
                     </div>
                 </div>
                 <div class="row">
@@ -59,14 +60,14 @@
                 <button type="submit" name="loginAction" class="btn" value="Submit">${login_button_enter}</button>
             </div>
 
-<%--            <div class="mb-3">--%>
-<%--                <label for="loginInput" class="form-label form-control-lg">${login_menu_login}</label>--%>
-<%--                <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="loginHelp" value=""/>--%>
-<%--            </div>--%>
-<%--            <div class="mb-3">--%>
-<%--                <label for="passwordInput" class="form-label form-control-lg">${login_menu_password}</label>--%>
-<%--                <input type="password" name="password" class="form-control" id="passwordInput" value=""/>--%>
-<%--            </div>--%>
+                <%--            <div class="mb-3">--%>
+                <%--                <label for="loginInput" class="form-label form-control-lg">${login_menu_login}</label>--%>
+                <%--                <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="loginHelp" value=""/>--%>
+                <%--            </div>--%>
+                <%--            <div class="mb-3">--%>
+                <%--                <label for="passwordInput" class="form-label form-control-lg">${login_menu_password}</label>--%>
+                <%--                <input type="password" name="password" class="form-control" id="passwordInput" value=""/>--%>
+                <%--            </div>--%>
 
 
         </form>

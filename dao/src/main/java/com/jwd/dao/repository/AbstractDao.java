@@ -66,7 +66,6 @@ public abstract class AbstractDao {
         page.setLimit(daoOrderPage.getLimit());
         page.setTotalElements(totalElements);
         page.setElements(orders);
-        page.setFilter(daoOrderPage.getFilter());
         page.setSortBy(daoOrderPage.getSortBy());
         page.setDirection(daoOrderPage.getDirection());
         return page;

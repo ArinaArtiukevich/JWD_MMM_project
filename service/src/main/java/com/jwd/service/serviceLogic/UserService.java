@@ -20,6 +20,8 @@ public interface UserService {
 
     User getUserById(Long idUser) throws ServiceException;
 
+    User getUserByLogin(String login) throws ServiceException;
+
     UserRole getRoleByID(Long idUser) throws ServiceException;
 
     String getPassword(Long idUser) throws ServiceException;

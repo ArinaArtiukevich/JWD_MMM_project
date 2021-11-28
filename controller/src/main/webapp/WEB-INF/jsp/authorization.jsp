@@ -14,7 +14,6 @@
     <head>
         <title>${title_authorization}</title>
         <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.css"/>
-        <link rel="stylesheet" href="../../resources/css/style.css"/>
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
@@ -36,17 +35,17 @@
         </div>
 
         <div class="container">
-        <h3>${title_authorization}</h3>
-        <hr/>
-        <form name="startForm" action="${pageContext.request.contextPath}/controller" method="POST">
-            <div class="btn-group" role="group">
-                <a href="/controller?command=go_to_page&path=login" class="btn btn-light" role="button"><c:out
-                        value="${button_login}"/></a>
-                <br/>
-                <a href="/controller?command=go_to_page&path=registration" class="btn btn-info" role="button"><c:out
-                        value="${button_registration}"/></a>
-            </div>
-        </form>
+            <h3>${title_authorization}</h3>
+            <hr/>
+            <form name="startForm" action="${pageContext.request.contextPath}/controller" method="POST">
+                <div class="btn-group" role="group">
+                    <a href="/controller?command=go_to_page&path=login" class="btn btn-light" role="button"><c:out
+                            value="${button_login}"/></a>
+                    <br/>
+                    <a href="/controller?command=go_to_page&path=registration" class="btn btn-info" role="button"><c:out
+                            value="${button_registration}"/></a>
+                </div>
+            </form>
         </div>
     </body>
 </html>

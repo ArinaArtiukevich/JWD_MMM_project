@@ -41,51 +41,46 @@
                 <jsp:param name="page_path" value="work"/>
             </jsp:include>
         </header>
-
-        <div>
-            <h1>id : ${sessionScope.userId}</h1>
-            <h1>login : ${sessionScope.login}</h1>
-        </div>
-
         <div id="error">
-            <h4 style="color:red;"> ${requestScope.errorWorkMessage}</h4>
+            <c:out value="${sessionScope.errorWorkMessage}" />
+            <c:remove var="errorWorkMessage" scope="session" />
         </div>
         <div id="message">
-            <h1> ${requestScope.message}</h1>
+            <c:out value="${sessionScope.message}" />
+            <c:remove var="message" scope="session" />
         </div>
-
         <table>
             <div>
                 <h5>User info :</h5>
             </div>
             <tr>
-                <td>${user_firstName} : ${requestScope.user.firstName}
+                <td>${user_firstName} : ${sessionScope.user.firstName}
                     <br/>
                 </td>
-                <td>${user_lastName} : ${requestScope.user.lastName}
+                <td>${user_lastName} : ${sessionScope.user.lastName}
                     <br/>
                 </td>
-                <td>${user_email} : ${requestScope.user.email}
+                <td>${user_email} : ${sessionScope.user.email}
                     <br/>
                 </td>
-                <td>${user_city} : ${requestScope.user.city}
+                <td>${user_city} : ${sessionScope.user.city}
                     <br/>
                 </td>
             </tr>
         </table>
 
-        <c:if test="${sessionScope.userId ne null}">
+        <c:if test="${sessionScope.user.idUser ne null}">
             <form id="work" method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="work"/>
             </form>
 
             <form id="find_user_information" method="GET" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="find_user_information"/>
-                <input type="hidden" name="userId" value="${sessionScope.userId}"/>
+                <input type="hidden" name="userId" value="${sessionScope.user.idUser}"/>
             </form>
             <form id="update_user" method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="update_user"/>
-                <input type="hidden" name="userId" value="${sessionScope.userId}"/>
+                <input type="hidden" name="userId" value="${sessionScope.user.idUser}"/>
             </form>
             <div id="menu">
                 <c:choose>
@@ -190,7 +185,7 @@
 
             </div>
         </c:if>
-        <c:if test="${sessionScope.userId eq null}">
+        <c:if test="${sessionScope.user.idUser eq null}">
             <a href="/controller?command=go_to_page&path=authorization">
                 <h5>Please login or register</h5>
             </a>

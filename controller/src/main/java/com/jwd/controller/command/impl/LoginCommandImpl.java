@@ -7,6 +7,7 @@ import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
+import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.enums.Gender;
 import com.jwd.dao.entity.enums.UserRole;
 import com.jwd.service.exception.ServiceException;
@@ -32,35 +33,29 @@ public class LoginCommandImpl implements Command {
         LOGGER.info("Start LoginCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
         String path = null;
+        HttpSession session = request.getSession(true);
         try {
             String login = request.getParameter(ParameterAttributeType.LOGIN);
             String password = request.getParameter(ParameterAttributeType.PASSWORD);
             validateParameters(login, password);
             if (userService.isLoginAndPasswordExist(login, password)) {
-                Long idUser = userService.getIdUserByLogin(login);// todo in one request?
-                UserRole userRole = userService.getRoleByID(idUser);
-
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-                request.setAttribute(ParameterAttributeType.USER_ID, idUser);
-                request.setAttribute(ParameterAttributeType.LOGIN, login);
-
-                HttpSession session = request.getSession(true);
-                session.setAttribute(ParameterAttributeType.USER_ID, idUser);
-                session.setAttribute(ParameterAttributeType.LOGIN, login);
-                session.setAttribute(USER_ROLE, userRole.getName());
+                User user = userService.getUserByLogin(login);// todo in one request?
+                session.setAttribute(USER_ID, user.getIdUser());
+                session.setAttribute(LOGIN, login);
+                session.setAttribute(USER_ROLE, user.getUserRole().getName());
+                session.setAttribute(USER, user);
+                path = GO_TO_WORK_PAGE;
             } else {
-                request.setAttribute(ERROR_LOGIN_MESSAGE, "Invalid login or password");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.login"));
+                session.setAttribute(ERROR_LOGIN_MESSAGE, "Invalid login or password");
+                path = GO_TO_LOGIN_PAGE;
             }
-
+            answer.setPath(path);
+            answer.setAnswerType(AnswerType.REDIRECT);
         } catch (ServiceException e) {
             LOGGER.error("Can't login user.");
-            HttpSession session = request.getSession(true);
             session.setAttribute(ERROR, "Can't login user.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 

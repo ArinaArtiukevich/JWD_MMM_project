@@ -52,14 +52,12 @@ public class FindWorkerResponseCommandImpl extends AbstractCommand implements Co
             }
             Page<Order> paginationResult = orderService.getOrdersByWorkerId(paginationRequest, idWorker);
             setParametersToRequest(request, paginationResult, FIND_WORKER_RESPONSE, sortByParameter, direction);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
-
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses")));
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

@@ -12,6 +12,8 @@ import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.service.util.ParameterAttribute.ALL_ORDERS;
+
 public class OrderServiceImpl implements OrderService {
     private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDao orderDao;
@@ -37,13 +39,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) throws ServiceException {
-        LOGGER.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, ServiceType serviceType) in OrderService.");
+    public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceTypeString) throws ServiceException {
+        LOGGER.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceType) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
-            validator.validate(serviceType);
-            orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
+            validator.validate(serviceTypeString);
+            if (serviceTypeString.equals(ALL_ORDERS)) {
+                orderPage = orderDao.getServiceList(orderPageRequest);
+            } else {
+                ServiceType serviceType = ServiceType.valueOf(serviceTypeString);
+                validator.validate(serviceType);
+                orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
+            }
         }
         catch (DaoException e) {
             throw new ServiceException(e);
@@ -157,14 +165,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) throws ServiceException {
+    public Page<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, String serviceStatusString, Long idClient) throws ServiceException {
         LOGGER.info("Start age<Order> getOrdersByServiceStatus(Page<Order> orderPageRequest, ServiceStatus serviceStatus, Long idClient) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
-            validator.validate(serviceStatus);
+            validator.validate(serviceStatusString);
             validator.validate(idClient);
-            orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus, idClient);
+            if (serviceStatusString.equals(ALL_ORDERS)) {
+                orderPage = orderDao.findOrdersByIdUser(orderPageRequest, idClient);
+            } else {
+                ServiceStatus serviceStatus = ServiceStatus.valueOf(serviceStatusString);
+                validator.validate(serviceStatus);
+                orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus, idClient);
+            }
+
         }
         catch (DaoException e) {
             throw new ServiceException(e);

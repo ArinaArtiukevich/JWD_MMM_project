@@ -34,7 +34,6 @@ public class FindOrdersByServiceTypeCommandImpl extends AbstractCommand implemen
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindOrdersByServiceTypeCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -49,17 +48,17 @@ public class FindOrdersByServiceTypeCommandImpl extends AbstractCommand implemen
             }
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
             validator.isValid(serviceTypeString);
-            ServiceType serviceType = ServiceType.valueOf(serviceTypeString);
-            Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceType);
+
+            Page<Order> paginationResult = orderService.getOrdersByServiceType(paginationRequest, serviceTypeString);
+
             setParametersToRequest(request, paginationResult, SHOW_ORDERS_BY_SERVICE_TYPE, sortByParameter, direction);
-            request.setAttribute(SELECTED_SERVICE_TYPE, serviceType);
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
+            request.setAttribute(SELECTED_SERVICE_TYPE, serviceTypeString);
+            answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.services")));
+            answer.setAnswerType(AnswerType.FORWARD); // todo redirect?
         } catch (ServiceException e) {
             LOGGER.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 

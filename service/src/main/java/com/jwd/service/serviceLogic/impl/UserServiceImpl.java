@@ -146,10 +146,25 @@ public class UserServiceImpl implements UserService {
             validator.validate(idUser);
             user = userDao.getUserById(idUser);
         } catch (DaoException e) {
-            LOGGER.error("Client with idUser = " + idUser + " was not found.");
+            LOGGER.error("User with idUser = " + idUser + " was not found.");
             throw new ServiceException(e);
         }
-        LOGGER.info("Client with idUser = " + idUser + " was found. Id = " + idUser);
+        LOGGER.info("User with idUser = " + idUser + " was found.");
+        return user;
+    }
+
+    @Override
+    public User getUserByLogin(String login) throws ServiceException {
+        LOGGER.info("Start User getUserByLogin(String login). Login = " + login);
+        User user = new User();
+        try {
+            validator.validate(login);
+            user = userDao.getUserByLogin(login);
+        } catch (DaoException e) {
+            LOGGER.error("User with login = " + login + " was not found.");
+            throw new ServiceException(e);
+        }
+        LOGGER.info("User with login = " + login + " was found.");
         return user;
     }
 

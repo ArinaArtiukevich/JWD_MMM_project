@@ -34,20 +34,19 @@ public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Comma
         try {
             Long idClient = getUserId(request);
             Long idService = getOrderId(request);
-
+            HttpSession session = request.getSession();
             if (orderService.deleteById(idService ,idClient)){
-                request.setAttribute(MESSAGE, "Order was deleted.");
+                session.setAttribute(MESSAGE, "Order was deleted.");
             } else {
                 request.setAttribute(ERROR_WORK_MESSAGE, "Could not delete an order. Please, try again.");
-                request.setAttribute(MESSAGE, "Order was not deleted.");
+                session.setAttribute(MESSAGE, "Order was not deleted.");
             }
-            path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+            answer.setPath(GO_TO_WORK_PAGE);
+            answer.setAnswerType(AnswerType.REDIRECT);
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Problems with deleting order.");
             throw new ControllerException(e);
         }
-        answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
         return answer;
     }
 }

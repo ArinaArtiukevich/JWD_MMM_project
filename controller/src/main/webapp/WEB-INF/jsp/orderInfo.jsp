@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@page language="java" contentType="text\html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -13,23 +13,23 @@
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="button.take.order" var="button_take_order" />
-        <fmt:message bundle="${loc}" key="button.close.order" var="button_close_order" />
-        <fmt:message bundle="${loc}" key="button.approve.order" var="button_approve_order" />
-        <fmt:message bundle="${loc}" key="title.orderInformation" var="title_order_information" />
-        <fmt:message bundle="${loc}" key="order.idService" var="idService" />
-        <fmt:message bundle="${loc}" key="order.idClient" var="idClient" />
-        <fmt:message bundle="${loc}" key="order.description" var="description" />
-        <fmt:message bundle="${loc}" key="order.address" var="address" />
-        <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType" />
-        <fmt:message bundle="${loc}" key="order.status" var="status" />
-        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate" />
+        <fmt:message bundle="${loc}" key="button.take.order" var="button_take_order"/>
+        <fmt:message bundle="${loc}" key="button.close.order" var="button_close_order"/>
+        <fmt:message bundle="${loc}" key="button.approve.order" var="button_approve_order"/>
+        <fmt:message bundle="${loc}" key="title.orderInformation" var="title_order_information"/>
+        <fmt:message bundle="${loc}" key="order.idService" var="idService"/>
+        <fmt:message bundle="${loc}" key="order.idClient" var="idClient"/>
+        <fmt:message bundle="${loc}" key="order.description" var="description"/>
+        <fmt:message bundle="${loc}" key="order.address" var="address"/>
+        <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType"/>
+        <fmt:message bundle="${loc}" key="order.status" var="status"/>
+        <fmt:message bundle="${loc}" key="order.orderCreationDate" var="orderCreationDate"/>
 
-        <fmt:message bundle="${loc}" key="user.firstName" var="user_firstName" />
-        <fmt:message bundle="${loc}" key="user.lastName" var="user_lastName" />
-        <fmt:message bundle="${loc}" key="user.email" var="user_email" />
-        <fmt:message bundle="${loc}" key="user.city" var="user_city" />
-        <fmt:message bundle="${loc}" key="user.gender" var="user_gender" />
+        <fmt:message bundle="${loc}" key="user.firstName" var="user_firstName"/>
+        <fmt:message bundle="${loc}" key="user.lastName" var="user_lastName"/>
+        <fmt:message bundle="${loc}" key="user.email" var="user_email"/>
+        <fmt:message bundle="${loc}" key="user.city" var="user_city"/>
+        <fmt:message bundle="${loc}" key="user.gender" var="user_gender"/>
 
     </head>
     <body>
@@ -53,32 +53,68 @@
                         <td>${orderCreationDate} </td>
                     </tr>
                     <tr>
-                        <td>${sessionScope.order.idService}<br/></td>
-                        <td>${sessionScope.order.idClient}<br/></td>
-                        <td>${sessionScope.order.description}<br/></td>
-                        <td>${sessionScope.order.address}<br/></td>
-                        <td>${sessionScope.order.serviceType}<br/></td>
-                        <td>${sessionScope.order.status}<br/></td>
-                        <td><fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd" /><br/></td>
+                        <td>${sessionScope.order.idService}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.order.idClient}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.order.description}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.order.address}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.order.serviceType}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.order.status}
+                            <br/>
+                        </td>
+                        <td><fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd"/>
+                            <br/>
+                        </td>
                     </tr>
                 </table>
             </div>
             <c:if test="${sessionScope.userRole eq 'worker'}">
                 <table class="table">
-                    <div> <h5>Client info : </h5></div>
+                    <div>
+                        <h5>Client info :</h5>
+                    </div>
                     <tr>
-                        <td>${user_firstName}<br/></td>
-                        <td>${user_lastName}<br/></td>
-                        <td>${user_gender}<br/></td>
-                        <td>${user_email}<br/></td>
-                        <td>${user_city}<br/></td>
+                        <td>${user_firstName}
+                            <br/>
+                        </td>
+                        <td>${user_lastName}
+                            <br/>
+                        </td>
+                        <td>${user_gender}
+                            <br/>
+                        </td>
+                        <td>${user_email}
+                            <br/>
+                        </td>
+                        <td>${user_city}
+                            <br/>
+                        </td>
                     </tr>
                     <tr>
-                        <td>${sessionScope.client.firstName}<br/></td>
-                        <td>${sessionScope.client.lastName}<br/></td>
-                        <td>${sessionScope.client.gender}<br/></td>
-                        <td>${sessionScope.client.email}<br/></td>
-                        <td>${sessionScope.client.city}<br/></td>
+                        <td>${sessionScope.client.firstName}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.client.lastName}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.client.gender}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.client.email}
+                            <br/>
+                        </td>
+                        <td>${sessionScope.client.city}
+                            <br/>
+                        </td>
                     </tr>
                 </table>
                 <c:if test="${sessionScope.order.status.toString() eq 'FREE'}">
@@ -94,7 +130,7 @@
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.userRole eq 'client'}">
-                <c:if test="${sessionScope.userId eq sessionScope.order.idClient}">
+                <c:if test="${sessionScope.user.idUser eq sessionScope.order.idClient}">
                     <c:if test="${sessionScope.order.status.toString() eq 'DONE'}">
                         <input type="hidden" name="command" value="approve_order"/>
                         <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>

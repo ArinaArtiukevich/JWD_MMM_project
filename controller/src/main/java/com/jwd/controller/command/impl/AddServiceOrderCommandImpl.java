@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.util.Date;
 
@@ -46,14 +47,15 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
             Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
 
             validateParameters(orderItem, idClient);
-
+            HttpSession session = request.getSession();
             if (orderService.addServiceOrder(orderItem, idClient)) {
-                request.setAttribute(MESSAGE, "Order was added.");
+                session.setAttribute(MESSAGE, "Order was added."); // todo <c:remove var="message" scope="session" /> in jsp possible?
             } else {
-                request.setAttribute(ERROR_WORK_MESSAGE, "Could not add an order. Please, try again.");
+                session.setAttribute(ERROR_WORK_MESSAGE, "Could not add an order. Please, try again.");
             }
             answer.setPath(GO_TO_WORK_PAGE);
             answer.setAnswerType(AnswerType.REDIRECT);
+
         } catch (ServiceException e) {
             LOGGER.error("Problems with adding order.");
             throw new ControllerException(e);

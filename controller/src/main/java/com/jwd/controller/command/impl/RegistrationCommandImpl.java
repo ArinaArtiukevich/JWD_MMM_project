@@ -49,6 +49,7 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
             String password = request.getParameter(PASSWORD);
             String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
             validatePassword(password, confirmPassword);
+            HttpSession session = request.getSession(true);
             if (password.equals(confirmPassword)) {
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
                 String hashedConfirmPassword = BCrypt.hashpw(confirmPassword, BCrypt.gensalt());
@@ -60,22 +61,17 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
                 idUser = userService.getIdUserByLogin(login);
 
                 if (isRegistered) {
-                    path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-
-                    request.setAttribute(LOGIN, login);
-                    request.setAttribute(USER, registration);
-
-                    HttpSession session = request.getSession(true);
                     session.setAttribute(USER_ID, idUser);
                     session.setAttribute(LOGIN, login);
                     session.setAttribute(USER_ROLE, userRole.getName());
+                    path = GO_TO_WORK_PAGE;
                 } else {
                     LOGGER.error("Registration failed.");
                     throw new ControllerException("Registration failed. Please, try again.");
                 }
             } else {
-                request.setAttribute(ERROR_REGISTRATION, "Passwords are not equal.");
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.registration"));
+                session.setAttribute(ERROR_REGISTRATION, "Passwords are not equal.");
+                path = GO_TO_REGISTRATION_PAGE;
             }
         } catch (ServiceException e) {
             LOGGER.error("Problems with user registration.");
