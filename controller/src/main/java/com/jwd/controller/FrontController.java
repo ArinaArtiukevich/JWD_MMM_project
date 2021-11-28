@@ -2,6 +2,8 @@ package com.jwd.controller;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.factory.CommandFactory;
 import com.jwd.controller.resources.ConfigurationBundle;
@@ -34,15 +36,19 @@ public class FrontController extends HttpServlet {
         LOGGER.debug("Controller was started.");
         LOGGER.debug(request.getParameter(COMMAND));
 
-        String page = null;
+        CommandAnswer answer = null;
         try {
             CommandFactory commandFactory = new CommandFactory();
             Command command = commandFactory.defineManager(request);
-            page = command.execute(request);
+            answer = command.execute(request);
             LOGGER.debug("using " + command);
-            if (page != null) {
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-                dispatcher.forward(request, response);
+            if (answer != null && nonNull(answer.getAnswerType()) && nonNull(answer.getPath()) && !answer.getPath().isEmpty()) {
+                if (answer.getAnswerType().equals(AnswerType.FORWARD)) {
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(answer.getPath());
+                    dispatcher.forward(request, response);
+                } else {
+                    response.sendRedirect(answer.getPath());
+                }
             } else {
                 LOGGER.error("Operation went wrong.");
                 response.sendRedirect("/controller?command=go_to_page&path=index");

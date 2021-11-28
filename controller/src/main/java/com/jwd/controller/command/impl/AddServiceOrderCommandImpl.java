@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -30,9 +32,10 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start addServiceOrder.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             String description = request.getParameter(SERVICE_DESCRIPTION);
             String address = request.getParameter(SERVICE_ADDRESS);
@@ -49,13 +52,13 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
             } else {
                 request.setAttribute(ERROR_WORK_MESSAGE, "Could not add an order. Please, try again.");
             }
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-
+            answer.setPath(GO_TO_WORK_PAGE);
+            answer.setAnswerType(AnswerType.REDIRECT);
         } catch (ServiceException e) {
             LOGGER.error("Problems with adding order.");
             throw new ControllerException(e);
         }
-        return page;
+        return answer;
     }
 
     private void validateParameters(Order orderItem, Long idClient) throws ControllerException {

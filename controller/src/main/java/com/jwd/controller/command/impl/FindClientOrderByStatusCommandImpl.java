@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 
@@ -31,9 +33,10 @@ public class FindClientOrderByStatusCommandImpl extends AbstractCommand implemen
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindClientOrderByStatusCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -53,12 +56,14 @@ public class FindClientOrderByStatusCommandImpl extends AbstractCommand implemen
             Page<Order> paginationResult = orderService.getOrdersByServiceStatus(paginationRequest, serviceStatus, idClient);
             setParametersToRequest(request, paginationResult, FIND_CLIENT_ORDER_BY_STATUS, sortByParameter, direction);
             request.setAttribute(SELECTED_SERVICE_STATUS, serviceStatus);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not get a list of responses.");
             throw new ControllerException("Could not get a list of responses.");
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
 }

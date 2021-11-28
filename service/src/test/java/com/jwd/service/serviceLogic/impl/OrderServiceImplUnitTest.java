@@ -167,7 +167,7 @@ public class OrderServiceImplUnitTest {
         }
         assertEquals(new ServiceException(daoException).getMessage(), actual.getMessage());
     }
-// todo
+
 //    @Test
 //    public void testTakeOrder_positive() throws ServiceException, DaoException {
 //        Order order = new Order(description, address, serviceType, status, orderCreationDate);

@@ -5,8 +5,11 @@ import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.smartcardio.CommandAPDU;
 
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -27,22 +30,25 @@ public class CloseOrderCommandImpl extends AbstractCommand implements Command {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start CloseOrderCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             Long idOrder = getOrderId(request);
             if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
                 request.setAttribute(MESSAGE, "Order status was changed. Order is done.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
                 LOGGER.error("Order was not closed.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not close order.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

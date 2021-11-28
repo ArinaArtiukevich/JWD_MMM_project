@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 
@@ -30,9 +32,10 @@ public class FindAllServicesCommandImpl extends AbstractCommand implements Comma
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindAllServicesCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -47,12 +50,14 @@ public class FindAllServicesCommandImpl extends AbstractCommand implements Comma
             }
             Page<Order> paginationResult = orderService.getAllServices(paginationRequest);
             setParametersToRequest(request, paginationResult, SHOW_SERVICE_ALL, sortByParameter, direction);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.services"));
         } catch (ServiceException e) {
             LOGGER.error("Could not get a list of services.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
 }

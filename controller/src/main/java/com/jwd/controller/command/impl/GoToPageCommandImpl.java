@@ -1,6 +1,8 @@
 package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.validator.ControllerValidator;
 import org.apache.logging.log4j.LogManager;
@@ -17,13 +19,16 @@ public class GoToPageCommandImpl implements Command {
     private final ControllerValidator validator = new ControllerValidator();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start GoToPageCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         request.setAttribute(LAST_COMMAND, GO_TO_PAGE);
         String page_path = request.getParameter(PATH);
         validator.isValid(page_path);
-        page = pathToJspCheckIsIndexPage(page_path);
-        return page;
+        path = pathToJspCheckIsIndexPage(page_path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        answer.setPath(path);
+        return answer;
     }
 }

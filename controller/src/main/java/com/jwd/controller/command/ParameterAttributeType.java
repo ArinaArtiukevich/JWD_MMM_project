@@ -78,7 +78,8 @@ public final class ParameterAttributeType {
             DEFAULT_CURRENT_LIMIT_PARAM = "5",
 
             COMMAND_DOES_NOT_CONTAIN = "^((?!<|>|script).)*$",
-            INDEX = "index";
+            INDEX = "index",
+            GO_TO_WORK_PAGE = "/controller?command=go_to_page&path=work";
 
 
     private ParameterAttributeType() {

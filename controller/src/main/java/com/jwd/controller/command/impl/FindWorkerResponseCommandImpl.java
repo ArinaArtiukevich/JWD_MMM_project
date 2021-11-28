@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -31,9 +33,10 @@ public class FindWorkerResponseCommandImpl extends AbstractCommand implements Co
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindWorkerResponseCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -49,12 +52,14 @@ public class FindWorkerResponseCommandImpl extends AbstractCommand implements Co
             }
             Page<Order> paginationResult = orderService.getOrdersByWorkerId(paginationRequest, idWorker);
             setParametersToRequest(request, paginationResult, FIND_WORKER_RESPONSE, sortByParameter, direction);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.order.worker.responses"));
 
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

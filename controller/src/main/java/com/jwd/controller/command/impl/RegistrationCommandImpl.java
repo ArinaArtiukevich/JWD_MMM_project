@@ -3,6 +3,8 @@ package com.jwd.controller.command.impl;
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -28,9 +30,10 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start registration.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             String firstName = request.getParameter(FIRST_NAME);
             String lastName = request.getParameter(LAST_NAME);
@@ -57,7 +60,7 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
                 idUser = userService.getIdUserByLogin(login);
 
                 if (isRegistered) {
-                    page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                    path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
 
                     request.setAttribute(LOGIN, login);
                     request.setAttribute(USER, registration);
@@ -72,13 +75,15 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
                 }
             } else {
                 request.setAttribute(ERROR_REGISTRATION, "Passwords are not equal.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.registration"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.registration"));
             }
         } catch (ServiceException e) {
             LOGGER.error("Problems with user registration.");
             throw new ControllerException("Registration failed " + e.getMessage());
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
     private void validateParameters(Registration registration) throws ControllerException {

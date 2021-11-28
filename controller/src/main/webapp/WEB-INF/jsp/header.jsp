@@ -21,50 +21,75 @@
     </head>
     <body>
 
-        <p class="page-header" >Name</p>
-        <div align="center">
-            <table>
-                <tr>
-                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>
-                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>
-                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>
-                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>
-                </tr>
-            </table>
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <p class="h2" style="margin: 10px 0;" >TOKAR</p>
+                </div>
+                <div class="col-2">
+                    <form class="mb-0" name="change_language" method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="change_language">
+                            <input type="hidden" name="parent_page" value="${param.page_path}">
 
-        </div>
+                                <div>
+                                    <button type="submit" class="btn btn-link btn-sm" name="change_language" value="en">
+                                        <c:out value="${en_btn}"/>
+                                    </button>
 
-        <form name="change_language" method="POST"
-              action="${pageContext.request.contextPath}/controller">
-            <input type="hidden" name="command" value="change_language">
-            <input type="hidden" name="parent_page" value="${param.page_path}">
-
-            <div>
-                <button type="submit" class="linkgb" name="change_language" value="en">
-                    <c:out value="${en_btn}"/>
-                </button>
-
-                <button type="submit" class="linkrus" name="change_language" value="ru">
-                    <c:out value="${ru_btn}"/>
-                </button>
+                                    <button type="submit" class="btn btn-link btn-sm" name="change_language" value="ru">
+                                        <c:out value="${ru_btn}"/>
+                                    </button>
+                                </div>
+                            </input>
+                        </input>
+                    </form>
+                    <div>
+                        <c:choose>
+                            <c:when test="${sessionScope.userRole eq 'client'}">
+                                <a class="btn btn-light btn-sm" href="/controller?command=logout">
+                                        ${button_logout}
+                                </a>
+                            </c:when>
+                            <c:when test="${sessionScope.userRole eq 'worker'}">
+                                <a class="btn btn-light btn-sm" href="/controller?command=logout">
+                                        ${button_logout}
+                                </a>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                </div>
             </div>
-            </input>
-            </input>
-        </form>
+        </div>
+        <div align="container" style="padding-bottom: 50px;">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color:a0e8e3;">
+                <div class="container-fluid">
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/controller?command=go_to_page&path=index"> <c:out value="${button_main}"/></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/controller?command=go_to_page&path=services"> <c:out value="${button_service}"/></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/controller?command=go_to_page&path=authorization"> <c:out value="${button_authorization}"/></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/controller?command=go_to_page&path=work"> <c:out value="${button_user_account}"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+<%--            <table>--%>
+<%--                <tr>--%>
+<%--                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>--%>
+<%--                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>--%>
+<%--                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>--%>
+<%--                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>--%>
+<%--                </tr>--%>
+<%--            </table>--%>
 
-        <div>
-            <c:choose>
-                <c:when test="${sessionScope.userRole eq 'client'}">
-                    <a class="btn btn-light" href="/controller?command=logout">
-                            ${button_logout}
-                    </a>
-                </c:when>
-                <c:when test="${sessionScope.userRole eq 'worker'}">
-                    <a class="btn btn-light" href="/controller?command=logout">
-                            ${button_logout}
-                    </a>
-                </c:when>
-            </c:choose>
         </div>
 
     </body>

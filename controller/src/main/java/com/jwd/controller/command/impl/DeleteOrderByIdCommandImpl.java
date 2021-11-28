@@ -3,6 +3,8 @@ package com.jwd.controller.command.impl;
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -25,9 +27,10 @@ public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Comma
     private static final Logger LOGGER = LogManager.getLogger(DeleteOrderByIdCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start DeleteOrderByIdCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             Long idClient = getUserId(request);
             Long idService = getOrderId(request);
@@ -38,12 +41,13 @@ public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Comma
                 request.setAttribute(ERROR_WORK_MESSAGE, "Could not delete an order. Please, try again.");
                 request.setAttribute(MESSAGE, "Order was not deleted.");
             }
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Problems with deleting order.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

@@ -47,14 +47,16 @@
         <form id="show_user_orders" method="GET" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="show_user_orders">
             <div id="menu">
+
                 <div id="button">
                     <button type="submit" name="show_user_orders">
                             ${show_user_orders}
                     </button><br/>
                 </div>
+
                 <div id="menu">
                     <h5>${message_sort_by}</h5>
-                    <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
+                    <select class="custom-select col-md-4 mb-2" name="sort_by">
                         <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                         <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                         <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
@@ -62,6 +64,7 @@
                         <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>
                     </select>
                 </div>
+
                 <div id="direction">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" id="direction" name="direction" value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>
@@ -70,6 +73,7 @@
                         </label>
                     </div>
                 </div>
+
             </div>
         </input>
         </form>
@@ -85,7 +89,7 @@
                 </div>
                 <div id="sort_by">
                     <h5>${message_sort_by}</h5>
-                    <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by">
+                    <select class="custom-select col-md-4 mb-2" name="sort_by">
                         <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                         <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                         <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
@@ -117,50 +121,43 @@
 
 
         <div>
-            <table>
+            <table class="table table-striped">
                 <c:if test="${requestScope.pageable.elements.size() > 0}">
-                    <table class="table">
-                        <tr>
-                            <td>${idService}</td>
-                            <td>${idClient}</td>
-                            <td>${description}</td>
-                            <td>${address}</td>
-                            <td>${serviceType}</td>
-                            <td>${status}</td>
-                            <td>${orderCreationDate} </td>
-                        </tr>
-                    </table>
+                    <tr>
+                        <th scope="col">${idService}</th>
+                        <th scope="col">${idClient}</th>
+                        <th scope="col">${description}</th>
+                        <th scope="col">${address}</th>
+                        <th scope="col">${serviceType}</th>
+                        <th scope="col">${status}</th>
+                        <th scope="col">${orderCreationDate} </th>
+                        <th scope="col">Actions</th>
+                    </tr>
                 </c:if>
                 <c:forEach var="order" items="${requestScope.pageable.elements}" >
-                    <a href = "/controller?command=find_order_info&idService=${order.idService}">
-                        <table class="table">
-                            <tr>
-                                <td>${order.idService}</td>
-                                <td>${order.idClient}</td>
-                                <td>${order.description}</td>
-                                <td>${order.address}</td>
-                                <td>${order.serviceType}</td>
-                                <td>${order.status}</td>
-                                <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
-                            </tr>
-                        </table>
-                    </a>
-                <tr>
-                    <td>
-                        <c:if test="${requestScope.selected_service_status.toString() eq 'FREE'}">
-                        <div id="button">
-                            <form id="delete_order_by_id" method="POST" action="${pageContext.request.contextPath}/controller">
-                            <input type="hidden" name="command" value="delete_order_by_id"/>
-                            <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
-                            <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
-                            <button type="submit" name="delete_order_by_id">
-                                    ${button_delete_order_by_id}
-                            </button>
-                            </form>
-                        </div>
-                        </c:if>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><a href = "/controller?command=find_order_info&idService=${order.idService}"> ${order.idService}</a></td>
+                        <td>${order.idClient}</td>
+                        <td>${order.description}</td>
+                        <td>${order.address}</td>
+                        <td>${order.serviceType}</td>
+                        <td>${order.status}</td>
+                        <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd" /></td>
+                        <td>
+                            <c:if test="${requestScope.selected_service_status.toString() eq 'FREE'}">
+                            <div id="button">
+                                <form id="delete_order_by_id" method="POST" action="${pageContext.request.contextPath}/controller">
+                                <input type="hidden" name="command" value="delete_order_by_id"/>
+                                <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
+                                <input type="hidden" name="idService" id="idService" value="${order.idService}"/>
+                                <button type="submit" name="delete_order_by_id">
+                                        ${button_delete_order_by_id}
+                                </button>
+                                </form>
+                            </div>
+                            </c:if>
+                        </td>
+                    </tr>
                 </c:forEach>
             </table>
         </div>

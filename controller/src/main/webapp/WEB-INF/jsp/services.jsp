@@ -49,7 +49,7 @@
                     </button>
                     <div id="sort_by">
                         <h7>${message_sort_by}</h7>
-                        <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by" id="sort_by">
+                        <select class="custom-select col-md-4 mb-2" name="sort_by" id="sort_by">
                             <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                             <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                             <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
@@ -89,7 +89,7 @@
                         </div>
                         <div id="sort_by">
                             <h7>${message_sort_by}</h7>
-                            <select class="custom-select custom-select-lg col-md-4 mb-2" name="sort_by" id="sort_by">
+                            <select class="custom-select col-md-4 mb-2" name="sort_by" id="sort_by">
                                 <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                                 <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                                 <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>

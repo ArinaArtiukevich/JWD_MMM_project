@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -27,9 +29,10 @@ public class FindUserOrdersCommandImpl extends AbstractCommand implements Comman
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindUserOrdersCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();
@@ -45,12 +48,14 @@ public class FindUserOrdersCommandImpl extends AbstractCommand implements Comman
             }
             Page<Order> paginationResult = orderService.getOrdersByUserId(paginationRequest, idUser);
             setParametersToRequest(request, paginationResult, SHOW_USER_ORDERS, sortByParameter, direction);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.show.user.order"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find user's orders.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
 }

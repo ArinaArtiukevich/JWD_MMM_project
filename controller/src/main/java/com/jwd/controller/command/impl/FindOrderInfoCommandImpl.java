@@ -3,6 +3,8 @@ package com.jwd.controller.command.impl;
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -31,10 +33,10 @@ public class FindOrderInfoCommandImpl extends AbstractCommand implements Command
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindOrderInfoCommandImpl.");
-
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             Long idService = getOrderId(request);
             Order order = orderService.getOrderById(idService);
@@ -44,12 +46,14 @@ public class FindOrderInfoCommandImpl extends AbstractCommand implements Command
             HttpSession session = request.getSession();
             session.setAttribute(ParameterAttributeType.ORDER, order);
             session.setAttribute(ParameterAttributeType.CLIENT, client);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.order.info"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.order.info"));
 
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find order.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

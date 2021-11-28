@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -26,9 +28,10 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start UpdateUserCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         Registration userInfo;
         String firstName = request.getParameter(FIRST_NAME);
         String lastName = request.getParameter(LAST_NAME);
@@ -50,7 +53,7 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
                 isUpdated = userService.updateUserWithoutPassword(idUser, userInfo);
             }
             if (isUpdated) {
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
                 request.setAttribute(MESSAGE, "Profile information was changed.");
 
                 request.setAttribute(USER, userInfo);
@@ -63,7 +66,9 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
             LOGGER.error("Could not update user information.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
     private boolean validatePasswords(String password, String confirmPassword) {

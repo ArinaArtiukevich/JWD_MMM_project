@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -24,20 +26,22 @@ public class FindUserInformationCommandImpl extends AbstractCommand implements C
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindUserInformationCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             Long idUser = getUserId(request);
             User user = userService.getUserById(idUser);
             request.setAttribute(USER, user);
             request.setAttribute(LAST_COMMAND, FIND_USER_INFORMATION);
-            page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+            path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
         } catch (NumberFormatException | ServiceException e) {
             LOGGER.error("Could not find user.");
             throw new ControllerException(e);
         }
-        return page;
-
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

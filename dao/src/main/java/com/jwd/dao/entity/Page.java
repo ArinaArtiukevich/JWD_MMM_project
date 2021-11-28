@@ -2,6 +2,7 @@ package com.jwd.dao.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Page<T> {
     private int pageNumber;
@@ -80,20 +81,35 @@ public class Page<T> {
         this.direction = direction;
     }
 
+//    @Override
+////    public boolean equals(Object o) {
+////        if (this == o) return true;
+////        if (o == null || getClass() != o.getClass()) return false;
+////
+////        Page<?> page = (Page<?>) o;
+////
+////        if (pageNumber != page.pageNumber) return false;
+////        if (totalElements != page.totalElements) return false;
+////        if (limit != page.limit) return false;
+////        if (elements != null ? !elements.equals(page.elements) : page.elements != null) return false;
+////        if (filter != null ? !filter.equals(page.filter) : page.filter != null) return false;
+////        if (sortBy != null ? !sortBy.equals(page.sortBy) : page.sortBy != null) return false;
+////        return direction != null ? direction.equals(page.direction) : page.direction == null;
+////    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Page<?> page = (Page<?>) o;
-
-        if (pageNumber != page.pageNumber) return false;
-        if (totalElements != page.totalElements) return false;
-        if (limit != page.limit) return false;
-        if (elements != null ? !elements.equals(page.elements) : page.elements != null) return false;
-        if (filter != null ? !filter.equals(page.filter) : page.filter != null) return false;
-        if (sortBy != null ? !sortBy.equals(page.sortBy) : page.sortBy != null) return false;
-        return direction != null ? direction.equals(page.direction) : page.direction == null;
+        return pageNumber == page.pageNumber &&
+                totalElements == page.totalElements &&
+                limit == page.limit &&
+                Objects.equals(elements, page.elements) &&
+                Objects.equals(filter, page.filter) &&
+                Objects.equals(sortBy, page.sortBy) &&
+                Objects.equals(direction, page.direction);
     }
 
     @Override

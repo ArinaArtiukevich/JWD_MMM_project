@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -27,23 +29,26 @@ public class TakeOrderCommandImpl extends AbstractCommand implements Command {
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start TakeOrderCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             Long idWorker = getUserId(request);
             Long idOrder = getOrderId(request);
             if (orderService.takeOrder(idOrder, idWorker, ServiceStatus.IN_PROCESS)) {
                 request.setAttribute(MESSAGE, "Order was taken.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
             } else {
                 LOGGER.error("Could not take order.");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.error"));
             }
         } catch (ServiceException | NumberFormatException e) {
             LOGGER.error("Could not take order.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 }

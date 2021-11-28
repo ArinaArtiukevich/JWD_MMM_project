@@ -4,6 +4,7 @@ import com.jwd.dao.entity.enums.ServiceStatus;
 import com.jwd.dao.entity.enums.ServiceType;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Order {
 
@@ -118,20 +119,14 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return  idService != null &&
-                idService.equals(order.idService) &&
-                idClient != null &&
-                idClient.equals(order.idClient) &&
-                description != null &&
-                description.equals(order.description) &&
-                address != null &&
-                address.equals(order.address) &&
+        return Objects.equals(idService, order.idService) &&
+                Objects.equals(idClient, order.idClient) &&
+                Objects.equals(description, order.description) &&
+                Objects.equals(address, order.address) &&
                 serviceType == order.serviceType &&
                 status == order.status &&
-                orderCreationDate != null &&
-                orderCreationDate.equals(order.orderCreationDate) &&
-                idWorker != null &&
-                idWorker.equals(order.idWorker);
+                Objects.equals(orderCreationDate, order.orderCreationDate) &&
+                Objects.equals(idWorker, order.idWorker);
     }
 
     @Override

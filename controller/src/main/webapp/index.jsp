@@ -20,10 +20,10 @@
 
 <body>
 
-<div>
-    <h5>User Id : ${sessionScope.userId}</h5>
-    <h5>User Role :  ${sessionScope.userRole}</h5>
-    <h5>User login : ${sessionScope.login}</h5>
+<div class="container">
+    <h5>User Id: ${sessionScope.userId}</h5>
+    <h5>User Role:  ${sessionScope.userRole}</h5>
+    <h5>User login: ${sessionScope.login}</h5>
 </div>
 
 <div id="error">

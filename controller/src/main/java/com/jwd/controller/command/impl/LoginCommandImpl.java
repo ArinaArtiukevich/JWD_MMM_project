@@ -2,6 +2,8 @@ package com.jwd.controller.command.impl;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
+import com.jwd.controller.entity.CommandAnswer;
+import com.jwd.controller.entity.enums.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -26,9 +28,10 @@ public class LoginCommandImpl implements Command {
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
-    public String execute(HttpServletRequest request) throws ControllerException {
+    public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start LoginCommandImpl.");
-        String page = null;
+        CommandAnswer answer = new CommandAnswer();
+        String path = null;
         try {
             String login = request.getParameter(ParameterAttributeType.LOGIN);
             String password = request.getParameter(ParameterAttributeType.PASSWORD);
@@ -37,7 +40,7 @@ public class LoginCommandImpl implements Command {
                 Long idUser = userService.getIdUserByLogin(login);// todo in one request?
                 UserRole userRole = userService.getRoleByID(idUser);
 
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
                 request.setAttribute(ParameterAttributeType.USER_ID, idUser);
                 request.setAttribute(ParameterAttributeType.LOGIN, login);
 
@@ -47,15 +50,18 @@ public class LoginCommandImpl implements Command {
                 session.setAttribute(USER_ROLE, userRole.getName());
             } else {
                 request.setAttribute(ERROR_LOGIN_MESSAGE, "Invalid login or password");
-                page = pathToJsp(ConfigurationBundle.getProperty("path.page.login"));
+                path = pathToJsp(ConfigurationBundle.getProperty("path.page.login"));
             }
+
         } catch (ServiceException e) {
             LOGGER.error("Can't login user.");
             HttpSession session = request.getSession(true);
             session.setAttribute(ERROR, "Can't login user.");
             throw new ControllerException(e);
         }
-        return page;
+        answer.setPath(path);
+        answer.setAnswerType(AnswerType.FORWARD);
+        return answer;
     }
 
     private void validateParameters(String login, String password) throws ControllerException {
