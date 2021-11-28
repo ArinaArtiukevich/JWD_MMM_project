@@ -82,9 +82,9 @@
                                     name="show_orders_by_service_type">${show_orders_by_service_type}
                             </button>
                         </div>
-                        <div id="service_type" class="form-row">
+                        <div id="service_type">
                             ${message_filter_by}
-                            <select class="custom-select mr-sm-2" name="service_type">
+                                <select class="custom-select col-auto my-1" name="service_type">
                                 <option value="ALL" ${"ALL" == requestScope.selected_service_type  ? 'selected':''} >${all_services}</option>
                                 <option value="ELECTRICAL" ${"ELECTRICAL" == requestScope.selected_service_type ? 'selected':''}> ${service_type_electrical}</option>
                                 <option value="GAS" ${"GAS" == requestScope.selected_service_type ? 'selected':''}> ${service_type_gas}</option>
@@ -95,7 +95,7 @@
                         </div>
                         <div id="sort_by">
                             ${message_sort_by}
-                            <select class="custom-select col-auto my-1" name="sort_by" id="sort_by">
+                                <select class="custom-select col-auto my-1" name="sort_by" id="sort_by">
                                 <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                                 <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                                 <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>

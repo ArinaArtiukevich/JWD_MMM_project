@@ -105,27 +105,11 @@
                     </div>
                 </div>
 
-                    <%--                <div class="btn-toolbar mb-3" role="toolbar">--%>
-                    <%--                    <div class="btn-group me-2" role="group" aria-label="First group">--%>
-                    <%--                        <button checked="checked" name="gender" type="button" class="btn btn-outline-secondary"--%>
-                    <%--                                value="undefined">--%>
-                    <%--                            Undefind--%>
-                    <%--                        </button>--%>
-                    <%--                        <button checked="checked" name="gender" type="button" class="btn btn-outline-secondary"--%>
-                    <%--                                value="male">Male--%>
-                    <%--                        </button>--%>
-                    <%--                        <button checked="checked" name="gender" type="button" class="btn btn-outline-secondary"--%>
-                    <%--                                value="female">Female--%>
-                    <%--                        </button>--%>
-                    <%--                    </div>--%>
-                    <%--                </div>--%>
-
-                <table>
+                <div class="row">
                     <td>
-                        <fieldset class="row mb-3" name="gender">
-                            <legend class="col-form-label col-sm-2 pt-0 form-control-lg">${registration_gender}</legend>
-                            
-                            <div class="col-sm-10">
+                        <fieldset class="mb-3" name="gender">
+                            <legend class="col-form-label pt-0 form-control-lg">${registration_gender}</legend>
+                            <div class="col-2">
                                 <div class="form-check">
                                     <input checked="checked" class="form-check-input" type="radio" name="gender"
                                            id="undefinedRadios" value="undefined"/>
@@ -150,11 +134,10 @@
                             </div>
                         </fieldset>
                     </td>
-
                     <td>
-                        <fieldset class="row mb-3" name="userRole">
-                            <legend class="col-form-label col-sm-2 pt-0 form-control-lg">${registration_userRole}</legend>
-                            <div class="col-sm-10">
+                        <fieldset class="mb-3" name="userRole">
+                            <legend class="col-form-label pt-0 form-control-lg">${registration_userRole}</legend>
+                            <div class="col-2">
                                 <div class="form-check">
                                     <input checked="checked" class="form-check-input" type="radio" name="userRole"
                                            id="clientRadios"
@@ -173,7 +156,7 @@
                             </div>
                         </fieldset>
                     </td>
-                </table>
+                </div>
                 <button type="submit" class="btn btn-light">${button_registration}</button
             </form>
         </div>

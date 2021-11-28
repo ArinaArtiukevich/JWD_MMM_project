@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
 import static com.jwd.controller.util.Util.pathToJsp;
@@ -41,6 +42,7 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
         String password = request.getParameter(PASSWORD);
         String confirmPassword = request.getParameter(CONFIRM_PASSWORD);
         boolean isUpdated = false;
+        HttpSession session = request.getSession();
         try {
             Long idUser = getUserId(request);
             if (validatePasswords(password, confirmPassword)) {
@@ -54,10 +56,9 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
             }
             if (isUpdated) {
                 path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-                request.setAttribute(MESSAGE, "Profile information was changed.");
-
-                request.setAttribute(USER, userInfo);
-                request.setAttribute(LAST_COMMAND, UPDATE_USER);
+                session.setAttribute(MESSAGE, "Profile information was changed.");
+                session.setAttribute(USER, userInfo);
+               // request.setAttribute(LAST_COMMAND, UPDATE_USER); todo ???
             } else {
                 LOGGER.error("Personal information was not updated.");
                 throw new ControllerException("Personal information was not updated.");

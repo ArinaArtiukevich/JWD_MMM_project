@@ -44,11 +44,11 @@
                         </input>
                     </form>
                     <div style="display:inline-block">
-                        <c:if test="${sessionScope.user.idUser > 0}">
+                        <c:if test="${sessionScope.userId > 0}">
                             <a class="btn btn-light btn-sm" href="/controller?command=logout">
                                     ${button_logout}
                             </a>
-                            id:${sessionScope.user.idUser}
+                            id:${sessionScope.userId}
                             login:${sessionScope.user.login}
                         </c:if>
                     </div>

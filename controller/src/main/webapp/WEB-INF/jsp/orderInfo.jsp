@@ -30,6 +30,7 @@
         <fmt:message bundle="${loc}" key="user.email" var="user_email"/>
         <fmt:message bundle="${loc}" key="user.city" var="user_city"/>
         <fmt:message bundle="${loc}" key="user.gender" var="user_gender"/>
+        <fmt:message bundle="${loc}" key="client.info" var="client_info"/>
 
     </head>
     <body>
@@ -41,80 +42,46 @@
         </header>
 
         <form method="GET" action="${pageContext.request.contextPath}/controller">
-            <div>
-                <table class="table">
+            <div align="container" style="padding-top: 50px;">
+                <table class="table table-striped">
                     <tr>
-                        <td>${idService}</td>
-                        <td>${idClient}</td>
-                        <td>${description}</td>
-                        <td>${address}</td>
-                        <td>${serviceType}</td>
-                        <td>${status}</td>
-                        <td>${orderCreationDate} </td>
+                        <th scope="col">${idService}</th>
+                        <th scope="col">${idClient}</th>
+                        <th scope="col">${description}</th>
+                        <th scope="col">${address}</th>
+                        <th scope="col">${serviceType}</th>
+                        <th scope="col">${status}</th>
+                        <th scope="col">${orderCreationDate} </th>
                     </tr>
                     <tr>
-                        <td>${sessionScope.order.idService}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.order.idClient}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.order.description}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.order.address}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.order.serviceType}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.order.status}
-                            <br/>
-                        </td>
-                        <td><fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd"/>
-                            <br/>
-                        </td>
+                        <td>${sessionScope.order.idService}</td>
+                        <td>${sessionScope.order.idClient}</td>
+                        <td>${sessionScope.order.description}</td>
+                        <td>${sessionScope.order.address}</td>
+                        <td>${sessionScope.order.serviceType}</td>
+                        <td>${sessionScope.order.status}</td>
+                        <td><fmt:formatDate value="${sessionScope.order.orderCreationDate}" pattern="yyyy.MM.dd"/></td>
                     </tr>
                 </table>
             </div>
             <c:if test="${sessionScope.userRole eq 'worker'}">
-                <table class="table">
+                <table class="table table-striped">
                     <div>
-                        <h5>Client info :</h5>
+                        <b>${client_info}</b>
                     </div>
                     <tr>
-                        <td>${user_firstName}
-                            <br/>
-                        </td>
-                        <td>${user_lastName}
-                            <br/>
-                        </td>
-                        <td>${user_gender}
-                            <br/>
-                        </td>
-                        <td>${user_email}
-                            <br/>
-                        </td>
-                        <td>${user_city}
-                            <br/>
-                        </td>
+                        <th scope="col">${user_firstName}</th>
+                        <th scope="col">${user_lastName}</th>
+                        <th scope="col">${user_gender}</th>
+                        <th scope="col">${user_email}</th>
+                        <th scope="col">${user_city}</th>
                     </tr>
                     <tr>
-                        <td>${sessionScope.client.firstName}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.client.lastName}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.client.gender}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.client.email}
-                            <br/>
-                        </td>
-                        <td>${sessionScope.client.city}
-                            <br/>
-                        </td>
+                        <td>${sessionScope.client.firstName}</td>
+                        <td>${sessionScope.client.lastName}</td>
+                        <td>${sessionScope.client.gender}</td>
+                        <td>${sessionScope.client.email}</td>
+                        <td>${sessionScope.client.city}</td>
                     </tr>
                 </table>
                 <c:if test="${sessionScope.order.status.toString() eq 'FREE'}">
@@ -130,7 +97,7 @@
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.userRole eq 'client'}">
-                <c:if test="${sessionScope.user.idUser eq sessionScope.order.idClient}">
+                <c:if test="${sessionScope.userId eq sessionScope.order.idClient}">
                     <c:if test="${sessionScope.order.status.toString() eq 'DONE'}">
                         <input type="hidden" name="command" value="approve_order"/>
                         <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>

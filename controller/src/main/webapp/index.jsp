@@ -20,7 +20,7 @@
     <body>
 
         <div class="container">
-            <h5>User Id: ${sessionScope.user.idUser}</h5>
+            <h5>User Id: ${sessionScope.userId}</h5>
             <h5>User Role: ${sessionScope.userRole}</h5>
             <h5>User login: ${sessionScope.user.login}</h5>
         </div>

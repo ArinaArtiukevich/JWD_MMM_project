@@ -80,26 +80,27 @@
         <div class="container">
             <form id="find_client_order_by_status" method="GET" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="find_client_order_by_status"/>
-                <input type="hidden" name="idClient" value="${sessionScope.user.idUser}"/>
+                <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
                 <div id="menu" class="btn-group-vertical" role="group">
                     <div id="button">
+                        <div>
                         <button class="btn btn-info" type="submit" name="find_client_order_by_status">
                                 ${button_find_client_order_by_status}
                         </button>
-                    </div>
-                    <div id="requested_service_type" class="form-row">
-                        <div class="col-auto my-1">
-                                ${message_filter_by}
-                            <select class="custom-select mr-sm-2" name="service_status">
-                                <option value="ALL" ${"ALL" == requestScope.selected_service_status ? 'selected':''}>${all_services}</option>
-                                <option value="FREE" ${"FREE" == requestScope.selected_service_status ? 'selected':''}>${service_status_free}</option>
-                                <option value="IN_PROCESS" ${"IN_PROCESS" == requestScope.selected_service_status ? 'selected':''}>${service_status_in_process}</option>
-                                <option value="DONE" ${"DONE" == requestScope.selected_service_status ? 'selected':''}>${service_status_done}</option>
-                                <option value="APPROVED" ${"APPROVED" == requestScope.selected_service_status ? 'selected':''}>${service_status_approved}</option>
-                            </select>
-                            <br/>
                         </div>
                     </div>
+                    <div id="requested_service_type">
+                            ${message_filter_by}
+                        <select class="custom-select col-auto my-1" name="service_status">
+                            <option value="ALL" ${"ALL" == requestScope.selected_service_status ? 'selected':''}>${all_services}</option>
+                            <option value="FREE" ${"FREE" == requestScope.selected_service_status ? 'selected':''}>${service_status_free}</option>
+                            <option value="IN_PROCESS" ${"IN_PROCESS" == requestScope.selected_service_status ? 'selected':''}>${service_status_in_process}</option>
+                            <option value="DONE" ${"DONE" == requestScope.selected_service_status ? 'selected':''}>${service_status_done}</option>
+                            <option value="APPROVED" ${"APPROVED" == requestScope.selected_service_status ? 'selected':''}>${service_status_approved}</option>
+                        </select>
+                        <br/>
+                    </div>
+
                     <div id="sort_by">
                             ${message_sort_by}
                         <select class="custom-select col-auto my-1" name="sort_by" id="sort_by">
@@ -120,6 +121,7 @@
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
 
@@ -150,12 +152,12 @@
                         <td>${order.status}</td>
                         <td><fmt:formatDate value="${order.orderCreationDate}" pattern="yyyy.MM.dd"/></td>
                         <td>
-                            <c:if test="${requestScope.selected_service_status.toString() eq 'FREE'}">
+                            <c:if test="${order.status eq 'FREE'}">
                                 <div id="button">
                                     <form id="delete_order_by_id" method="POST"
                                           action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="command" value="delete_order_by_id"/>
-                                        <input type="hidden" name="idClient" value="${sessionScope.user.idUser}"/>
+                                        <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
                                         <input type="hidden" name="idService" id="idService"
                                                value="${order.idService}"/>
                                         <button type="submit" name="delete_order_by_id">

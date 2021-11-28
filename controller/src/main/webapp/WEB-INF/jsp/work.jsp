@@ -33,6 +33,8 @@
         <fmt:message bundle="${loc}" key="user.email" var="user_email"/>
         <fmt:message bundle="${loc}" key="user.city" var="user_city"/>
         <fmt:message bundle="${loc}" key="user.gender" var="user_gender"/>
+        <fmt:message bundle="${loc}" key="user.info" var="user_info"/>
+        <fmt:message bundle="${loc}" key="message.authorization" var="message_authorization"/>
 
     </head>
     <body>
@@ -41,56 +43,60 @@
                 <jsp:param name="page_path" value="work"/>
             </jsp:include>
         </header>
-        <div id="error">
-            <c:out value="${sessionScope.errorWorkMessage}" />
-            <c:remove var="errorWorkMessage" scope="session" />
-        </div>
-        <div id="message">
-            <c:out value="${sessionScope.message}" />
-            <c:remove var="message" scope="session" />
-        </div>
-        <table>
-            <div>
-                <h5>User info :</h5>
-            </div>
-            <tr>
-                <td>${user_firstName} : ${sessionScope.user.firstName}
-                    <br/>
-                </td>
-                <td>${user_lastName} : ${sessionScope.user.lastName}
-                    <br/>
-                </td>
-                <td>${user_email} : ${sessionScope.user.email}
-                    <br/>
-                </td>
-                <td>${user_city} : ${sessionScope.user.city}
-                    <br/>
-                </td>
-            </tr>
-        </table>
 
-        <c:if test="${sessionScope.user.idUser ne null}">
+        <div class="container">
+            <div id="error">
+                <c:out value="${sessionScope.errorWorkMessage}"/>
+                <c:remove var="errorWorkMessage" scope="session"/>
+            </div>
+            <div id="message">
+                <c:out value="${sessionScope.message}"/>
+                <c:remove var="message" scope="session"/>
+            </div>
+            <c:if test="${sessionScope.userId ne null}">
+            <table>
+                <div>
+                    <h5>${user_info}</h5>
+                </div>
+                <tr>
+                    <td>${user_firstName}: ${sessionScope.user.firstName}
+                    </td>
+                </tr>
+                <tr>
+                    <td>${user_lastName}: ${sessionScope.user.lastName}
+                    </td>
+                </tr>
+                <tr>
+                    <td>${user_email}: ${sessionScope.user.email}
+                    </td>
+                </tr>
+                <tr>
+                    <td>${user_city}: ${sessionScope.user.city}
+                    </td>
+                </tr>
+            </table>
             <form id="work" method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="work"/>
             </form>
 
             <form id="find_user_information" method="GET" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="find_user_information"/>
-                <input type="hidden" name="userId" value="${sessionScope.user.idUser}"/>
+                <input type="hidden" name="userId" value="${sessionScope.userId}"/>
             </form>
             <form id="update_user" method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="update_user"/>
-                <input type="hidden" name="userId" value="${sessionScope.user.idUser}"/>
+                <input type="hidden" name="userId" value="${sessionScope.userId}"/>
             </form>
             <div id="menu">
                 <c:choose>
                     <c:when test="${sessionScope.userRole eq 'client'}">
-                        <button type="submit" form="work" name="work_action" value="addService">
+                        <button class="btn btn-light" type="submit" form="work" name="work_action" value="addService">
                                 ${work_add_service}
                         </button>
                         <br/>
 
-                        <button type="submit" form="work" name="work_action" value="showUserOrder">
+                        <button class="btn btn-light" type="submit" form="work" name="work_action"
+                                value="showUserOrder">
                                 ${work_show_user_all_order}
                         </button>
                         <br/>
@@ -112,82 +118,94 @@
                         </div>
                     </c:when>
                 </c:choose>
-
-                    <%--            UPDATE_USER                --%>
-
-                <c:choose>
-                    <c:when test="${requestScope.last_command ne 'find_user_information'}">
-                        <button form="find_user_information" type="submit" name="find_user_information">
-                                ${work_go_to_update_user}
-                        </button>
-                        <br/>
-                    </c:when>
-
-                    <c:when test="${requestScope.last_command eq 'find_user_information'}">
-
-                        <div class="row mb-3">
-                            <label for="firstNameInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_firstName}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="firstNameInput"
-                                       name="firstName" value="${requestScope.user.firstName}"/>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="lastNameInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_lastName}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="lastNameInput"
-                                       name="lastName" value="${requestScope.user.lastName}"/>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="emailInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_email}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="emailInput" name="email"
-                                       value="${requestScope.user.email}"/>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="cityInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_city}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="text" class="form-control" id="cityInput" name="city"
-                                       value="${requestScope.user.city}"/>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="passwordInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_password}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="password" class="form-control" id="passwordInput"
-                                       name="password" value=""/>
-                                <span class="form-text">Enter 1-100 symbols.</span>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="confirmPasswordInput"
-                                   class="col-sm-2 col-form-label form-control-lg">${registration_confirmPassword}</label>
-                            <div class="col-sm-10">
-                                <input form="update_user" type="confirmPassword" class="form-control"
-                                       id="confirmPasswordInput" name="confirmPassword" value=""/>
-                                <span class="form-text">Enter 1-100 symbols.</span>
-                            </div>
-                        </div>
-
-                        <button form="update_user" type="submit" name="update_user">
-                                ${work_update_user}
-                        </button>
-                        <br/>
-                    </c:when>
-                </c:choose>
-
             </div>
+
+                <%--            UPDATE_USER                --%>
+
+            <c:choose>
+                <c:when test="${requestScope.last_command ne 'find_user_information'}">
+                    <button class="btn btn-light" form="find_user_information" type="submit"
+                            name="find_user_information">
+                            ${work_go_to_update_user}
+                    </button>
+                    <br/>
+                </c:when>
+
+                <c:when test="${requestScope.last_command eq 'find_user_information'}">
+
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_firstName}</span>
+                            </div>
+                            <input form="update_user" type="text" class="form-control" name="firstName"
+                                   id="firstNameInput" value="${sessionScope.user.firstName}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_lastName}</span>
+                            </div>
+                            <input form="update_user" type="text" class="form-control" name="lastName"
+                                   id="lastNameInput" value="${sessionScope.user.lastName}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_email}</span>
+                            </div>
+                            <input form="update_user" type="text" class="form-control" name="email" id="emailInput"
+                                   value="${sessionScope.user.email}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_city}</span>
+                            </div>
+                            <input form="update_user" type="text" class="form-control" name="city" id="cityInput"
+                                   value="${sessionScope.user.city}"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_password}</span>
+                            </div>
+                            <input form="update_user" type="password" class="form-control" name="password"
+                                   id="passwordInput" value=""/>
+                            <span class="form-text">Enter 5-20 symbols.</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group mb-3 col-6">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">${registration_confirmPassword}</span>
+                            </div>
+                            <input form="update_user" type="password" class="form-control" name="confirmPassword"
+                                   id="confirmPasswordInput"
+                                   value=""/>
+                            <span class="form-text">Enter 5-20 symbols.</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-light" form="update_user" type="submit" name="update_user">
+                            ${work_update_user}
+                    </button>
+                    <br/>
+                </c:when>
+            </c:choose>
+
+        </div>
         </c:if>
-        <c:if test="${sessionScope.user.idUser eq null}">
-            <a href="/controller?command=go_to_page&path=authorization">
-                <h5>Please login or register</h5>
+        <c:if test="${sessionScope.userId eq null}">
+            <a class="btn btn-light" href="/controller?command=go_to_page&path=authorization">
+                    ${message_authorization}
             </a>
         </c:if>
 
