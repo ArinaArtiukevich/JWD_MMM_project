@@ -21,8 +21,13 @@
             </jsp:include>
         </header>
 
-        <div>
-            <h4>${sessionScope.error}</h4>
+        <div class="container" style="padding-top: 50px;">
+            <div id="errorMessage">
+                <h4>
+                    <c:out value="${sessionScope.error}"/>
+                </h4>
+                <c:remove var="error" scope="session"/>
+            </div>
             <h4>${error_message}</h4>
         </div>
 

@@ -132,71 +132,72 @@
                 </c:when>
 
                 <c:when test="${requestScope.last_command eq 'find_user_information'}">
+                    <div style="padding-top: 50px;">
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_firstName}</span>
+                                </div>
+                                <input form="update_user" type="text" class="form-control" name="firstName"
+                                       id="firstNameInput" value="${sessionScope.user.firstName}"/>
+                            </div>
+                        </div>
 
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_firstName}</span>
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_lastName}</span>
+                                </div>
+                                <input form="update_user" type="text" class="form-control" name="lastName"
+                                       id="lastNameInput" value="${sessionScope.user.lastName}"/>
                             </div>
-                            <input form="update_user" type="text" class="form-control" name="firstName"
-                                   id="firstNameInput" value="${sessionScope.user.firstName}"/>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_email}</span>
+                                </div>
+                                <input form="update_user" type="text" class="form-control" name="email" id="emailInput"
+                                       value="${sessionScope.user.email}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_city}</span>
+                                </div>
+                                <input form="update_user" type="text" class="form-control" name="city" id="cityInput"
+                                       value="${sessionScope.user.city}"/>
+                            </div>
+                        </div>
 
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_lastName}</span>
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_password}</span>
+                                </div>
+                                <input form="update_user" type="password" class="form-control" name="password"
+                                       id="passwordInput" value=""/>
+                                <span class="form-text">Enter 5-20 symbols.</span>
                             </div>
-                            <input form="update_user" type="text" class="form-control" name="lastName"
-                                   id="lastNameInput" value="${sessionScope.user.lastName}"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_email}</span>
-                            </div>
-                            <input form="update_user" type="text" class="form-control" name="email" id="emailInput"
-                                   value="${sessionScope.user.email}"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_city}</span>
-                            </div>
-                            <input form="update_user" type="text" class="form-control" name="city" id="cityInput"
-                                   value="${sessionScope.user.city}"/>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_password}</span>
+                        <div class="row">
+                            <div class="input-group mb-3 col-6">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">${registration_confirmPassword}</span>
+                                </div>
+                                <input form="update_user" type="password" class="form-control" name="confirmPassword"
+                                       id="confirmPasswordInput"
+                                       value=""/>
+                                <span class="form-text">Enter 5-20 symbols.</span>
                             </div>
-                            <input form="update_user" type="password" class="form-control" name="password"
-                                   id="passwordInput" value=""/>
-                            <span class="form-text">Enter 5-20 symbols.</span>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="input-group mb-3 col-6">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">${registration_confirmPassword}</span>
-                            </div>
-                            <input form="update_user" type="password" class="form-control" name="confirmPassword"
-                                   id="confirmPasswordInput"
-                                   value=""/>
-                            <span class="form-text">Enter 5-20 symbols.</span>
-                        </div>
+                        <button class="btn btn-light" form="update_user" type="submit" name="update_user">
+                                ${work_update_user}
+                        </button>
                     </div>
-
-                    <button class="btn btn-light" form="update_user" type="submit" name="update_user">
-                            ${work_update_user}
-                    </button>
                     <br/>
                 </c:when>
             </c:choose>

@@ -31,7 +31,7 @@
             </jsp:include>
         </header>
 
-        <div id="error">
+        <div class="container" id="error">
             <c:out value="${sessionScope.errorLoginMessage}" />
             <c:remove var="errorLoginMessage" scope="session" />
         </div>

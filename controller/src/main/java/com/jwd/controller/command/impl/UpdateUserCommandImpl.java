@@ -54,9 +54,9 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
                 userInfo = new Registration(firstName, lastName, email, city);
                 isUpdated = userService.updateUserWithoutPassword(idUser, userInfo);
             }
-            if (isUpdated) {
-                path = pathToJsp(ConfigurationBundle.getProperty("path.page.work"));
-                session.setAttribute(MESSAGE, "Profile information was changed.");
+            if (false) {
+                path = GO_TO_WORK_PAGE;
+                session.setAttribute(MESSAGE, "Profile information was updated.");
                 session.setAttribute(USER, userInfo);
                // request.setAttribute(LAST_COMMAND, UPDATE_USER); todo ???
             } else {
@@ -68,7 +68,7 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
             throw new ControllerException(e);
         }
         answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
+        answer.setAnswerType(AnswerType.REDIRECT);
         return answer;
     }
 
