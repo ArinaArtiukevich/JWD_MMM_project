@@ -1,11 +1,10 @@
 package com.jwd.dao.repository.impl;
 
 import com.jwd.dao.connection.ConnectionPool;
-import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.OrderDao;

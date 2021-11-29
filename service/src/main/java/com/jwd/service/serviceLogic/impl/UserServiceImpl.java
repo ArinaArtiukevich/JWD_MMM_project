@@ -3,11 +3,9 @@ package com.jwd.service.serviceLogic.impl;
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.UserDTO;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
-import com.jwd.dao.factory.DaoFactory;
 import com.jwd.dao.repository.LoginDao;
-import com.jwd.dao.repository.OrderDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
@@ -15,8 +13,6 @@ import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
-
-import static com.jwd.service.util.ParameterAttribute.PATTERN_LOGIN;
 
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);

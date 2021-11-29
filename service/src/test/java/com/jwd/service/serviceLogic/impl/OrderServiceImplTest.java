@@ -2,12 +2,11 @@ package com.jwd.service.serviceLogic.impl;
 
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.factory.DaoFactory;
 import com.jwd.dao.repository.OrderDao;
-import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
 import com.jwd.service.validator.ServiceValidator;
@@ -19,11 +18,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 public class OrderServiceImplTest {
 

@@ -2,8 +2,7 @@ package com.jwd.dao.repository;
 
 import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.Registration;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
 
 public interface UserDao {

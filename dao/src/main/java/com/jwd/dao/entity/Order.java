@@ -1,7 +1,7 @@
 package com.jwd.dao.entity;
 
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
 
 import java.util.Date;
 import java.util.Objects;

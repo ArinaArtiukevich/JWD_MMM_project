@@ -1,17 +1,13 @@
 package com.jwd.service.validator;
 
-import com.jwd.dao.config.DataBaseConfig;
-import com.jwd.dao.connection.impl.ConnectionPoolImpl;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.Registration;
-import com.jwd.dao.entity.enums.Gender;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
-import com.jwd.dao.entity.enums.UserRole;
-import com.jwd.dao.repository.impl.UserDaoImpl;
+import com.jwd.dao.entity.enumType.Gender;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.service.exception.ServiceException;
-import com.jwd.service.util.ParameterAttribute;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

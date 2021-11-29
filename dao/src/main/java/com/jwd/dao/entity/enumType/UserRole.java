@@ -1,4 +1,4 @@
-package com.jwd.dao.entity.enums;
+package com.jwd.dao.entity.enumType;
 
 public enum UserRole {
     CLIENT("client"),

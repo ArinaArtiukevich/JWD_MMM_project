@@ -3,9 +3,8 @@ package com.jwd.controller.command.impl;
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
-import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Registration;
 import com.jwd.service.exception.ServiceException;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
-import static com.jwd.controller.util.Util.pathToJsp;
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public class UpdateUserCommandImpl extends AbstractCommand implements Command {

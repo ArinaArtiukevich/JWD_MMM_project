@@ -4,7 +4,7 @@ import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.entity.CommandAnswer;
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 import com.jwd.controller.validator.ControllerValidator;
@@ -18,8 +18,6 @@ import com.jwd.service.serviceLogic.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
-import com.jwd.service.serviceLogic.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

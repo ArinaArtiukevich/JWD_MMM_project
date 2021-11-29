@@ -2,11 +2,9 @@ package com.jwd.dao.repository;
 
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
 import com.jwd.dao.exception.DaoException;
-
-import java.util.List;
 
 public interface OrderDao {
     boolean add(Order order, Long idClient) throws DaoException;

@@ -2,7 +2,7 @@ package com.jwd.service.serviceLogic;
 
 import com.jwd.dao.entity.Registration;
 import com.jwd.dao.entity.User;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.service.exception.ServiceException;
 
 public interface UserService {

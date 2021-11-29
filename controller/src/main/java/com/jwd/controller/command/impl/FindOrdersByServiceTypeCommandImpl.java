@@ -3,18 +3,16 @@ package com.jwd.controller.command.impl;
 import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.resources.ConfigurationBundle;
 
 import com.jwd.controller.validator.ControllerValidator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
-import com.jwd.dao.entity.enums.ServiceType;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.OrderService;
-import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

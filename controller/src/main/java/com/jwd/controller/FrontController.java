@@ -1,12 +1,10 @@
 package com.jwd.controller;
 
 import com.jwd.controller.command.Command;
-import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.entity.CommandAnswer;
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.factory.CommandFactory;
-import com.jwd.controller.resources.ConfigurationBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.ConnectException;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
-import static com.jwd.controller.util.Util.pathToJsp;
 import static com.jwd.controller.util.Util.pathToJspIndexPage;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;

@@ -1,4 +1,4 @@
-package com.jwd.controller.factory.enums;
+package com.jwd.controller.factory.enumType;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.impl.*;

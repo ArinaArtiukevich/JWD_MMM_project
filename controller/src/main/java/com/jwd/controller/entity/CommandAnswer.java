@@ -1,6 +1,6 @@
 package com.jwd.controller.entity;
 
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 
 import java.util.Objects;
 

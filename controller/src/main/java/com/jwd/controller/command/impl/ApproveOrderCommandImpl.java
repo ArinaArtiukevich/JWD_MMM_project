@@ -6,22 +6,17 @@ import com.jwd.controller.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.entity.CommandAnswer;
-import com.jwd.controller.entity.enums.AnswerType;
+import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
-import com.jwd.controller.resources.ConfigurationBundle;
-import com.jwd.controller.validator.ControllerValidator;
-import com.jwd.dao.entity.enums.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceStatus;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.factory.ServiceFactory;
 import com.jwd.service.serviceLogic.OrderService;
-import com.jwd.service.serviceLogic.impl.OrderServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
-import static com.jwd.controller.util.Util.pathToJsp;
 
 
 public class ApproveOrderCommandImpl extends AbstractCommand implements Command {

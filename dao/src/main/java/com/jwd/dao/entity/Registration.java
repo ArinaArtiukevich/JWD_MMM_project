@@ -1,7 +1,7 @@
 package com.jwd.dao.entity;
 
-import com.jwd.dao.entity.enums.Gender;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.Gender;
+import com.jwd.dao.entity.enumType.UserRole;
 
 public class Registration {
 

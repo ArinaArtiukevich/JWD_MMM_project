@@ -2,7 +2,7 @@ package com.jwd.controller.factory;
 
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.impl.DefaultCommandImpl;
-import com.jwd.controller.factory.enums.CommandEnum;
+import com.jwd.controller.factory.enumType.CommandEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

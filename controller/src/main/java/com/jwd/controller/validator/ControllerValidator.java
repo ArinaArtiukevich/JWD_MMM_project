@@ -1,10 +1,10 @@
 package com.jwd.controller.validator;
 
 import com.jwd.controller.exception.ControllerException;
-import com.jwd.dao.entity.enums.Gender;
-import com.jwd.dao.entity.enums.ServiceStatus;
-import com.jwd.dao.entity.enums.ServiceType;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.Gender;
+import com.jwd.dao.entity.enumType.ServiceStatus;
+import com.jwd.dao.entity.enumType.ServiceType;
+import com.jwd.dao.entity.enumType.UserRole;
 
 import java.util.Date;
 

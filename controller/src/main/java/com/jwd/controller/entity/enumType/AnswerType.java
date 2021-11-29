@@ -1,4 +1,4 @@
-package com.jwd.controller.entity.enums;
+package com.jwd.controller.entity.enumType;
 
 public enum AnswerType {
     FORWARD("forward"),

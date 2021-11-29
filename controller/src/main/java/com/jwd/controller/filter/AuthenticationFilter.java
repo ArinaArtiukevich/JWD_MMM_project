@@ -1,7 +1,7 @@
 package com.jwd.controller.filter;
 
 import com.jwd.controller.resources.ConfigurationBundle;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.UserRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.jwd.controller.command.ParameterAttributeType.COMMAND;
 import static com.jwd.controller.command.ParameterAttributeType.USER_ROLE;
-import static com.jwd.controller.factory.enums.CommandEnum.*;
+import static com.jwd.controller.factory.enumType.CommandEnum.*;
 import static com.jwd.controller.util.Util.pathToJspIndexPage;
 
 public class AuthenticationFilter implements Filter {

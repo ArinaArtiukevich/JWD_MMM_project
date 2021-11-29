@@ -3,8 +3,8 @@ package com.jwd.service.validator;
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.Registration;
-import com.jwd.dao.entity.enums.Gender;
-import com.jwd.dao.entity.enums.UserRole;
+import com.jwd.dao.entity.enumType.Gender;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.service.exception.ServiceException;
 import org.junit.Test;
 
