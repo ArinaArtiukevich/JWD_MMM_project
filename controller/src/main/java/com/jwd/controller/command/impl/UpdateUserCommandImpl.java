@@ -54,7 +54,7 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
                 userInfo = new Registration(firstName, lastName, email, city);
                 isUpdated = userService.updateUserWithoutPassword(idUser, userInfo);
             }
-            if (false) {
+            if (isUpdated) {
                 path = GO_TO_WORK_PAGE;
                 session.setAttribute(MESSAGE, "Profile information was updated.");
                 session.setAttribute(USER, userInfo);
