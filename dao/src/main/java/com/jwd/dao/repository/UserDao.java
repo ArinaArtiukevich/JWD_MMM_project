@@ -10,7 +10,7 @@ public interface UserDao {
 
     boolean updateUserWithoutPassword(Long idUser, Registration registration) throws DaoException;
 
-  //  boolean updateUserWithPassword(Long idUser, Registration registration) throws DaoException;
+    boolean updateUserWithPassword(Long idUser, Registration registration) throws DaoException;
 
     Long findIdByLogin(String login) throws DaoException;
 
@@ -23,5 +23,7 @@ public interface UserDao {
     User getUserById(Long idUser) throws DaoException;
 
     UserRole findRoleByID(Long idUser) throws DaoException;
+
+    boolean deleteUserByLogin(String login) throws DaoException;
 
 }

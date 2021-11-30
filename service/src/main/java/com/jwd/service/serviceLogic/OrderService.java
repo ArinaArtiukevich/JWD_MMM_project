@@ -18,7 +18,9 @@ public interface OrderService {
 
     boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws ServiceException;
 
-    boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws ServiceException;
+    boolean setDoneOrderStatus(Long idOrder, Long idWorker) throws ServiceException;
+
+    boolean setApproveOrderStatus(Long idOrder, Long idClient) throws ServiceException;
 
     Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) throws ServiceException;
 

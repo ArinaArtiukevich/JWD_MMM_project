@@ -27,11 +27,11 @@ public class ApproveOrderCommandImpl extends AbstractCommand implements Command 
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start ApproveOrderCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             Long idOrder = getOrderId(request);
+            Long idClient = getUserId(request);
             HttpSession session = request.getSession();
-            if (orderService.setOrderStatus(idOrder, ServiceStatus.APPROVED)) {
+            if (orderService.setApproveOrderStatus(idOrder, idClient)) {
                 session.setAttribute(MESSAGE, "Order was approved.");
             } else {
                 LOGGER.error("Could not approve order.");

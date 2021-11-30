@@ -485,6 +485,35 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return serviceStatus;
     }
 
+    @Override
+    public boolean deleteByIdClient(Long idClient) throws DaoException {
+        LOGGER.info("Start boolean deleteByIdClient(Order order, Long idClient)");
+        PreparedStatement statement = null;
+        Connection connection = null;
+        boolean isDeleted = false;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.delete.order.by.id_client"));
+            statement.setLong(1, idClient);
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
+            if (affectedRows <= 0) {
+                LOGGER.error("An order was not deleted.");
+                throw new DaoException("An order was not deleted.");
+            } else {
+                LOGGER.info("An order was deleted.");
+                isDeleted = true;
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new DaoException("An order was not deleted.");
+        } finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isDeleted;
+    }
+
     private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;

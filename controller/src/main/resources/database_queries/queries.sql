@@ -1,15 +1,33 @@
+
 CREATE TABLE IF NOT EXISTS public.users
 (
-    id_user bigserial NOT NULL,
+    id_user bigserial NOT NULL PRIMARY KEY,
     first_name text NOT NULL,
     last_name text,
     email text,
     city text,
     login text NOT NULL UNIQUE,
     gender text,
-    user_role text,
-    CONSTRAINT users_pkey PRIMARY KEY (id_client)
-)
+    user_role text
+);
+
+
+
+ CREATE TABLE IF NOT EXISTS public.orders
+ (
+	 id_service bigserial PRIMARY KEY,
+	 id_client bigint,
+	 description text,
+	 address text,
+	 service_type text,
+	 service_status text,
+	 id_worker bigint,
+	 order_creation_date text,
+ 	CONSTRAINT fk_orders_id_client FOREIGN KEY(id_client) REFERENCES users(id_user),
+	 CONSTRAINT fk_orders_id_worker FOREIGN KEY(id_worker) REFERENCES users(id_user)
+ );
+
+
 
 CREATE TABLE IF NOT EXISTS public.user_logins
 (
@@ -33,18 +51,6 @@ TABLESPACE pg_default;
 ALTER TABLE public.user_logins
     OWNER to postgres;
 
-  CREATE TABLE IF NOT EXISTS public.orders
- (
-	 id_service bigserial PRIMARY KEY,
-	 id_client bigint,
-	 description text,
-	 address text,
-	 service_type text,
-	 service_status text,
-	 id_worker bigint,
- 	CONSTRAINT fk_orders_id_client FOREIGN KEY(id_client) REFERENCES users(id_user)
-	 CONSTRAINT fk_orders_id_worker FOREIGN KEY(id_worker) REFERENCES users(id_user)
- );
 
 ALTER TABLE orders ADD COLUMN order_creation_date text;
 CREATE TABLE service_types (

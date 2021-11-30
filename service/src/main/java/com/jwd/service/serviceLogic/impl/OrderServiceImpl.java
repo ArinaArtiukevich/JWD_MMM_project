@@ -12,6 +12,7 @@ import com.jwd.service.validator.ServiceValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.jwd.dao.entity.enumType.ServiceStatus.FREE;
 import static com.jwd.service.util.ParameterAttribute.ALL_ORDERS;
 
 public class OrderServiceImpl implements OrderService {
@@ -31,8 +32,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             validator.validate(orderPageRequest);
             orderPage = orderDao.getServiceList(orderPageRequest);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -52,8 +52,7 @@ public class OrderServiceImpl implements OrderService {
                 validator.validate(serviceType);
                 orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
             }
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -67,8 +66,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idUser);
             validator.validate(orderPageRequest);
             orderPage = orderDao.findOrdersByIdUser(orderPageRequest, idUser);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -81,8 +79,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             validator.validate(idService);
             order = orderDao.findOrderById(idService);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return order;
@@ -96,39 +93,70 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(order);
             validator.validate(idClient);
             isAdded = orderDao.add(order, idClient);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isAdded;
     }
 
     @Override
-    public boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) throws ServiceException {
+    public boolean takeOrder(Long idOrder, Long idWorker, ServiceStatus serviceStatus) throws ServiceException {
         LOGGER.info("Start boolean takeOrder(Long idOrder, Long idWorker , ServiceStatus serviceStatus) in OrderService.");
         boolean isTaken = false;
         try {
             validator.validate(idOrder);
             validator.validate(idWorker);
             validator.validate(serviceStatus);
-            isTaken = orderDao.takeOrder(idOrder, idWorker, serviceStatus);
-        }
-        catch (DaoException e) {
+            if (orderDao.getServiceStatusById(idOrder).getName().equals(FREE.getName())) {
+                isTaken = orderDao.takeOrder(idOrder, idWorker, serviceStatus); // todo  check in DAO?
+            } else {
+                throw new ServiceException("Order is not available.");
+            }
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isTaken;
     }
 
     @Override
-    public boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus) throws ServiceException {
+    public boolean setDoneOrderStatus(Long idOrder, Long idWorker) throws ServiceException {
         LOGGER.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
         boolean isSet = false;
         try {
             validator.validate(idOrder);
-            validator.validate(serviceStatus);
-            isSet = orderDao.setOrderStatus(idOrder, serviceStatus);
+            validator.validate(idWorker);
+            Long localIdWorker = orderDao.findOrderById(idOrder).getIdWorker();
+            if (!localIdWorker.equals(idWorker)) {
+                throw new ServiceException("You are not allowed to do this operation.");
+            }
+            ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
+            if(!localStatus.getName().equals(ServiceStatus.IN_PROCESS.getName())){
+                throw new ServiceException("Order is not done.");
+            }
+            isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
-        catch (DaoException e) {
+        return isSet;
+    }
+
+    @Override
+    public boolean setApproveOrderStatus(Long idOrder, Long idClient) throws ServiceException {
+        LOGGER.info("Start boolean setOrderStatus(Long idOrder, ServiceStatus serviceStatus)in OrderService.");
+        boolean isSet = false;
+        try {
+            validator.validate(idOrder);
+            validator.validate(idClient);
+            Long localIdClient = orderDao.findOrderById(idOrder).getIdClient();
+            if (!localIdClient.equals(idClient)) {
+                throw new ServiceException("You are not allowed to do this operation.");
+            }
+            ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
+            if(!localStatus.getName().equals(ServiceStatus.DONE.getName())){
+                throw new ServiceException("Order is not done.");
+            }
+            isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.APPROVED);
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isSet;
@@ -142,8 +170,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(orderPageRequest);
             validator.validate(idWorker);
             orderPage = orderDao.getOrdersByWorkerId(orderPageRequest, idWorker);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -157,8 +184,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idClient);
             validator.validate(orderPageRequest);
             orderPage = orderDao.getOrdersResponseByClientId(orderPageRequest, idClient);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -180,8 +206,7 @@ public class OrderServiceImpl implements OrderService {
                 orderPage = orderDao.getOrdersByServiceStatus(orderPageRequest, serviceStatus, idClient);
             }
 
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return orderPage;
@@ -199,12 +224,11 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus serviceStatus = orderDao.getServiceStatusById(idOrder);
-            if (!(serviceStatus.toString()).equals(ServiceStatus.FREE.toString().toUpperCase())) {
+            if (!(serviceStatus.toString()).equals(FREE.toString().toUpperCase())) {
                 throw new ServiceException("It is impossible to delete order.");
             }
             isDeleted = orderDao.deleteById(idOrder);
-        }
-        catch (DaoException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return isDeleted;

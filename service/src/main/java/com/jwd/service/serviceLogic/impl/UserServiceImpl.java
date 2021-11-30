@@ -32,15 +32,7 @@ public class UserServiceImpl implements UserService {
         boolean isRegistered = false;
         try {
             if (validator.validateRegistrationData(registration)) {
-                if (!userDao.isLoginExist(registration.getLogin())) {
-                    isRegistered = userDao.addUser(registration);
-                    Long idClient = userDao.findIdByLogin(registration.getLogin());
-                    UserDTO userLogin = new UserDTO(idClient, registration.getLogin(), registration.getPassword());
-                    loginDao.add(userLogin);
-                } else {
-                    LOGGER.error("Login = " + registration.getLogin() + " has already been taken");
-                    throw new ServiceException("Login has already been taken");
-                }
+                isRegistered = userDao.addUser(registration);
             }
         } catch (DaoException e) {
             LOGGER.error("Invalid input parameters.");
@@ -72,12 +64,7 @@ public class UserServiceImpl implements UserService {
         try {
             if (validator.validateUserWithPassword(userInfo)) {
                 validator.validate(idUser);
-                // isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
-                isUpdated = userDao.updateUserWithoutPassword(idUser, userInfo);
-                if (isUpdated) {
-                    UserDTO userDto = new UserDTO(idUser, userInfo.getLogin(), userInfo.getPassword());
-                    isUpdated = loginDao.updateUserDTO(userDto); // todo in one commit
-                }
+                 isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
             }
         } catch (DaoException e) {
             LOGGER.error("Invalid input parameters.");
@@ -179,6 +166,7 @@ public class UserServiceImpl implements UserService {
         return userRole;
     }
 
+    @Override
     public String getPassword(Long idUser) throws ServiceException {
         LOGGER.info("Start String getPassword(String login) throws ServiceException. idUser = " + idUser);
         String password;
@@ -192,4 +180,5 @@ public class UserServiceImpl implements UserService {
 
         return password;
     }
+
 }

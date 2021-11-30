@@ -10,8 +10,8 @@ public class Registration {
     private String email;
     private String city;
     private String login;
-    private String password; // todo change to char[]
-    private String confirmPassword; // todo change to char[]
+    private String password;
+    private String confirmPassword;
     private Gender gender;
     private UserRole userRole;
 

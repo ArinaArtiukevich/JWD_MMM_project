@@ -55,7 +55,6 @@ public class UpdateUserCommandImpl extends AbstractCommand implements Command {
                 path = GO_TO_WORK_PAGE;
                 session.setAttribute(MESSAGE, "Profile information was updated.");
                 session.setAttribute(USER, userInfo);
-               // request.setAttribute(LAST_COMMAND, UPDATE_USER); todo ???
             } else {
                 LOGGER.error("Personal information was not updated.");
                 throw new ControllerException("Personal information was not updated.");

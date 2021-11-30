@@ -37,6 +37,7 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
             String description = request.getParameter(SERVICE_DESCRIPTION);
             String address = request.getParameter(SERVICE_ADDRESS);
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
+            validator.isValid(serviceTypeString);
             Long idClient = getUserId(request); // todo correct?
             ServiceType serviceType = ServiceType.valueOf(serviceTypeString.toUpperCase());
             Date orderCreationDate = new Date();

@@ -30,33 +30,75 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 
     @Override
+    public boolean isLoginExist(String login) throws DaoException {
+        LOGGER.info("Start hasLogin(String login). Login = " + login);
+        boolean isExist = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        try {
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                isExist = true;
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Could not find login.");
+            throw new DaoException("Could not find login.");
+        } finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return isExist;
+    }
+
+    @Override
     public boolean addUser(Registration registration) throws DaoException {
         LOGGER.info("Start addUser(Registration registration). Login = " + registration.getLogin());
         boolean isAdded = false;
         PreparedStatement statement = null;
         Connection connection = null;
+        ResultSet resultSet = null;
+        boolean isExist = false;
         try {
             connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.insert.user"));
-            statement.setString(1, registration.getFirstName());
-            statement.setString(2, registration.getLastName());
-            statement.setString(3, registration.getEmail());
-            statement.setString(4, registration.getCity());
-            statement.setString(5, registration.getLogin());
-            statement.setString(6, registration.getGender().toString());
-            statement.setString(7, registration.getUserRole().toString());
-            int affectedRows = statement.executeUpdate();
-            connection.commit();
-            if (affectedRows > 0) {
-                LOGGER.info("A client was added.");
-                isAdded = true;
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
+            statement.setString(1, registration.getLogin());
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                isExist = true;
+            }
+            if (!isExist) {
+                statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.insert.user"));
+                statement.setString(1, registration.getFirstName());
+                statement.setString(2, registration.getLastName());
+                statement.setString(3, registration.getEmail());
+                statement.setString(4, registration.getCity());
+                statement.setString(5, registration.getLogin());
+                statement.setString(6, registration.getGender().toString());
+                statement.setString(7, registration.getUserRole().toString());
+                int affectedRowsUser = statement.executeUpdate();
+                statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.insert.login"));
+                statement.setString(1, registration.getLogin());
+                statement.setString(2, registration.getPassword());
+                int affectedRowsUserLogin = statement.executeUpdate();
+                if (affectedRowsUser == 1 && affectedRowsUserLogin == 1) {
+                    LOGGER.info("A login was added into user_logins.");
+                    isAdded = true;
+                } else {
+                    throw new DaoException("User registration failed.");
+                }
+                connection.commit();
             } else {
-                LOGGER.error("User was not added.");
-                throw new DaoException("User was not added.");
+                throw new DaoException("User with such login exists.");
             }
         } catch (SQLException e) {
             throw new DaoException("Registration failed.", e);
         } finally {
+            close(resultSet);
             close(statement);
             retrieve(connection);
         }
@@ -78,7 +120,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             statement.setString(4, userInfo.getCity());
             statement.setLong(5, idUser);
             int affectedRows = statement.executeUpdate();
-            connection.commit();
             if (affectedRows > 0) {
                 LOGGER.info("User was updated.");
                 isUpdated = true;
@@ -86,6 +127,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 LOGGER.error("User was not updated.");
                 throw new DaoException("User was not updated.");
             }
+            connection.commit();
         } catch (SQLException e) {
             throw new DaoException("User was not updated.", e);
         } finally {
@@ -95,38 +137,42 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         return isUpdated;
     }
 
-//    @Override
-//    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws DaoException {
-//        LOGGER.info("Start updateUserWithPassword(Long idUser, Registration userInfo). Login = " + userInfo.getLogin());
-//        boolean isUpdated = false;
-//        PreparedStatement statement = null;
-//        Connection connection = null;
-//        try {
-//            connection = getConnection(false);
-//            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.update.with.password.by.id"));
-//            statement.setString(1, userInfo.getFirstName());
-//            statement.setString(2, userInfo.getLastName());
-//            statement.setString(3, userInfo.getEmail());
-//            statement.setString(4, userInfo.getCity());
-//            statement.setString(5, userInfo.getPassword());
-//            statement.setLong(6, idUser);
-//            int affectedRows = statement.executeUpdate();
-//            connection.commit();
-//            if (affectedRows > 0) {
-//                LOGGER.info("User was updated.");
-//                isUpdated = true;
-//            } else {
-//                LOGGER.error("User was not updated.");
-//                throw new DaoException("User was not updated.");
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException("User was not updated.", e);
-//        } finally {
-//            close(statement);
-//            retrieve(connection);
-//        }
-//        return isUpdated;
-//    }
+    @Override
+    public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws DaoException {
+        LOGGER.info("Start updateUserWithPassword(Long idUser, Registration userInfo). Login = " + userInfo.getLogin());
+        boolean isUpdated = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.update.without.password.by.id"));
+            statement.setString(1, userInfo.getFirstName());
+            statement.setString(2, userInfo.getLastName());
+            statement.setString(3, userInfo.getEmail());
+            statement.setString(4, userInfo.getCity());
+            statement.setLong(5, idUser);
+            int affectedRowsUsers = statement.executeUpdate();
+
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.update.with.password.by.id"));
+            statement.setString(1, userInfo.getPassword());
+            statement.setLong(2, idUser);
+            int affectedRowsUserLogin = statement.executeUpdate();
+            if (affectedRowsUsers == 1 && affectedRowsUserLogin == 1) {
+                LOGGER.info("User was updated.");
+                isUpdated = true;
+            } else {
+                LOGGER.error("User was not updated.");
+                throw new DaoException("User was not updated.");
+            }
+            connection.commit(); // todo inner join?
+        } catch (SQLException e) {
+            throw new DaoException("User was not updated.", e);
+        } finally {
+            close(statement);
+            retrieve(connection);
+        }
+        return isUpdated;
+    }
 
     @Override
     public Long findIdByLogin(String login) throws DaoException {
@@ -153,31 +199,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         return idClient;
     }
 
-    @Override
-    public boolean isLoginExist(String login) throws DaoException {
-        LOGGER.info("Start hasLogin(String login). Login = " + login);
-        boolean isExist = false;
-        PreparedStatement statement = null;
-        Connection connection = null;
-        ResultSet resultSet = null;
-        try {
-            connection = getConnection(true);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
-            statement.setString(1, login);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                isExist = true;
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Could not find login.");
-            throw new DaoException("Could not find login.");
-        } finally {
-            close(resultSet);
-            close(statement);
-            retrieve(connection);
-        }
-        return isExist;
-    }
 
     @Override
     public User getUserByLogin(String login) throws DaoException {
@@ -315,5 +336,48 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             retrieve(connection);
         }
         return userRole;
+    }
+
+    @Override
+    public boolean deleteUserByLogin(String login) throws DaoException {
+        LOGGER.info("Start deleteUserByLogin(String login).");
+        boolean isDeleted = false;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        ResultSet resultSet = null;
+        boolean isExist = false;
+        try {
+            connection = getConnection(false);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("users.find.by.login"));
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                isExist = true;
+            }
+            if (isExist) {
+                statement = connection.prepareStatement(DataBaseConfig.getQuery("registration.delete.user.by.login"));
+                statement.setString(1, login);
+                int affectedRowsUser = statement.executeUpdate();
+                statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.delete.by.login"));
+                statement.setString(1, login);
+                int affectedRowsUserLogin = statement.executeUpdate();
+                if (affectedRowsUser == 1 && affectedRowsUserLogin == 1) {
+                    LOGGER.info("User was deleted.");
+                    isDeleted = true;
+                } else {
+                    throw new DaoException("User was not deleted.");
+                }
+                connection.commit();
+            } else {
+                throw new DaoException("User with such login does not exist.");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("User was deleted.");
+        } finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return isDeleted;
     }
 }

@@ -9,6 +9,7 @@ import com.jwd.dao.entity.enumType.ServiceType;
 import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.OrderDao;
+import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.OrderService;
 import com.jwd.service.validator.ServiceValidator;
@@ -110,6 +111,7 @@ public class OrderServiceImplUnitTest {
 
         // assert
         verify(orderDao, times(1)).getServiceList(pageArgumentCaptor.capture());
+        assertEquals(orderPageRequest, pageArgumentCaptor.getValue());
         assertEquals(new ServiceException(daoException).getMessage(), actual.getMessage());
     }
 
@@ -165,16 +167,6 @@ public class OrderServiceImplUnitTest {
         assertEquals(new ServiceException(daoException).getMessage(), actual.getMessage());
     }
 
-//    @Test
-//    public void testTakeOrder_positive() throws ServiceException, DaoException {
-//        Order order = new Order(description, address, serviceType, status, orderCreationDate);
-//        boolean expectedResult = true;
-//        orderService.addServiceOrder(order, idUser);
-//
-//        doReturn(Boolean.TRUE).when(orderDao).takeOrder(order.getIdService(), idWorker);
-//
-//        boolean actualResult = orderService.takeOrder(order.getIdService(), idWorker);
-//        assertEquals(expectedResult, actualResult);
-//    }
+
 
 }

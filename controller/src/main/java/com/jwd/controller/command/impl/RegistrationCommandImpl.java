@@ -6,6 +6,7 @@ import com.jwd.controller.entity.CommandAnswer;
 import com.jwd.controller.entity.enumType.AnswerType;
 import com.jwd.controller.exception.ControllerException;
 import com.jwd.controller.validator.ControllerValidator;
+import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.factory.ServiceFactory;
@@ -54,10 +55,11 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
                 boolean isRegistered = false;
                 Long idUser = 0L;
                 isRegistered = userService.register(registration);
-                idUser = userService.getIdUserByLogin(login);
+                User user = userService.getUserByLogin(login);
 
                 if (isRegistered) {
-                    session.setAttribute(USER_ID, idUser);
+                    session.setAttribute(USER, user);
+                    session.setAttribute(USER_ID, user.getIdUser());
                     session.setAttribute(LOGIN, login);
                     session.setAttribute(USER_ROLE, userRole.getName());
                     path = GO_TO_WORK_PAGE;
@@ -74,7 +76,7 @@ public class RegistrationCommandImpl extends AbstractCommand implements Command 
             throw new ControllerException("Registration failed " + e.getMessage());
         }
         answer.setPath(path);
-        answer.setAnswerType(AnswerType.FORWARD);
+        answer.setAnswerType(AnswerType.REDIRECT);
         return answer;
     }
 

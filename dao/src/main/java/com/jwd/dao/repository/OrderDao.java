@@ -30,4 +30,6 @@ public interface OrderDao {
     boolean deleteById(Long idOrder) throws DaoException;
 
     ServiceStatus getServiceStatusById(Long idOrder) throws DaoException;
+
+    boolean deleteByIdClient(Long idClient) throws DaoException;
 }

@@ -52,64 +52,35 @@ public class LoginDaoImpl extends AbstractDao implements LoginDao {
         }
         return isAdded;
     }
-
-    @Override
-    public boolean updateUserDTO(UserDTO userDTO) throws DaoException {
-        LOGGER.info("Start add(Login login). Id = " + userDTO.getIdUser());
-        PreparedStatement statement = null;
-        Connection connection = null;
-        boolean isAdded = false;
-        try {
-            connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.update.with.password.by.id"));
-            statement.setString(1, userDTO.getPassword());
-            statement.setLong(2, userDTO.getIdUser());
-            int affectedRows = statement.executeUpdate();
-            connection.commit();
-            if (affectedRows > 0) {
-                LOGGER.info("User password was updated.");
-                isAdded = true;
-            } else {
-                throw new DaoException("User password was not updated.");
-            }
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            throw new DaoException("Could bot update user password.");
-        } finally {
-            close(statement);
-            retrieve(connection);
-        }
-        return isAdded;
-    }
-
-    @Override
-    public boolean deleteLoginById(Integer id) throws DaoException {
-        LOGGER.info("Start deleteLoginById(Integer id). Id = " + id);
-        boolean isDeleted = false;
-        PreparedStatement statement = null;
-        Connection connection = null;
-        try {
-            connection = getConnection(false);
-            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.delete.login.by.id"));
-            statement.setInt(1, id);
-            int affectedRows = statement.executeUpdate();
-            connection.commit();
-            if (affectedRows > 0) {
-                LOGGER.info("Login was deleted.");
-                isDeleted = true;
-            } else {
-                throw new DaoException("A login was not deleted into user_logins.");
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            throw new DaoException("Deleting login failed.", e);
-        } finally {
-            close(statement);
-            retrieve(connection);
-        }
-        return isDeleted;
-    }
+//
+//    @Override
+//    public boolean updateUserDTO(UserDTO userDTO) throws DaoException {
+//        LOGGER.info("Start add(Login login). Id = " + userDTO.getIdUser());
+//        PreparedStatement statement = null;
+//        Connection connection = null;
+//        boolean isAdded = false;
+//        try {
+//            connection = getConnection(false);
+//            statement = connection.prepareStatement(DataBaseConfig.getQuery("user_logins.update.with.password.by.id"));
+//            statement.setString(1, userDTO.getPassword());
+//            statement.setLong(2, userDTO.getIdUser());
+//            int affectedRows = statement.executeUpdate();
+//            connection.commit();
+//            if (affectedRows > 0) {
+//                LOGGER.info("User password was updated.");
+//                isAdded = true;
+//            } else {
+//                throw new DaoException("User password was not updated.");
+//            }
+//        } catch (SQLException e) {
+//            LOGGER.error(e);
+//            throw new DaoException("Could bot update user password.");
+//        } finally {
+//            close(statement);
+//            retrieve(connection);
+//        }
+//        return isAdded;
+//    }
 
     @Override
     public Long findIdByLogin(String login) throws DaoException {

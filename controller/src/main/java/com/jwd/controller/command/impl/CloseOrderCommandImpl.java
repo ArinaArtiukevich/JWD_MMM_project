@@ -30,8 +30,9 @@ public class CloseOrderCommandImpl extends AbstractCommand implements Command {
         String path = null;
         try {
             Long idOrder = getOrderId(request);
+            Long idWorker = getUserId(request);
             HttpSession session = request.getSession();
-            if (orderService.setOrderStatus(idOrder, ServiceStatus.DONE)) {
+            if (orderService.setDoneOrderStatus(idOrder, idWorker)) {
                 session.setAttribute(MESSAGE, "Order status was changed. Order is done.");
             } else {
                 LOGGER.error("Order was not closed.");
