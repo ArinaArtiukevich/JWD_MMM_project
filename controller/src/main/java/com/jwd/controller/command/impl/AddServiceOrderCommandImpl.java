@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
 import com.jwd.controller.entity.enumType.AnswerType;
@@ -21,9 +20,10 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.getUserId;
 
 
-public class AddServiceOrderCommandImpl extends AbstractCommand implements Command {
+public class AddServiceOrderCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(AddServiceOrderCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
@@ -32,13 +32,12 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start addServiceOrder.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             String description = request.getParameter(SERVICE_DESCRIPTION);
             String address = request.getParameter(SERVICE_ADDRESS);
             String serviceTypeString = request.getParameter(SERVICE_TYPE);
             validator.isValid(serviceTypeString);
-            Long idClient = getUserId(request); // todo correct?
+            Long idClient = getUserId(request);
             ServiceType serviceType = ServiceType.valueOf(serviceTypeString.toUpperCase());
             Date orderCreationDate = new Date();
             Order orderItem = new Order(description, address, serviceType, ServiceStatus.FREE, orderCreationDate);
@@ -46,7 +45,7 @@ public class AddServiceOrderCommandImpl extends AbstractCommand implements Comma
             validateParameters(orderItem, idClient);
             HttpSession session = request.getSession();
             if (orderService.addServiceOrder(orderItem, idClient)) {
-                session.setAttribute(MESSAGE, "Order was added."); // todo <c:remove var="message" scope="session" /> in jsp possible?
+                session.setAttribute(MESSAGE, "Order was added.");
             } else {
                 session.setAttribute(ERROR_WORK_MESSAGE, "Could not add an order. Please, try again.");
             }

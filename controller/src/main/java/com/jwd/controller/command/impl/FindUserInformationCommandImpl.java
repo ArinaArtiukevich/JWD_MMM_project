@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
 import com.jwd.controller.entity.enumType.AnswerType;
@@ -16,9 +15,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
-import static com.jwd.controller.util.Util.pathToJsp;
+import static com.jwd.controller.util.Util.*;
 
-public class FindUserInformationCommandImpl extends AbstractCommand implements Command {
+public class FindUserInformationCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(FindUserInformationCommandImpl.class);
     private final UserService userService = ServiceFactory.getInstance().getUserService();
 

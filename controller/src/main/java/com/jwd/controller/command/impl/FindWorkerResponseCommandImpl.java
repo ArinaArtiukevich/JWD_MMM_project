@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +17,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
-import static com.jwd.controller.util.Util.pathToJsp;
+import static com.jwd.controller.util.Util.*;
 import static java.util.Objects.nonNull;
 
 
-public class FindWorkerResponseCommandImpl extends AbstractCommand implements Command {
+public class FindWorkerResponseCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(FindWorkerResponseCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 

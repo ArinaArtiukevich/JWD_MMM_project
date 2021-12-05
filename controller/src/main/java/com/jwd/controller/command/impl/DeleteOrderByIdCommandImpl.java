@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
 import com.jwd.controller.entity.enumType.AnswerType;
@@ -15,15 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.getOrderId;
+import static com.jwd.controller.util.Util.getUserId;
 
-public class DeleteOrderByIdCommandImpl extends AbstractCommand implements Command {
+public class DeleteOrderByIdCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(DeleteOrderByIdCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     @Override
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start DeleteOrderByIdCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             Long idClient = getUserId(request);
             Long idService = getOrderId(request);

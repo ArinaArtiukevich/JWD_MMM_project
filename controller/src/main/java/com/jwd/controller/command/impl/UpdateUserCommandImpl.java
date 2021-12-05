@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.entity.CommandAnswer;
 import com.jwd.controller.entity.enumType.AnswerType;
@@ -18,9 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.*;
 import static java.util.Objects.nonNull;
 
-public class UpdateUserCommandImpl extends AbstractCommand implements Command {
+public class UpdateUserCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(UpdateUserCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final UserService userService = ServiceFactory.getInstance().getUserService();

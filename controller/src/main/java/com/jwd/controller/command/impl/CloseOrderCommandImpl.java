@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static com.jwd.controller.command.ParameterAttributeType.*;
+import static com.jwd.controller.util.Util.getOrderId;
+import static com.jwd.controller.util.Util.getUserId;
 
 
-public class CloseOrderCommandImpl extends AbstractCommand implements Command {
+public class CloseOrderCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CloseOrderCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 

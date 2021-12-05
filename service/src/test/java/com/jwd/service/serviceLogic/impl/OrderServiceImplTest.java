@@ -62,7 +62,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void testGetAllServices_positive() throws ServiceException, ParseException, DaoException {
+    public void testGetAllServices_positive() throws ServiceException, DaoException {
         Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         boolean isAdded = false;
         Long idClient = 0L;

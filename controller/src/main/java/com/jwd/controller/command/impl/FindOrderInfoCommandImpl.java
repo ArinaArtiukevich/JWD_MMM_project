@@ -1,6 +1,5 @@
 package com.jwd.controller.command.impl;
 
-import com.jwd.controller.command.AbstractCommand;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.ParameterAttributeType;
 import com.jwd.controller.entity.CommandAnswer;
@@ -21,10 +20,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.jwd.controller.util.Util.pathToJsp;
+import static com.jwd.controller.util.Util.*;
 
 
-public class FindOrderInfoCommandImpl extends AbstractCommand implements Command {
+public class FindOrderInfoCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(FindOrderInfoCommandImpl.class);
     private final ControllerValidator validator = new ControllerValidator();
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
