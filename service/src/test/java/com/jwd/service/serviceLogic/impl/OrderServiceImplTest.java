@@ -62,30 +62,20 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void testGetAllServices_positive() throws ServiceException, ParseException {
+    public void testGetAllServices_positive() throws ServiceException, ParseException, DaoException {
         Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         boolean isAdded = false;
         Long idClient = 0L;
-        try {
-            userDao.addUser(registrationInfo);
-            idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
-            isAdded = orderService.addServiceOrder(order, idClient);
-            order.setIdService(orderDao.findOrdersByIdUser(orderPageRequest, idClient).getElements().get(0).getIdService());
-            order.setIdClient(idClient);
-        } catch (DaoException | ServiceException e) {
-            // todo?
-        }
-
+        userDao.addUser(registrationInfo);
+        idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
+        isAdded = orderService.addServiceOrder(order, idClient);
+        order.setIdService(orderDao.findOrdersByIdUser(orderPageRequest, idClient).getElements().get(0).getIdService());
+        order.setIdClient(idClient);
         assertEquals(Boolean.TRUE, isAdded);
         Page<Order> actualOrderPageResult = orderService.getAllServices(orderPageRequest);
         assertTrue(actualOrderPageResult.getElements().contains(order));
-
-        try {
-            orderDao.deleteByIdClient(idClient);
-            userDao.deleteUserByLogin(registrationInfo.getLogin());
-        } catch (DaoException e) {
-
-        }
+        orderDao.deleteByIdClient(idClient);
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
     }
 
     @Test
@@ -104,34 +94,30 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void testAddServiceOrder_positive() {
+    public void testAddServiceOrder_positive() throws DaoException, ServiceException {
         Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
         boolean isAdded = false;
         Long idClient = 0L;
         int elementsSize = 0;
         int actualElementsSize = 0;
-        try {
-            elementsSize = orderService.getAllServices(orderPageRequest).getElements().size();
-            userDao.addUser(registrationInfo);
-            idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
-            isAdded = orderService.addServiceOrder(order, idClient);
-            actualElementsSize = orderService.getAllServices(orderPageRequest).getElements().size();
-        } catch (DaoException | ServiceException e) {
-            // todo?
-        }
+
+        elementsSize = orderService.getAllServices(orderPageRequest).getElements().size();
+        userDao.addUser(registrationInfo);
+        idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
+        isAdded = orderService.addServiceOrder(order, idClient);
+        actualElementsSize = orderService.getAllServices(orderPageRequest).getElements().size();
+
 
         assertEquals(1, (actualElementsSize - elementsSize));
         assertEquals(Boolean.TRUE, isAdded);
-        try {
-            orderDao.deleteByIdClient(idClient);
-            userDao.deleteUserByLogin(registrationInfo.getLogin());
-        } catch (DaoException e) {
 
-        }
+        orderDao.deleteByIdClient(idClient);
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
+
     }
 
     @Test
-    public void testAddServiceOrder_ServiceException() {
+    public void testAddServiceOrder_ServiceException() throws DaoException {
         final PSQLException psqlException = new PSQLException("Date is null.", PSQLState.DATA_ERROR);
         boolean isAdded = false;
         Exception actual = null;
@@ -145,15 +131,9 @@ public class OrderServiceImplTest {
         assertEquals(Boolean.FALSE, isAdded);
         assertEquals(new ServiceException(psqlException.getMessage()).getMessage(), actual.getMessage());
 
-        try {
-            userDao.deleteUserByLogin(registrationInfo.getLogin());
-        } catch (DaoException e) {
-            // todo
-        }
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
+
     }
-
-
-
 
 
 //    @Test

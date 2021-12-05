@@ -2,8 +2,10 @@ package com.jwd.service.serviceLogic.impl;
 
 import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
+import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.enumType.ServiceStatus;
 import com.jwd.dao.entity.enumType.ServiceType;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.OrderDao;
 import com.jwd.service.exception.ServiceException;
@@ -108,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idWorker);
             validator.validate(serviceStatus);
             if (orderDao.getServiceStatusById(idOrder).getName().equals(FREE.getName())) {
-                isTaken = orderDao.takeOrder(idOrder, idWorker, serviceStatus); // todo  check in DAO?
+                isTaken = orderDao.takeOrder(idOrder, idWorker, serviceStatus);
             } else {
                 throw new ServiceException("Order is not available.");
             }
@@ -125,15 +127,16 @@ public class OrderServiceImpl implements OrderService {
         try {
             validator.validate(idOrder);
             validator.validate(idWorker);
-            Long localIdWorker = orderDao.findOrderById(idOrder).getIdWorker();
-            if (!localIdWorker.equals(idWorker)) {
+            UserRole localRole = orderDao.findWorkerRoleByIdOrder(idOrder);
+            validator.validate(localRole);
+            if (!localRole.equals(UserRole.WORKER)) {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
             if(!localStatus.getName().equals(ServiceStatus.IN_PROCESS.getName())){
                 throw new ServiceException("Order is not done.");
             }
-            isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.IN_PROCESS);
+            isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.DONE);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -147,8 +150,9 @@ public class OrderServiceImpl implements OrderService {
         try {
             validator.validate(idOrder);
             validator.validate(idClient);
-            Long localIdClient = orderDao.findOrderById(idOrder).getIdClient();
-            if (!localIdClient.equals(idClient)) {
+            UserRole localRole = orderDao.findClientRoleByIdOrder(idOrder);
+            validator.validate(localRole);
+            if (!localRole.equals(UserRole.CLIENT)) {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);

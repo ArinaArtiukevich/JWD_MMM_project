@@ -3,6 +3,9 @@ package com.jwd.controller.factory;
 import com.jwd.controller.command.Command;
 import com.jwd.controller.command.impl.DefaultCommandImpl;
 import com.jwd.controller.factory.enumType.CommandEnum;
+import com.jwd.controller.validator.ControllerValidator;
+import com.jwd.service.serviceLogic.OrderService;
+import com.jwd.service.serviceLogic.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +20,7 @@ public class CommandFactory {
     public Command defineManager(HttpServletRequest request) {
         LOGGER.info("Start defineManager(HttpServletRequest request).");
 
-        Command command = new DefaultCommandImpl();
+        Command command = CommandEnum.DEFAULT_COMMAND.getCommand();
         String commandParameter = request.getParameter(COMMAND);
 
         if (!isNull(commandParameter) && !commandParameter.isEmpty()) {

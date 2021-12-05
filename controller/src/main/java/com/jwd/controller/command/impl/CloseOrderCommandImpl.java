@@ -27,7 +27,6 @@ public class CloseOrderCommandImpl extends AbstractCommand implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start CloseOrderCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             Long idOrder = getOrderId(request);
             Long idWorker = getUserId(request);

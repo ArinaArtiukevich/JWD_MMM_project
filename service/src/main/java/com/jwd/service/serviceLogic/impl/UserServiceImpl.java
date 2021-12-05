@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Start register(Registration registration).");
         boolean isRegistered = false;
         try {
-            if (validator.validateRegistrationData(registration)) {
+          if (validator.validateRegistrationData(registration)) {
                 isRegistered = userDao.addUser(registration);
             }
         } catch (DaoException e) {

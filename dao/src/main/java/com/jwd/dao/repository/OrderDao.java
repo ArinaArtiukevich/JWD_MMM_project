@@ -4,6 +4,7 @@ import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enumType.ServiceStatus;
 import com.jwd.dao.entity.enumType.ServiceType;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
 
 public interface OrderDao {
@@ -32,4 +33,8 @@ public interface OrderDao {
     ServiceStatus getServiceStatusById(Long idOrder) throws DaoException;
 
     boolean deleteByIdClient(Long idClient) throws DaoException;
+
+    UserRole findWorkerRoleByIdOrder(Long idOrder) throws DaoException;
+
+    UserRole findClientRoleByIdOrder(Long idOrder) throws DaoException;
 }

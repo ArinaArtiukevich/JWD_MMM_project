@@ -21,7 +21,6 @@ public class ConnectionPoolImpl implements ConnectionPool {
     private final DataBaseConfig dataBaseConfig;
     private final BlockingQueue<Connection> pool;
     private final BlockingQueue<Connection> taken;
-    private static ReentrantLock lockConnection = new ReentrantLock();
 
     public ConnectionPoolImpl(final DataBaseConfig dataBaseConfig) {
         this.dataBaseConfig = dataBaseConfig;

@@ -4,6 +4,7 @@ import com.jwd.controller.command.Command;
 import com.jwd.controller.command.impl.*;
 
 public enum CommandEnum {
+    DEFAULT_COMMAND(new DefaultCommandImpl()),
     LOGIN(new LoginCommandImpl()),
     LOGOUT(new LogoutCommandImpl()),
     REGISTRATION(new RegistrationCommandImpl()),
@@ -32,4 +33,5 @@ public enum CommandEnum {
     public Command getCommand() {
         return command;
     }
+
 }

@@ -5,6 +5,7 @@ import com.jwd.dao.entity.Order;
 import com.jwd.dao.entity.Page;
 import com.jwd.dao.entity.enumType.ServiceStatus;
 import com.jwd.dao.entity.enumType.ServiceType;
+import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
 import com.jwd.dao.repository.AbstractDao;
 import com.jwd.dao.repository.OrderDao;
@@ -514,6 +515,63 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         return isDeleted;
     }
 
+    @Override
+    public UserRole findWorkerRoleByIdOrder(Long idOrder) throws DaoException {
+        LOGGER.info("Start Order findUserRoleByIdOrder(Long idOrder).");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        UserRole userRole = null;
+        if (idOrder <= 0) {
+            throw new DaoException("Invalid idOrder");
+        }
+        try {
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.worker.userRole"));
+            statement.setLong(1, idOrder);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                userRole = UserRole.valueOf(resultSet.getString("user_role"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Could not find order by id.");
+            throw new DaoException("Could not find order.");
+        } finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return userRole;
+    }
+
+    @Override
+    public UserRole findClientRoleByIdOrder(Long idOrder) throws DaoException {
+        LOGGER.info("Start Order findClientRoleByIdOrder(Long idOrder).");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        UserRole userRole = null;
+        if (idOrder <= 0) {
+            throw new DaoException("Invalid idOrder");
+        }
+        try {
+            connection = getConnection(true);
+            statement = connection.prepareStatement(DataBaseConfig.getQuery("orders.select.client.userRole"));
+            statement.setLong(1, idOrder);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                userRole = UserRole.valueOf(resultSet.getString("user_role"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Could not find order by id.");
+            throw new DaoException("Could not find order.");
+        } finally {
+            close(resultSet);
+            close(statement);
+            retrieve(connection);
+        }
+        return userRole;
+    }
     private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;

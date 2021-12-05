@@ -6,5 +6,6 @@ import java.sql.Connection;
 
 public interface ConnectionPool {
     Connection take() throws DaoException;
+
     void retrieve(final Connection connection);
 }

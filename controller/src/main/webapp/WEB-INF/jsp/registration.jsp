@@ -37,11 +37,12 @@
                 <jsp:param name="page_path" value="registration"/>
             </jsp:include>
         </header>
-        <div id="error">
-            <c:out value="${sessionScope.errorRegistration}"/>
-            <c:remove var="errorRegistration" scope="session"/>
-        </div>
+
         <div class="container">
+            <div id="error">
+                <c:out value="${sessionScope.errorRegistration}"/>
+                <c:remove var="errorRegistration" scope="session"/>
+            </div>
             <form method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="registration"/>
                 <div class="row">
