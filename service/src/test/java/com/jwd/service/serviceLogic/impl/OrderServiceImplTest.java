@@ -41,7 +41,9 @@ public class OrderServiceImplTest {
     private long totalElements = 100;
     private int limit = 100;
     private List<Order> orders = Arrays.asList(
-            new Order(137L, 42L, "change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021"))
+            new Order(1L, 1L, "change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021")),
+            new Order(2L, 2L, "paint walls", "esenina 2", ServiceType.PAINTING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("03/11/2021")),
+            new Order(3L, 3L, "clean roof", "esenina 3", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("06/12/2021"))
     );
     private List<Order> emptyOrders = new ArrayList<>();
     private String sortBy = "id_service";
@@ -89,7 +91,6 @@ public class OrderServiceImplTest {
         } catch (ServiceException e) {
             actual = e;
         }
-        // assert
         assertEquals(new ServiceException(new DaoException(psqlException.getMessage()).getMessage()).getMessage(), actual.getMessage());
     }
 
@@ -135,22 +136,4 @@ public class OrderServiceImplTest {
 
     }
 
-
-//    @Test
-//    public void testGetAllServices_positive() throws ServiceException, ParseException {
-//        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
-//        Page<Order> expectedOrderPageRequest = new Page<>(pageNumber, totalElements, limit, orders, sortBy, direction);
-//
-//        Page<Order> actualOrderPageResult = orderService.getAllServices(orderPageRequest); // todo delete возвращаются реальные данные
-//        /*
-//        1. add new orders
-//        2. getAllServices() -> actualSecondResult
-//        3. assert THAT actualSecondResult-elements minus actualOrderPageResult-elements ARE new_orders that we have saved before
-//         */
-//        assertEquals(expectedOrderPageRequest, actualOrderPageResult);
-//        for (int i = 0; i < expectedOrderPageRequest.getElements().size(); i++) {
-//            assertEquals(expectedOrderPageRequest.getElements().get(i).getOrderCreationDate(), actualOrderPageResult.getElements().get(i).getOrderCreationDate());
-//        }
-//
-//    }
 }
