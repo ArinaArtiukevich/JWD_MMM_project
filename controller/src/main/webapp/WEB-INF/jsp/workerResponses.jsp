@@ -5,7 +5,7 @@
 
 <html>
     <head>
-        <title>${title_services}</title>
+        <title>Responses</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
@@ -14,7 +14,6 @@
         <fmt:setBundle basename="localization.local" var="loc"/>
         <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all"/>
         <fmt:message bundle="${loc}" key="work.find.worker.response" var="work_find_worker_response"/>
-        <fmt:message bundle="${loc}" key="title.order" var="title_services"/>
         <fmt:message bundle="${loc}" key="order.description" var="description"/>
         <fmt:message bundle="${loc}" key="order.address" var="address"/>
         <fmt:message bundle="${loc}" key="order.serviceType" var="serviceType"/>

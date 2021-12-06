@@ -4,14 +4,13 @@
 
 <html>
     <head>
-        <title>${title_error}</title>
+        <title>Error</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="title.error" var="title_error"/>
         <fmt:message bundle="${loc}" key="error.message" var="error_message"/>
     </head>
     <body>

@@ -4,18 +4,16 @@
 
 <html>
     <head>
-        <title>${title_showUserOrders}</title>
+        <title>Orders</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="title.showUserOrders" var="title_showUserOrders"/>
         <fmt:message bundle="${loc}" key="work.add.order" var="work_add_service"/>
         <fmt:message bundle="${loc}" key="show.user.orders" var="show_user_orders"/>
 
-        <fmt:message bundle="${loc}" key="title.order" var="title_services"/>
         <fmt:message bundle="${loc}" key="order.idService" var="idService"/>
         <fmt:message bundle="${loc}" key="order.idClient" var="idClient"/>
         <fmt:message bundle="${loc}" key="order.description" var="description"/>
@@ -41,41 +39,6 @@
                 <jsp:param name="page_path" value="showUserOrder"/>
             </jsp:include>
         </header>
-            <%--        <form id="show_user_orders" method="GET" action="${pageContext.request.contextPath}/controller">--%>
-            <%--            <input type="hidden" name="command" value="show_user_orders">--%>
-            <%--                <div id="menu">--%>
-
-            <%--                    <div id="button">--%>
-            <%--                        <button type="submit" name="show_user_orders">--%>
-            <%--                                ${show_user_orders}--%>
-            <%--                        </button>--%>
-            <%--                        <br/>--%>
-            <%--                    </div>--%>
-
-            <%--                    <div id="menu">--%>
-            <%--                        <h5>${message_sort_by}</h5>--%>
-            <%--                        <select class="custom-select col-md-4 mb-2" name="sort_by">--%>
-            <%--                            <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>--%>
-            <%--                            <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>--%>
-            <%--                            <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>--%>
-            <%--                            <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>--%>
-            <%--                            <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>--%>
-            <%--                        </select>--%>
-            <%--                    </div>--%>
-
-            <%--                    <div id="direction">--%>
-            <%--                        <div class="form-check">--%>
-            <%--                            <input class="form-check-input" type="radio" id="direction" name="direction"--%>
-            <%--                                   value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>--%>
-            <%--                            <label class="form-check-label" for="direction">--%>
-            <%--                                    ${direction_change}--%>
-            <%--                            </label>--%>
-            <%--                        </div>--%>
-            <%--                    </div>--%>
-
-            <%--                </div>--%>
-            <%--            </input>--%>
-            <%--        </form>--%>
 
         <div class="container">
             <form id="find_client_order_by_status" method="GET" action="${pageContext.request.contextPath}/controller">

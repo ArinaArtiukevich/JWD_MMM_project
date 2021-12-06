@@ -4,13 +4,12 @@
 
 <html>
     <head>
-        <title>${title_addServiceOrder}</title>
+        <title>Add order</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
-        <fmt:message bundle="${loc}" key="title.addServiceOrder" var="title_addServiceOrder"/>
 
         <fmt:message bundle="${loc}" key="order.description" var="description"/>
         <fmt:message bundle="${loc}" key="order.address" var="address"/>

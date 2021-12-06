@@ -68,10 +68,10 @@ public class ServiceValidator {
         }
     }
 
-    public void validate(Order orderToBeAdded) throws ServiceException {
+    public void validateOrder(Order orderToBeAdded) throws ServiceException {
         validateIsNullOrder(orderToBeAdded);
-        validate(orderToBeAdded.getDescription());
-        validate(orderToBeAdded.getAddress());
+        validateOrderString(orderToBeAdded.getDescription());
+        validateOrderString(orderToBeAdded.getAddress());
         validate(orderToBeAdded.getServiceType());
         validate(orderToBeAdded.getStatus());
         validate(orderToBeAdded.getOrderCreationDate());
@@ -89,6 +89,13 @@ public class ServiceValidator {
         }
     }
 
+    private void validateOrderString(String string) throws ServiceException {
+        validate(string);
+        if (!string.matches(PATTERN_ORDER_STRING)) {
+            throw new ServiceException("Invalid order parameter.");
+        }
+    }
+
     public void validateServiceTypeString(String serviceTypeString) throws ServiceException {
         validate(serviceTypeString);
         if (!availableServiceTypeString.contains(serviceTypeString)) {
@@ -99,7 +106,9 @@ public class ServiceValidator {
     public boolean validateUserWithPassword(Registration userInfo) throws ServiceException {
         LOGGER.info("Start validateUserWithPassword(Registration registration).");
         validateEmptyFieldsWithPassword(userInfo);
-        boolean result = (checkCity(userInfo.getCity()) &&
+        boolean result = (checkValidString(userInfo.getFirstName()) &&
+                checkValidString(userInfo.getLastName()) &&
+                checkValidString(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
             LOGGER.info("User data is ready to be updated");
@@ -112,7 +121,9 @@ public class ServiceValidator {
     public boolean validateUserWithoutPassword(Registration userInfo) throws ServiceException {
         LOGGER.info("Start validateUserWithoutPassword(Registration registration).");
         validateEmptyFieldsWithoutPassword(userInfo);
-        boolean result = (checkCity(userInfo.getCity()) &&
+        boolean result = (checkValidString(userInfo.getFirstName()) &&
+                checkValidString(userInfo.getLastName()) &&
+                checkValidString(userInfo.getCity()) &&
                 checkEmail(userInfo.getEmail()));
         if (result) {
             LOGGER.info("Invalid user data.");
@@ -141,8 +152,10 @@ public class ServiceValidator {
         LOGGER.info("Start checkData(Registration registration).");
         isNullRegistrationData(registration);
         validateEmptyFields(registration);
-        boolean result = (checkLogin(registration.getLogin()) &&
-                checkCity(registration.getCity()) &&
+        boolean result = (checkValidString(registration.getFirstName()) &&
+                checkValidString(registration.getLastName()) &&
+                checkLogin(registration.getLogin()) &&
+                checkValidString(registration.getCity()) &&
                 checkEmail(registration.getEmail()));
         if (result) {
             LOGGER.info("User data is ready to be register");
@@ -173,9 +186,9 @@ public class ServiceValidator {
         validate(registration.getGender());
     }
 
-    private boolean checkCity(String city) {
-        LOGGER.info("Start checkCity(String city).");
-        return city.matches(PATTERN_CITY);
+    private boolean checkValidString(String string) {
+        LOGGER.info("Start checkValidString(String string).");
+        return string.matches(PATTERN_STRING);
     }
 
     private boolean checkEmail(String email) {
@@ -199,4 +212,5 @@ public class ServiceValidator {
         LOGGER.info("Start validateLogin(String login).");
         return login.matches(PATTERN_LOGIN);
     }
+
 }

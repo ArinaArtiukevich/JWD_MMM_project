@@ -4,14 +4,13 @@
 
 <html>
     <head>
-        <title>${work_title}</title>
+        <title>My page</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="work.title" var="work_title"/>
         <fmt:message bundle="${loc}" key="work.add.order" var="work_add_service"/>
         <fmt:message bundle="${loc}" key="work.show.user.all.order" var="work_show_user_all_order"/>
         <fmt:message bundle="${loc}" key="work.find.worker.response" var="work_find_worker_response"/>
@@ -27,6 +26,7 @@
         <fmt:message bundle="${loc}" key="registration.confirmPassword" var="registration_confirmPassword"/>
         <fmt:message bundle="${loc}" key="registration.email" var="registration_email"/>
         <fmt:message bundle="${loc}" key="registration.city" var="registration_city"/>
+        <fmt:message bundle="${loc}" key="registration.message.password" var="registration_message_password"/>
 
         <fmt:message bundle="${loc}" key="user.firstName" var="user_firstName"/>
         <fmt:message bundle="${loc}" key="user.lastName" var="user_lastName"/>
@@ -178,7 +178,7 @@
                                 </div>
                                 <input form="update_user" type="password" class="form-control" name="password"
                                        id="passwordInput" value=""/>
-                                <span class="form-text">Enter 5-20 symbols.</span>
+                                <span class="form-text">${registration_message_password}</span>
                             </div>
                         </div>
 
@@ -190,7 +190,7 @@
                                 <input form="update_user" type="password" class="form-control" name="confirmPassword"
                                        id="confirmPasswordInput"
                                        value=""/>
-                                <span class="form-text">Enter 5-20 symbols.</span>
+                                <span class="form-text">${registration_message_password}</span>
                             </div>
                         </div>
 

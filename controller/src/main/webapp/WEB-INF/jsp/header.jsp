@@ -4,9 +4,7 @@
 
 <html>
     <head>
-        <title>NAME</title>
         <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.css"/>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
@@ -80,16 +78,6 @@
                     </div>
                 </div>
             </nav>
-                <%--            <table>--%>
-                <%--                <tr>--%>
-                <%--                    <th><a href="/controller?command=go_to_page&path=index" class="eight"> <c:out value="${button_main}"/></a></th>--%>
-                <%--                    <th><a href="/controller?command=go_to_page&path=services" class="eight"> <c:out value="${button_service}"/></a></th>--%>
-                <%--                    <th><a href="/controller?command=go_to_page&path=authorization" class="eight"> <c:out value="${button_authorization}"/></a></th>--%>
-                <%--                    <th><a href="/controller?command=go_to_page&path=work" class="eight"> <c:out value="${button_user_account}"/></a></th>--%>
-                <%--                </tr>--%>
-                <%--            </table>--%>
-
         </div>
-
     </body>
 </html>

@@ -11,14 +11,13 @@
 
 <html>
     <head>
-        <title>${title_registration}</title>
+        <title>SignUp</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
-        <fmt:message bundle="${loc}" key="title.registration" var="title_registration"/>
         <fmt:message bundle="${loc}" key="registration.firstName" var="registration_firstName"/>
         <fmt:message bundle="${loc}" key="registration.lastName" var="registration_lastName"/>
         <fmt:message bundle="${loc}" key="registration.login" var="registration_login"/>
@@ -28,7 +27,14 @@
         <fmt:message bundle="${loc}" key="registration.email" var="registration_email"/>
         <fmt:message bundle="${loc}" key="registration.city" var="registration_city"/>
         <fmt:message bundle="${loc}" key="registration.userRole" var="registration_userRole"/>
+        <fmt:message bundle="${loc}" key="registration.gender.undefined" var="registration_gender_undefined"/>
+        <fmt:message bundle="${loc}" key="registration.gender.male" var="registration_gender_male"/>
+        <fmt:message bundle="${loc}" key="registration.gender.female" var="registration_gender_female"/>
+        <fmt:message bundle="${loc}" key="registration.userRole.worker" var="registration_userRole_worker"/>
+        <fmt:message bundle="${loc}" key="registration.userRole.client" var="registration_userRole_client"/>
+        <fmt:message bundle="${loc}" key="registration.message.password" var="registration_message_password"/>
         <fmt:message bundle="${loc}" key="button.registration" var="button_registration"/>
+
     </head>
     <body>
 
@@ -74,7 +80,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">${registration_email}</span>
                         </div>
-                        <input type="text" class="form-control" name="email" id="emailInput" value=""/>
+                        <input type="text" class="form-control" name="email" id="emailInput" placeholder="name@example.com" value=""/>
                     </div>
                 </div>
                 <div class="row">
@@ -91,7 +97,7 @@
                             <span class="input-group-text">${registration_password}</span>
                         </div>
                         <input type="password" class="form-control" name="password" id="passwordInput" value=""/>
-                        <span class="form-text">Enter 5-20 symbols.</span>
+                        <span class="form-text">${registration_message_password}</span>
                     </div>
                 </div>
 
@@ -102,7 +108,7 @@
                         </div>
                         <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordInput"
                                value=""/>
-                        <span class="form-text">Enter 5-20 symbols.</span>
+                        <span class="form-text">${registration_message_password}</span>
                     </div>
                 </div>
 
@@ -115,21 +121,21 @@
                                     <input checked="checked" class="form-check-input" type="radio" name="gender"
                                            id="undefinedRadios" value="undefined"/>
                                     <label class="form-check-label" for="undefinedRadios">
-                                        Undefind
+                                            ${registration_gender_undefined}
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="maleRadios"
                                            value="male"/>
                                     <label class="form-check-label" for="maleRadios">
-                                        Male
+                                            ${registration_gender_male}
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="femaleRadios"
                                            value="female"/>
                                     <label class="form-check-label" for="femaleRadios">
-                                        Female
+                                            ${registration_gender_female}
                                     </label>
                                 </div>
                             </div>
@@ -144,14 +150,14 @@
                                            id="clientRadios"
                                            value="client"/>
                                     <label class="form-check-label" for="clientRadios">
-                                        Client
+                                            ${registration_userRole_client}
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="userRole" id="workerRadios"
                                            value="worker"/>
                                     <label class="form-check-label" for="workerRadios">
-                                        Worker
+                                            ${registration_userRole_worker}
                                     </label>
                                 </div>
                             </div>

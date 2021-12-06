@@ -12,14 +12,14 @@
 
 <html>
     <head>
-        <title>${title_authorization}</title>
+        <title>Authorization</title>
         <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.css"/>
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
 
         <fmt:message bundle="${loc}" key="button.login" var="button_login"/>
         <fmt:message bundle="${loc}" key="button.registration" var="button_registration"/>
-        <fmt:message bundle="${loc}" key="title.authorization" var="title_authorization"/>
+        <fmt:message bundle="${loc}" key="text.authorization" var="text_authorization"/>
 
     </head>
     <body>
@@ -31,11 +31,11 @@
         </header>
 
         <div id="error">
-            <h1 style="color:red;">${internalError}</h1>
+            <h5>${internalError}</h5>
         </div>
 
         <div class="container">
-            <h3>${title_authorization}</h3>
+            <h3>${text_authorization}</h3>
             <hr/>
             <form name="startForm" action="${pageContext.request.contextPath}/controller" method="POST">
                 <div class="btn-group" role="group">

@@ -5,7 +5,7 @@
 
 <html>
     <head>
-        <title>${title_order_information}</title>
+        <title>OrderInfo</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
@@ -16,7 +16,6 @@
         <fmt:message bundle="${loc}" key="button.take.order" var="button_take_order"/>
         <fmt:message bundle="${loc}" key="button.close.order" var="button_close_order"/>
         <fmt:message bundle="${loc}" key="button.approve.order" var="button_approve_order"/>
-        <fmt:message bundle="${loc}" key="title.orderInformation" var="title_order_information"/>
         <fmt:message bundle="${loc}" key="order.idService" var="idService"/>
         <fmt:message bundle="${loc}" key="order.idClient" var="idClient"/>
         <fmt:message bundle="${loc}" key="order.description" var="description"/>

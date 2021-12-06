@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.info("Start boolean addServiceOrder(Order order, Long idClient) in OrderService.");
         boolean isAdded = false;
         try {
-            validator.validate(order);
+            validator.validateOrder(order);
             validator.validate(idClient);
             isAdded = orderDao.add(order, idClient);
         } catch (DaoException e) {

@@ -4,7 +4,7 @@
 
 <html>
     <head>
-        <title>NAME</title>
+        <title>MULTITOOL</title>
         <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.css"/>
 
         <fmt:setLocale value="${sessionScope.language}"/>

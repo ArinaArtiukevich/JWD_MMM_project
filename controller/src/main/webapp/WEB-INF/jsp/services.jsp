@@ -5,7 +5,7 @@
 
 <html>
     <head>
-        <title>${title_services}</title>
+        <title>Orders</title>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css"/>
         <link rel="stylesheet" href="../${pageContext.request.contextPath}/resources/css/style.css"/>
 
@@ -15,7 +15,6 @@
         <fmt:message bundle="${loc}" key="button.order.show.all" var="service_show_all"/>
         <fmt:message bundle="${loc}" key="button.order.by.service.type" var="show_orders_by_service_type"/>
 
-        <fmt:message bundle="${loc}" key="title.order" var="title_services"/>
         <fmt:message bundle="${loc}" key="order.idService" var="idService"/>
         <fmt:message bundle="${loc}" key="order.idClient" var="idClient"/>
         <fmt:message bundle="${loc}" key="order.description" var="description"/>
@@ -40,39 +39,6 @@
                 <jsp:param name="page_path" value="services"/>
             </jsp:include>
         </header>
-
-            <%--        <form id="show_all_services" method="GET" action="${pageContext.request.contextPath}/controller">--%>
-            <%--            <input type="hidden" name="command" value="show_all_services">--%>
-            <%--                <div id="menu" class="custom-control-inline">--%>
-            <%--                    <button type="submit" name="show_all_services">--%>
-            <%--                            ${service_show_all}--%>
-            <%--                    </button>--%>
-            <%--                    <div id="sort_by">--%>
-            <%--                        <h7>${message_sort_by}</h7>--%>
-            <%--                        <select class="custom-select col-md-4 mb-2" name="sort_by" id="sort_by">--%>
-            <%--                            <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>--%>
-            <%--                            <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>--%>
-            <%--                            <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>--%>
-            <%--                            <option value="service_status" ${"service_status" == requestScope.selected_sort_by_parameter ? 'selected':''}>${status}</option>--%>
-            <%--                            <option value="description" ${"description" == requestScope.selected_sort_by_parameter ? 'selected':''}>${description}</option>--%>
-            <%--                        </select>--%>
-            <%--                    </div>--%>
-            <%--                    <div id="direction">--%>
-            <%--                        <div class="form-check">--%>
-            <%--                            <input class="form-check-input" type="radio" id="direction" name="direction"--%>
-            <%--                                   value="DESC" ${"DESC" == requestScope.selected_direction_parameter ? 'checked':''}/>--%>
-            <%--                            <label class="form-check-label" for="direction">--%>
-            <%--                                    ${direction_change}--%>
-            <%--                            </label>--%>
-            <%--                        </div>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--            </input>--%>
-            <%--        </form>--%>
-            <%--        <br/>--%>
-            <%--        <br/>--%>
-            <%--        <br/>--%>
-
         <div class="container">
             <form id="show_orders_by_service_type" method="POST" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="show_orders_by_service_type">
