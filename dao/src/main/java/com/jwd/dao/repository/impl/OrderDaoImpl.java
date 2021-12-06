@@ -135,7 +135,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             LOGGER.error("Invalid date format.");
             throw new DaoException("Invalid date format.");
         } catch (SQLException e) {
-            LOGGER.error(e);
+            LOGGER.error("Could not find orders by service type.");
             throw new DaoException("Could not find orders by service type.");
         } finally {
             close(resultSet, resultSet_total_elements);

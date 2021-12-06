@@ -11,5 +11,6 @@ public class ParameterAttribute {
 
     public static final List<String> availableSortByParameters = Arrays.asList("order_creation_date", "address", "service_type",
             "service_status", "description"),
-            availableDirectionParameters = Arrays.asList("ASC", "DESC");
+            availableDirectionParameters = Arrays.asList("ASC", "DESC"),
+            availableServiceTypeString = Arrays.asList("ALL", "ELECTRICAL", "GAS", "ROOFING", "PAINTING", "PLUMBING");
 }

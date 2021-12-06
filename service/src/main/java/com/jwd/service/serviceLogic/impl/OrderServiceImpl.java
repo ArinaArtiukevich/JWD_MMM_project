@@ -42,16 +42,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceTypeString) throws ServiceException {
-        LOGGER.info("Start age<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceType) in OrderService.");
+        LOGGER.info("Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceType) in OrderService.");
         Page<Order> orderPage = new Page<>();
         try {
             validator.validate(orderPageRequest);
-            validator.validate(serviceTypeString);
+            validator.validateServiceTypeString(serviceTypeString);
             if (serviceTypeString.equals(ALL_ORDERS)) {
                 orderPage = orderDao.getServiceList(orderPageRequest);
             } else {
                 ServiceType serviceType = ServiceType.valueOf(serviceTypeString);
-                validator.validate(serviceType);
                 orderPage = orderDao.getOrdersByServiceType(orderPageRequest, serviceType);
             }
         } catch (DaoException e) {

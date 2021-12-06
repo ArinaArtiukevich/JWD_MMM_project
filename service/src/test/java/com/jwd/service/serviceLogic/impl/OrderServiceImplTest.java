@@ -40,17 +40,15 @@ public class OrderServiceImplTest {
     private int pageNumber = 1;
     private long totalElements = 100;
     private int limit = 100;
-    private List<Order> orders = Arrays.asList(
-            new Order(1L, 1L, "change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021")),
-            new Order(2L, 2L, "paint walls", "esenina 2", ServiceType.PAINTING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("03/11/2021")),
-            new Order(3L, 3L, "clean roof", "esenina 3", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("06/12/2021"))
-    );
+
     private List<Order> emptyOrders = new ArrayList<>();
     private String sortBy = "id_service";
     private String direction = "ASC";
+    private String invalidServiceType = "invalid";
 
-    private Order invalidOrder = new Order("change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, null);
     private Order order = new Order("change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021"));
+    private Order invalidOrder = new Order("change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, null);
+    private Order doneOrder = new Order("change roof", "esenina 21", ServiceType.ROOFING, ServiceStatus.DONE, new SimpleDateFormat("dd/MM/yyyy").parse("06/12/2021"));
     private Registration registrationInfo = new Registration("arina", "artiukevich", "arina@gmail.com", "Minsk", "arinka", "arina", "arina", Gender.FEMALE, UserRole.CLIENT);
 
     public OrderServiceImplTest() throws ParseException {
@@ -88,6 +86,40 @@ public class OrderServiceImplTest {
         ServiceException actual = null;
         try {
             orderService.getAllServices(orderPageRequest);
+        } catch (ServiceException e) {
+            actual = e;
+        }
+        assertEquals(new ServiceException(new DaoException(psqlException.getMessage()).getMessage()).getMessage(), actual.getMessage());
+    }
+
+    @Test
+    public void testGetOrdersByServiceType_positive() throws ServiceException, DaoException {
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
+        boolean isAdded = false;
+        Long idClient = 0L;
+
+        userDao.addUser(registrationInfo);
+        idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
+        isAdded = orderService.addServiceOrder(order, idClient);
+        order.setIdService(orderDao.findOrdersByIdUser(orderPageRequest, idClient).getElements().get(0).getIdService());
+        order.setIdClient(idClient);
+
+        assertEquals(Boolean.TRUE, isAdded);
+        Page<Order> actualOrderPageResult = orderService.getOrdersByServiceType(orderPageRequest, ServiceType.ROOFING.toString());
+        assertTrue(actualOrderPageResult.getElements().contains(order));
+
+        orderDao.deleteByIdClient(idClient);
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
+    }
+
+    @Test
+    public void testGetOrdersByServiceType_serviceException() {
+        Page<Order> orderPageRequest = new Page<>(-123, totalElements, limit, emptyOrders, sortBy, direction);
+        final PSQLException psqlException = new PSQLException("Page number is invalid.", PSQLState.DATA_ERROR);
+
+        ServiceException actual = null;
+        try {
+            orderService.getOrdersByServiceType(orderPageRequest, invalidServiceType);
         } catch (ServiceException e) {
             actual = e;
         }
@@ -136,4 +168,61 @@ public class OrderServiceImplTest {
 
     }
 
+    @Test
+    public void testDeleteById_positive() throws DaoException, ServiceException {
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
+        Page<Order> beforeDeletedPageRequest;
+        boolean isAdded;
+        boolean isDeleted;
+        Long idOrder;
+        Long idClient;
+        int elementsSize;
+        int actualElementsSize;
+
+        userDao.addUser(registrationInfo);
+        idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
+        isAdded = orderService.addServiceOrder(order, idClient);
+        beforeDeletedPageRequest = orderService.getAllServices(orderPageRequest);
+        elementsSize = beforeDeletedPageRequest.getElements().size();
+        idOrder = orderDao.findOrdersByIdUser(beforeDeletedPageRequest, idClient).getElements().get(0).getIdService();
+        isDeleted = orderService.deleteById(idOrder, idClient);
+        actualElementsSize = orderService.getAllServices(orderPageRequest).getElements().size();
+
+        assertEquals(Boolean.TRUE, isAdded);
+        assertEquals(Boolean.TRUE, isDeleted);
+        assertEquals(1, (elementsSize - actualElementsSize));
+
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
+
+    }
+
+    @Test
+    public void testDeleteById_ServiceException() throws DaoException, ServiceException {
+        final ServiceException serviceException = new ServiceException("It is impossible to delete order.");
+        Page<Order> orderPageRequest = new Page<>(pageNumber, totalElements, limit, emptyOrders, sortBy, direction);
+        Page<Order> beforeDeletedPageRequest;
+        boolean isAdded;
+        Long idOrder;
+        Long idClient;
+
+        userDao.addUser(registrationInfo);
+        idClient = userDao.getUserByLogin(registrationInfo.getLogin()).getIdUser();
+        isAdded = orderService.addServiceOrder(doneOrder, idClient);
+        beforeDeletedPageRequest = orderService.getAllServices(orderPageRequest);
+        idOrder = orderDao.findOrdersByIdUser(beforeDeletedPageRequest, idClient).getElements().get(0).getIdService();
+
+        Exception actual = null;
+        try {
+            orderService.deleteById(idOrder, idClient);
+
+        } catch (ServiceException e) {
+            actual = e;
+        }
+        assertEquals(Boolean.TRUE, isAdded);
+        assertEquals(new ServiceException(serviceException.getMessage()).getMessage(), actual.getMessage());
+
+        orderDao.deleteById(idOrder);
+        userDao.deleteUserByLogin(registrationInfo.getLogin());
+
+    }
 }

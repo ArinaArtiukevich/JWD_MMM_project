@@ -89,6 +89,13 @@ public class ServiceValidator {
         }
     }
 
+    public void validateServiceTypeString(String serviceTypeString) throws ServiceException {
+        validate(serviceTypeString);
+        if (!availableServiceTypeString.contains(serviceTypeString)) {
+            throw new ServiceException("Invalid service type.");
+        }
+    }
+
     public boolean validateUserWithPassword(Registration userInfo) throws ServiceException {
         LOGGER.info("Start validateUserWithPassword(Registration registration).");
         validateEmptyFieldsWithPassword(userInfo);
