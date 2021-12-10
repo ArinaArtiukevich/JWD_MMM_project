@@ -20,6 +20,7 @@ import static com.jwd.controller.util.Util.getUserId;
 public class DeleteOrderByIdCommandImpl implements Command {
     private static final Logger LOGGER = LogManager.getLogger(DeleteOrderByIdCommandImpl.class);
     private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
+
     @Override
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start DeleteOrderByIdCommandImpl.");
@@ -28,7 +29,7 @@ public class DeleteOrderByIdCommandImpl implements Command {
             Long idClient = getUserId(request);
             Long idService = getOrderId(request);
             HttpSession session = request.getSession();
-            if (orderService.deleteById(idService ,idClient)){
+            if (orderService.deleteById(idService, idClient)) {
                 session.setAttribute(MESSAGE, "Order was deleted.");
             } else {
                 request.setAttribute(ERROR_WORK_MESSAGE, "Could not delete an order. Please, try again.");

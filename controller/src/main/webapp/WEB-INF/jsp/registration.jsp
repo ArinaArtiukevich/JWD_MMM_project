@@ -80,7 +80,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">${registration_email}</span>
                         </div>
-                        <input type="text" class="form-control" name="email" id="emailInput" placeholder="name@example.com" value=""/>
+                        <input type="text" class="form-control" name="email" id="emailInput"
+                               placeholder="name@example.com" value=""/>
                     </div>
                 </div>
                 <div class="row">

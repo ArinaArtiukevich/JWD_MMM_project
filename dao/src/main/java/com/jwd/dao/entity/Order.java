@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Order {
-
     private Long idService;
     private Long idClient;
     private String description;

@@ -19,7 +19,6 @@
         <fmt:message bundle="${loc}" key="work.update.user" var="work_update_user"/>
         <fmt:message bundle="${loc}" key="show.user.orders" var="show_user_orders"/>
 
-
         <fmt:message bundle="${loc}" key="registration.firstName" var="registration_firstName"/>
         <fmt:message bundle="${loc}" key="registration.lastName" var="registration_lastName"/>
         <fmt:message bundle="${loc}" key="registration.password" var="registration_password"/>

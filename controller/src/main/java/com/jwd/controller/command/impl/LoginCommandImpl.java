@@ -34,7 +34,7 @@ public class LoginCommandImpl implements Command {
             String password = request.getParameter(ParameterAttributeType.PASSWORD);
             validateParameters(login, password);
             if (userService.isLoginAndPasswordExist(login, password)) {
-                User user = userService.getUserByLogin(login);// todo in one request? (check passwords in dao?)
+                User user = userService.getUserByLogin(login);
                 session.setAttribute(USER_ID, user.getIdUser());
                 session.setAttribute(LOGIN, login);
                 session.setAttribute(USER_ROLE, user.getUserRole().getName());

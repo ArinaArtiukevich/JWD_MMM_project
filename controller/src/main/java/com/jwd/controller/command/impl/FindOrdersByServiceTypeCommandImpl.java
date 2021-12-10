@@ -51,7 +51,7 @@ public class FindOrdersByServiceTypeCommandImpl implements Command {
             setParametersToRequest(request, paginationResult, SHOW_ORDERS_BY_SERVICE_TYPE, sortByParameter, direction);
             request.setAttribute(SELECTED_SERVICE_TYPE, serviceTypeString);
             answer.setPath(pathToJsp(ConfigurationBundle.getProperty("path.page.services")));
-            answer.setAnswerType(AnswerType.FORWARD); // todo redirect?
+            answer.setAnswerType(AnswerType.FORWARD);
         } catch (ServiceException e) {
             LOGGER.error("Could not get a list of services.");
             throw new ControllerException("Could not get a list of services.");

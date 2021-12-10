@@ -47,9 +47,9 @@
                 <div id="menu" class="btn-group-vertical" role="group">
                     <div id="button">
                         <div>
-                        <button class="btn btn-info" type="submit" name="find_client_order_by_status">
-                                ${button_find_client_order_by_status}
-                        </button>
+                            <button class="btn btn-info" type="submit" name="find_client_order_by_status">
+                                    ${button_find_client_order_by_status}
+                            </button>
                         </div>
                     </div>
                     <div id="requested_service_type">

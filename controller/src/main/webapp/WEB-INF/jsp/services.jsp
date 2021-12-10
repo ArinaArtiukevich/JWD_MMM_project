@@ -40,7 +40,7 @@
             </jsp:include>
         </header>
         <div class="container">
-            <form id="show_orders_by_service_type" method="POST" action="${pageContext.request.contextPath}/controller">
+            <form id="show_orders_by_service_type" method="GET" action="${pageContext.request.contextPath}/controller">
                 <input type="hidden" name="command" value="show_orders_by_service_type">
                     <div class="btn-group-vertical" role="group">
                         <div>
@@ -49,8 +49,8 @@
                             </button>
                         </div>
                         <div id="service_type">
-                            ${message_filter_by}
-                                <select class="custom-select col-auto my-1" name="service_type">
+                                ${message_filter_by}
+                            <select class="custom-select col-auto my-1" name="service_type">
                                 <option value="ALL" ${"ALL" == requestScope.selected_service_type  ? 'selected':''} >${all_services}</option>
                                 <option value="ELECTRICAL" ${"ELECTRICAL" == requestScope.selected_service_type ? 'selected':''}> ${service_type_electrical}</option>
                                 <option value="GAS" ${"GAS" == requestScope.selected_service_type ? 'selected':''}> ${service_type_gas}</option>
@@ -60,8 +60,8 @@
                             </select>
                         </div>
                         <div id="sort_by">
-                            ${message_sort_by}
-                                <select class="custom-select col-auto my-1" name="sort_by" id="sort_by">
+                                ${message_sort_by}
+                            <select class="custom-select col-auto my-1" name="sort_by" id="sort_by">
                                 <option value="order_creation_date" ${"order_creation_date" == requestScope.selected_sort_by_parameter ? 'selected':''} >${orderCreationDate}</option>
                                 <option value="address" ${"address" == requestScope.selected_sort_by_parameter ? 'selected':''}>${address}</option>
                                 <option value="service_type" ${"service_type" == requestScope.selected_sort_by_parameter ? 'selected':''}>${serviceType}</option>
@@ -111,13 +111,15 @@
             <c:forEach begin="1" end="${Math.ceil(pageable.totalElements / pageable.limit)}" var="i">
                 <c:if test="${i == pageable.pageNumber}">
                     <span>
-                        <button class="btn btn-light btn-sm" style="color:red" form="${requestScope.last_command}" type="submit" name="currentPage"
+                        <button class="btn btn-light btn-sm" style="color:red" form="${requestScope.last_command}"
+                                type="submit" name="currentPage"
                                 value="${i}">${i}</button>
                     </span>
                 </c:if>
                 <c:if test="${i != pageable.pageNumber}">
                     <span>
-                        <button class="btn btn-light btn-sm" form="${requestScope.last_command}" type="submit" name="currentPage"
+                        <button class="btn btn-light btn-sm" form="${requestScope.last_command}" type="submit"
+                                name="currentPage"
                                 value="${i}">${i}</button>
                     </span>
                 </c:if>

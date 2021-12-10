@@ -5,7 +5,6 @@ import com.jwd.dao.entity.User;
 import com.jwd.dao.entity.UserDTO;
 import com.jwd.dao.entity.enumType.UserRole;
 import com.jwd.dao.exception.DaoException;
-import com.jwd.dao.repository.LoginDao;
 import com.jwd.dao.repository.UserDao;
 import com.jwd.service.exception.ServiceException;
 import com.jwd.service.serviceLogic.UserService;
@@ -17,12 +16,10 @@ import org.mindrot.jbcrypt.BCrypt;
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
     private final UserDao userDao;
-    private final LoginDao loginDao;
     private final ServiceValidator validator;
 
-    public UserServiceImpl(UserDao userDao, LoginDao loginDao, ServiceValidator validator) {
+    public UserServiceImpl(UserDao userDao, ServiceValidator validator) {
         this.userDao = userDao;
-        this.loginDao = loginDao;
         this.validator = validator;
     }
 
@@ -31,7 +28,7 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Start register(Registration registration).");
         boolean isRegistered = false;
         try {
-          if (validator.validateRegistrationData(registration)) {
+            if (validator.validateRegistrationData(registration)) {
                 isRegistered = userDao.addUser(registration);
             }
         } catch (DaoException e) {
@@ -64,7 +61,7 @@ public class UserServiceImpl implements UserService {
         try {
             if (validator.validateUserWithPassword(userInfo)) {
                 validator.validate(idUser);
-                 isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
+                isUpdated = userDao.updateUserWithPassword(idUser, userInfo);
             }
         } catch (DaoException e) {
             LOGGER.error("Invalid input parameters.");
@@ -80,7 +77,7 @@ public class UserServiceImpl implements UserService {
         try {
             validator.validate(login);
             validator.validate(password);
-            String userPassword = loginDao.findPasswordByLogin(login);
+            String userPassword = userDao.findPasswordByLogin(login);
             if (BCrypt.checkpw(password, userPassword)) {
                 result = true;
                 LOGGER.info("User exists.");
@@ -91,35 +88,6 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    @Override
-    public String getUserNameByLogin(String login) throws ServiceException {
-        LOGGER.info("Start getClientNameByLogin(String login). Login = " + login);
-        String name;
-        try {
-            validator.validate(login);
-            name = userDao.findNameByLogin(login);
-        } catch (DaoException e) {
-            LOGGER.error("Client name with login = " + login + " was not found.");
-            throw new ServiceException(e);
-        }
-        LOGGER.info("Client name with login = " + login + " was found. Name = " + name);
-        return name;
-    }
-
-    @Override
-    public Long getIdUserByLogin(String login) throws ServiceException {
-        LOGGER.info("Start getIdClientByLogin(String login). Login = " + login);
-        Long idClient;
-        try {
-            validator.validate(login);
-            idClient = loginDao.findIdByLogin(login);
-        } catch (DaoException e) {
-            LOGGER.error("Client id with login = " + login + " was not found.");
-            throw new ServiceException(e);
-        }
-        LOGGER.info("Client id with login = " + login + " was found. Id = " + idClient);
-        return idClient;
-    }
 
     @Override
     public User getUserById(Long idUser) throws ServiceException {
@@ -149,36 +117,6 @@ public class UserServiceImpl implements UserService {
         }
         LOGGER.info("User with login = " + login + " was found.");
         return user;
-    }
-
-    @Override
-    public UserRole getRoleByID(Long idUser) throws ServiceException {
-        LOGGER.info("Start UserRole getRoleByID(Long idUser). idUser = " + idUser);
-        UserRole userRole;
-        try {
-            validator.validate(idUser);
-            userRole = userDao.findRoleByID(idUser);
-        } catch (DaoException e) {
-            LOGGER.error("User role with idUser = " + idUser + " was not found.");
-            throw new ServiceException(e);
-        }
-        LOGGER.info("User role with idUser = " + idUser + " was found. Role = " + userRole.getName());
-        return userRole;
-    }
-
-    @Override
-    public String getPassword(Long idUser) throws ServiceException {
-        LOGGER.info("Start String getPassword(String login) throws ServiceException. idUser = " + idUser);
-        String password;
-        try {
-            validator.validate(idUser);
-            password = loginDao.findPasswordById(idUser);
-        } catch (DaoException e) {
-            LOGGER.error("Password was not found.");
-            throw new ServiceException(e);
-        }
-
-        return password;
     }
 
 }

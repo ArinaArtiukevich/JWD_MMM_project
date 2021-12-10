@@ -71,13 +71,13 @@
                 <c:if test="${sessionScope.userRole eq 'worker'}">
                     <c:if test="${requestScope.pageable.elements.size() > 0}">
 
-                            <tr>
-                                <th>${idService}</th>
-                                <th>${description}</th>
-                                <th>${serviceType}</th>
-                                <th>${status}</th>
-                                <th>${orderCreationDate} </th>
-                            </tr>
+                        <tr>
+                            <th>${idService}</th>
+                            <th>${description}</th>
+                            <th>${serviceType}</th>
+                            <th>${status}</th>
+                            <th>${orderCreationDate} </th>
+                        </tr>
                     </c:if>
 
                     <c:forEach var="response" items="${requestScope.pageable.elements}">

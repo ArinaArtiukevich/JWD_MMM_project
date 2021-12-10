@@ -31,8 +31,8 @@
         </header>
 
         <div class="container" id="error">
-            <c:out value="${sessionScope.errorLoginMessage}" />
-            <c:remove var="errorLoginMessage" scope="session" />
+            <c:out value="${sessionScope.errorLoginMessage}"/>
+            <c:remove var="errorLoginMessage" scope="session"/>
         </div>
         <form method="POST" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="login"/>

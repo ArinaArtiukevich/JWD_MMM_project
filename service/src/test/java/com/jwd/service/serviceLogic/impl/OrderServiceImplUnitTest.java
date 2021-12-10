@@ -37,7 +37,6 @@ public class OrderServiceImplUnitTest {
 
     // captors
     private ArgumentCaptor<Page<Order>> pageArgumentCaptor = ArgumentCaptor.forClass(Page.class);
-    private ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
 
     // region parameters
     private int pageNumber = 1;
@@ -105,8 +104,8 @@ public class OrderServiceImplUnitTest {
 
         Page<Order> actualOrderPageResult = orderService.getAllServices(orderPageRequest);
 
-        verify(orderDao, times(1)).getServiceList(pageArgumentCaptor.capture()); // todo delete что реально передается orderPage = orderDao.getServiceList(orderPageRequest); in OrderServiceImpl
-        assertEquals(orderPageRequest, pageArgumentCaptor.getValue()); // первое значение - ожидаемое значение в getServiceList()
+        verify(orderDao, times(1)).getServiceList(pageArgumentCaptor.capture());
+        assertEquals(orderPageRequest, pageArgumentCaptor.getValue());
         assertEquals(expectedOrderPageRequest, actualOrderPageResult);
     }
 
@@ -384,7 +383,7 @@ public class OrderServiceImplUnitTest {
     }
 
     @Test
-    public void testDeleteById_daoException() throws DaoException, ServiceException {
+    public void testDeleteById_daoException() throws DaoException {
         Long idOrder = -1L;
         final DaoException daoException = new DaoException("Id was not found.");
 

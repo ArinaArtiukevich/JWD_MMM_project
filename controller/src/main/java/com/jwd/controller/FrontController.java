@@ -51,7 +51,7 @@ public class FrontController extends HttpServlet {
             }
         } catch (ControllerException e) {
             LOGGER.error("Operation went wrong.");
-            String lastCommand = (String)request.getAttribute(LAST_COMMAND);
+            String lastCommand = (String) request.getAttribute(LAST_COMMAND);
             Throwable cause = getCause(e);
             HttpSession session = request.getSession();
             if (!isNull(lastCommand) && !lastCommand.isEmpty() && lastCommand.equals(GO_TO_PAGE)) {

@@ -29,7 +29,7 @@ public class RegistrationCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start registration.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
+        String path;
         try {
             String firstName = request.getParameter(FIRST_NAME);
             String lastName = request.getParameter(LAST_NAME);

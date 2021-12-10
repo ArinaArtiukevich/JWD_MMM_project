@@ -51,6 +51,7 @@ public class Util {
         validate(sortByParameter);
         return sortByParameter;
     }
+
     public static void setParametersToRequest(HttpServletRequest request, Page<Order> paginationResult, String command, String sortByParameter, String direction) {
         request.setAttribute(PAGEABLE, paginationResult);
         request.setAttribute(LAST_COMMAND, command);
@@ -77,6 +78,7 @@ public class Util {
             throw new ControllerException("String is null or empty.");
         }
     }
+
     public static void validate(Long id) throws ControllerException {
         if (isNull(id)) {
             throw new ControllerException("Id is invalid.");

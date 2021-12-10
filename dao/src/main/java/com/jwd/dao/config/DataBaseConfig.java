@@ -20,10 +20,6 @@ import static com.jwd.dao.util.ParameterAttribute.*;
 
 public class DataBaseConfig {
     public static Logger LOGGER = LogManager.getLogger(DataBaseConfig.class);
-    //todo delete
-    //    private final static ResourceBundle RESOURCE_BUNDLE =
-//            ResourceBundle.getBundle("database_en_US", new Locale("en", "US"));
-
     private Properties properties;
     private static Properties propertyQueries = new Properties();
 
@@ -41,7 +37,6 @@ public class DataBaseConfig {
     public static String getQuery(String key) throws DaoException {
         String result = null;
         try {
-            // result = RESOURCE_BUNDLE.getString(key);
             result = propertyQueries.getProperty(key);
         } catch (MissingResourceException e) {
             LOGGER.error("There is no such key in property file.");

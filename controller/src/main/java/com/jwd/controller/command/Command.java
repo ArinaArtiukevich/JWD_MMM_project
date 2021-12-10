@@ -5,6 +5,9 @@ import com.jwd.controller.exception.ControllerException;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Interface for all commands.
+ */
 public interface Command {
     CommandAnswer execute(HttpServletRequest request) throws ControllerException;
 }

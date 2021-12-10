@@ -11,6 +11,7 @@ import static com.jwd.controller.command.ParameterAttributeType.ERROR_INTERNAL;
 import static com.jwd.controller.util.Util.*;
 
 public class DefaultCommandImpl implements Command {
+
     @Override
     public CommandAnswer execute(HttpServletRequest request) {
         CommandAnswer answer = new CommandAnswer();

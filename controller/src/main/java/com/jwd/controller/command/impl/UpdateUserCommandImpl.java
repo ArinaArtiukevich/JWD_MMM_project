@@ -29,7 +29,7 @@ public class UpdateUserCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start UpdateUserCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
+        String path;
         Registration userInfo;
         String firstName = request.getParameter(FIRST_NAME);
         String lastName = request.getParameter(LAST_NAME);

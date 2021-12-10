@@ -36,7 +36,6 @@ public class ConnectionPoolImpl implements ConnectionPool {
             }
         } catch (SQLException e) {
             LOGGER.error("SQLException in initConnectionPool()");
-            // todo
         }
         LOGGER.info("init pool.size() is " + pool.size());
         LOGGER.info("init taken.size() is " + taken.size());

@@ -9,6 +9,8 @@
 
         <fmt:setLocale value="${sessionScope.language}"/>
         <fmt:setBundle basename="localization.local" var="loc"/>
+        <fmt:message bundle="${loc}" key="main.description" var="main_description"/>
+        <fmt:message bundle="${loc}" key="main.invitation" var="main_invitation"/>
     </head>
 
     <header>
@@ -20,9 +22,8 @@
     <body>
 
         <div class="container">
-            <h5>User Id: ${sessionScope.userId}</h5>
-            <h5>User Role: ${sessionScope.userRole}</h5>
-            <h5>User login: ${sessionScope.user.login}</h5>
+            <h5>${main_description}</h5>
+            <h5>${main_invitation}</h5>
         </div>
 
         <div id="error">

@@ -12,10 +12,11 @@ public class ServiceFactory {
 
     private DaoFactory daoFactory = DaoFactory.getInstance();
     private ServiceValidator serviceValidator = new ServiceValidator();
-    private final UserService userService = new UserServiceImpl(daoFactory.getUserDao(), daoFactory.getLoginDao(), serviceValidator);
+    private final UserService userService = new UserServiceImpl(daoFactory.getUserDao(), serviceValidator);
     private final OrderService orderService = new OrderServiceImpl(daoFactory.getOrderDao(), serviceValidator);
 
-    private ServiceFactory() {}
+    private ServiceFactory() {
+    }
 
     public static ServiceFactory getInstance() {
         return INSTANCE;

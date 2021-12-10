@@ -25,7 +25,6 @@ public class FindUserInformationCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindUserInformationCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         try {
             Long idUser = getUserId(request);
             User user = userService.getUserById(idUser);

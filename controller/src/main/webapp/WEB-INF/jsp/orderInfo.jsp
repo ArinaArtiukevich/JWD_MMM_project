@@ -40,7 +40,7 @@
             </jsp:include>
         </header>
 
-        <form method="GET" action="${pageContext.request.contextPath}/controller">
+        <form method="POST" action="${pageContext.request.contextPath}/controller">
             <div align="container" style="padding-top: 50px;">
                 <table class="table table-striped">
                     <tr>

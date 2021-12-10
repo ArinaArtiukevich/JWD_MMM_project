@@ -572,6 +572,7 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
         }
         return userRole;
     }
+
     private Page<Order> getOrderPage(Page<Order> daoOrderPage, ResultSet resultSet, ResultSet resultSet_total_elements) throws SQLException, ParseException {
         Page<Order> page = new Page<>();
         long totalElements = 0L;

@@ -29,7 +29,6 @@ public class FindWorkerResponseCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) throws ControllerException {
         LOGGER.info("Start FindWorkerResponseCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
         int currentPage = getCurrentPageParam(request);
         int pageLimit = getLimitPageParam(request);
         Page<Order> paginationRequest = new Page<>();

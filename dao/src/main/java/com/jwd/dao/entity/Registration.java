@@ -4,7 +4,6 @@ import com.jwd.dao.entity.enumType.Gender;
 import com.jwd.dao.entity.enumType.UserRole;
 
 public class Registration {
-
     private String firstName;
     private String lastName;
     private String email;
@@ -23,16 +22,6 @@ public class Registration {
         this.login = login;
         this.password = password;
         this.confirmPassword = confirmPassword;
-        this.gender = gender;
-        this.userRole = userRole;
-    }
-
-    public Registration(String firstName, String lastName, String email, String city, String login, Gender gender, UserRole userRole) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.city = city;
-        this.login = login;
         this.gender = gender;
         this.userRole = userRole;
     }

@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
-            if(!localStatus.getName().equals(ServiceStatus.IN_PROCESS.getName())){
+            if (!localStatus.getName().equals(ServiceStatus.IN_PROCESS.getName())) {
                 throw new ServiceException("Order is not done.");
             }
             isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.DONE);
@@ -155,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
-            if(!localStatus.getName().equals(ServiceStatus.DONE.getName())){
+            if (!localStatus.getName().equals(ServiceStatus.DONE.getName())) {
                 throw new ServiceException("Order is not done.");
             }
             isSet = orderDao.setOrderStatus(idOrder, ServiceStatus.APPROVED);
