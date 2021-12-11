@@ -23,7 +23,7 @@
 * изменить статус выполненного заказа,
 * просматривать все свои отклики.
 
-![Database structure](/Users/arina/study/epam_course/project/description/database_structure.png)
+![Database structure](database_structure.png)
 
 
 
