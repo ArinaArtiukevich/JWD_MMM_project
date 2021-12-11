@@ -44,8 +44,7 @@
                 <input type="hidden" name="command" value="show_orders_by_service_type">
                     <div class="btn-group-vertical" role="group">
                         <div>
-                            <button type="submit" class="btn btn-info"
-                                    name="show_orders_by_service_type">${show_orders_by_service_type}
+                            <button type="submit" class="btn btn-info">${show_orders_by_service_type}
                             </button>
                         </div>
                         <div id="service_type">

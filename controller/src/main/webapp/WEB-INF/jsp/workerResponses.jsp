@@ -39,7 +39,7 @@
                 <input type="hidden" name="idWorker" value="${sessionScope.userId}">
                     <div class="btn-group-vertical" role="group">
                         <div>
-                            <button class="btn btn-info" type="submit" name="find_worker_response">
+                            <button class="btn btn-info" type="submit">
                                     ${work_find_worker_response}
                             </button>
                         </div>

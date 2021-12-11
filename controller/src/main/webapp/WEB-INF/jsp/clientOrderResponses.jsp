@@ -38,7 +38,7 @@
                     <input type="hidden" name="idClient" value="${sessionScope.userId}">
                         <div class="btn-group-vertical" role="group">
                             <div>
-                                <button class="btn btn-info" type="submit" name="find_client_response">
+                                <button class="btn btn-info" type="submit">
                                         ${service_show_response}
                                 </button>
                             </div>

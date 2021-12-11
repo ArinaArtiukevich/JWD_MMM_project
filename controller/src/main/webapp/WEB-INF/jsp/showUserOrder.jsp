@@ -47,7 +47,7 @@
                 <div id="menu" class="btn-group-vertical" role="group">
                     <div id="button">
                         <div>
-                            <button class="btn btn-info" type="submit" name="find_client_order_by_status">
+                            <button class="btn btn-info" type="submit">
                                     ${button_find_client_order_by_status}
                             </button>
                         </div>
@@ -123,7 +123,7 @@
                                         <input type="hidden" name="idClient" value="${sessionScope.userId}"/>
                                         <input type="hidden" name="idService" id="idService"
                                                value="${order.idService}"/>
-                                        <button type="submit" name="delete_order_by_id">
+                                        <button class="btn btn-light" type="submit" name="delete_order_by_id">
                                                 ${button_delete_order_by_id}
                                         </button>
                                     </form>
