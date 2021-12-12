@@ -47,7 +47,7 @@
                                     ${button_logout}
                             </a>
                             id:${sessionScope.userId}
-                            login:${sessionScope.user.login}
+                            login:${sessionScope.login}
                         </c:if>
                     </div>
                 </div>

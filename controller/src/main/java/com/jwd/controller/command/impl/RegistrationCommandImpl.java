@@ -52,7 +52,6 @@ public class RegistrationCommandImpl implements Command {
                 Registration registration = new Registration(firstName, lastName, email, city, login, hashedPassword, hashedConfirmPassword, gender, userRole);
                 validateParameters(registration);
                 boolean isRegistered = false;
-                Long idUser = 0L;
                 isRegistered = userService.register(registration);
                 User user = userService.getUserByLogin(login);
 

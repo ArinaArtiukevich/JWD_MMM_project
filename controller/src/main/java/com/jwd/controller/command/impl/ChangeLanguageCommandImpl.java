@@ -21,8 +21,7 @@ public class ChangeLanguageCommandImpl implements Command {
     public CommandAnswer execute(HttpServletRequest request) {
         LOGGER.info("Start ChangeLanguageCommandImpl.");
         CommandAnswer answer = new CommandAnswer();
-        String path = null;
-        path = pathToJspCheckIsIndexPage(request.getParameter(PARENT_PAGE));
+        String path = pathToJspCheckIsIndexPage(request.getParameter(PARENT_PAGE));
         String language = request.getParameter(CHANGE_LANGUAGE);
         if (language != null) {
             request.setAttribute(CHANGE_LANGUAGE, language);
