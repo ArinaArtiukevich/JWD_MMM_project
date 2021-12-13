@@ -1,24 +1,76 @@
-22:16:22.368 [localhost-startStop-1] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-22:16:22.925 [localhost-startStop-1] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-22:16:22.945 [localhost-startStop-1] INFO  com.jwd.dao.config.DataBaseConfig - Connection getConnection()
-22:16:22.964 [localhost-startStop-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init pool.size() is 3
-22:16:22.964 [localhost-startStop-1] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - init taken.size() is 0
-22:16:23.512 [localhost-startStop-1] INFO  com.jwd.controller.filter.EncodingFilter - Init FilterConfig filter
-22:17:02.847 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-22:17:05.873 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-22:17:05.874 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-22:17:11.722 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
-22:17:11.723 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - go_to_page
-22:17:11.731 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-22:17:11.731 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = go_to_page
-22:17:11.732 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
-22:17:11.766 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@484d03ab
-22:17:14.466 [http-nio-8080-exec-3] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-22:17:16.639 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
-22:17:16.639 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
-22:17:29.088 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - Controller was started.
-22:17:29.088 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - show_orders_by_service_type
-22:17:29.088 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
-22:17:29.088 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - command = show_orders_by_service_type
-22:17:29.088 [http-nio-8080-exec-4] INFO  com.jwd.controller.command.impl.FindOrdersByServiceTypeCommandImpl - Start FindOrdersByServiceTypeCommandImpl.
-22:17:29.116 [http-nio-8080-exec-4] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start Page<Order> getOrdersByServiceType(Page<Order> orderPageRequest, String serviceType) in OrderService.
+23:29:21.932 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+23:29:21.934 [http-nio-8080-exec-7] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+23:29:21.934 [http-nio-8080-exec-7] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindWorkerResponseCommandImpl@786a068e
+23:29:21.970 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:23.502 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:23.502 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:23.502 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:29:23.502 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - find_worker_response
+23:29:23.502 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:29:23.502 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - command = find_worker_response
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.controller.command.impl.FindWorkerResponseCommandImpl - Start FindWorkerResponseCommandImpl.
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByWorkerId(Long idWorker).
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+23:29:23.503 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+23:29:23.504 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+23:29:23.504 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+23:29:23.504 [http-nio-8080-exec-10] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+23:29:23.504 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindWorkerResponseCommandImpl@786a068e
+23:29:23.534 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:27.965 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:27.965 [http-nio-8080-exec-2] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:27.965 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:29:27.965 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - find_worker_response
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.controller.factory.CommandFactory - command = find_worker_response
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.controller.command.impl.FindWorkerResponseCommandImpl - Start FindWorkerResponseCommandImpl.
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.service.serviceLogic.impl.OrderServiceImpl - Start Page<Order> getOrdersByWorkerId(Page<Order> orderPageRequest, Long idWorker) in OrderService.
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.dao.repository.impl.OrderDaoImpl - Start List<Order> getOrdersByWorkerId(Long idWorker).
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #take()
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 2
+23:29:27.965 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 1
+23:29:27.967 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - #retrieve(final Connection connection)
+23:29:27.967 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - pool.size() is 3
+23:29:27.967 [http-nio-8080-exec-2] INFO  com.jwd.dao.connection.impl.ConnectionPoolImpl - taken.size() is 0
+23:29:27.967 [http-nio-8080-exec-2] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.FindWorkerResponseCommandImpl@786a068e
+23:29:27.991 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:35.138 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:35.138 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:35.170 [http-nio-8080-exec-6] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:37.963 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:37.964 [http-nio-8080-exec-8] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:37.964 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:29:37.964 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - go_to_page
+23:29:37.964 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:29:37.964 [http-nio-8080-exec-8] INFO  com.jwd.controller.factory.CommandFactory - command = go_to_page
+23:29:37.964 [http-nio-8080-exec-8] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
+23:29:37.964 [http-nio-8080-exec-8] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@5649e083
+23:29:37.989 [http-nio-8080-exec-7] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:41.897 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:41.897 [http-nio-8080-exec-9] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:41.897 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:29:41.897 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - go_to_page
+23:29:41.897 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:29:41.897 [http-nio-8080-exec-9] INFO  com.jwd.controller.factory.CommandFactory - command = go_to_page
+23:29:41.897 [http-nio-8080-exec-9] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
+23:29:41.898 [http-nio-8080-exec-9] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@5649e083
+23:29:43.671 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:29:43.671 [http-nio-8080-exec-10] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:29:43.671 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:29:43.671 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - go_to_page
+23:29:43.671 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:29:43.671 [http-nio-8080-exec-10] INFO  com.jwd.controller.factory.CommandFactory - command = go_to_page
+23:29:43.672 [http-nio-8080-exec-10] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
+23:29:43.672 [http-nio-8080-exec-10] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@5649e083
+23:29:43.701 [http-nio-8080-exec-1] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:44:10.799 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter
+23:44:10.799 [http-nio-8080-exec-4] DEBUG com.jwd.controller.filter.AuthenticationFilter - Start AuthenticationFilter
+23:44:10.799 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - Controller was started.
+23:44:10.800 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - go_to_page
+23:44:10.800 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - Start defineManager(HttpServletRequest request).
+23:44:10.800 [http-nio-8080-exec-4] INFO  com.jwd.controller.factory.CommandFactory - command = go_to_page
+23:44:10.800 [http-nio-8080-exec-4] INFO  com.jwd.controller.command.impl.GoToPageCommandImpl - Start GoToPageCommandImpl.
+23:44:10.800 [http-nio-8080-exec-4] DEBUG com.jwd.controller.FrontController - using com.jwd.controller.command.impl.GoToPageCommandImpl@5649e083
+23:44:10.829 [http-nio-8080-exec-5] DEBUG com.jwd.controller.filter.EncodingFilter - Start EncodingFilter

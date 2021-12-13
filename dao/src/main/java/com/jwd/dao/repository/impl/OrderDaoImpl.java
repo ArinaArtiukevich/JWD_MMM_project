@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 
 public class OrderDaoImpl extends AbstractDao implements OrderDao {
     private static final Logger LOGGER = LogManager.getLogger(OrderDaoImpl.class);
@@ -49,16 +51,23 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setString(5, order.getStatus().toString());
             statement.setString(6, format.format(order.getOrderCreationDate()));
             int affectedRows = statement.executeUpdate();
-            connection.commit();
             if (affectedRows <= 0) {
                 LOGGER.error("An order was not added into orders.");
-                throw new DaoException("An order was not added into orders.");
+                isAdded = false;
             } else {
                 LOGGER.info("An order was added into orders.");
                 isAdded = true;
             }
+            connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e);
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("An order was not added into orders.");
         } finally {
             close(statement);
@@ -96,6 +105,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException(e);
         } catch (SQLException e) {
             LOGGER.error(e);
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not find orders.");
         } finally {
             close(resultSet, resultSet_total_elements);
@@ -136,6 +152,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException("Invalid date format.");
         } catch (SQLException e) {
             LOGGER.error("Could not find orders by service type.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not find orders by service type.");
         } finally {
             close(resultSet, resultSet_total_elements);
@@ -184,6 +207,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException("Invalid date format");
         } catch (SQLException e) {
             LOGGER.error("Could not find orders by id user.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not find orders.");
         } finally {
             close(resultSet, resultSet_total_elements);
@@ -255,16 +285,22 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement_set_status.setString(1, serviceStatus.toString());
             statement_set_status.setLong(2, idOrder);
             int affectedRowsSetStatus = statement_set_status.executeUpdate();
-            connection.commit();
-
             if (affectedRowsUpdate == 1 && affectedRowsSetStatus == 1) {
                 isTaken = true;
                 LOGGER.info("Order was taken.");
             } else {
                 LOGGER.info("Order was not taken.");
             }
+            connection.commit();
         } catch (SQLException e) {
             LOGGER.error("Could not take order.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not take order.");
         } finally {
             close(statement_update, statement_set_status);
@@ -285,15 +321,22 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             statement.setString(1, serviceStatus.toString());
             statement.setLong(2, idOrder);
             int affectedRows = statement.executeUpdate();
-            connection.commit();
             if (affectedRows == 1) {
                 isSet = true;
                 LOGGER.info("OrderStatus was set.");
             } else {
                 LOGGER.info("OrderStatus was not set.");
             }
+            connection.commit();
         } catch (SQLException e) {
             LOGGER.error("Could not change status of order.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not change status of order.");
         } finally {
             close(statement);
@@ -336,6 +379,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException("Invalid date format");
         } catch (SQLException e) {
             LOGGER.error("Could not find orders by worker id.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not find worker responses.");
         } finally {
             close(resultSet);
@@ -379,6 +429,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException("Invalid date format");
         } catch (SQLException e) {
             LOGGER.error("Could not get client order responses.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not get client order responses.");
         } finally {
             close(resultSet, resultSet_total_elements);
@@ -421,6 +478,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             throw new DaoException("Invalid date format");
         } catch (SQLException e) {
             LOGGER.error("Could not get orders by service status.");
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could not get orders by service status.");
         } finally {
             close(resultSet, resultSet_total_elements);
@@ -451,6 +515,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             }
         } catch (SQLException e) {
             LOGGER.error(e);
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("An order was not deleted.");
         } finally {
             close(statement);
@@ -477,6 +548,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             }
         } catch (SQLException e) {
             LOGGER.error(e);
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Could find get service status.");
         } finally {
             close(resultSet);
@@ -507,6 +585,13 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
             }
         } catch (SQLException e) {
             LOGGER.error(e);
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("An order was not deleted.");
         } finally {
             close(statement);

@@ -71,7 +71,7 @@ public class ServiceValidator {
     public void validateOrder(Order orderToBeAdded) throws ServiceException {
         validateIsNullOrder(orderToBeAdded);
         validateOrderString(orderToBeAdded.getDescription());
-        validateOrderString(orderToBeAdded.getAddress());
+        validateOrderAddress(orderToBeAdded.getAddress());
         validate(orderToBeAdded.getServiceType());
         validate(orderToBeAdded.getStatus());
         validate(orderToBeAdded.getOrderCreationDate());
@@ -93,6 +93,13 @@ public class ServiceValidator {
         validate(string);
         if (!string.matches(PATTERN_ORDER_STRING)) {
             throw new ServiceException("Invalid order parameter.");
+        }
+    }
+
+    private void validateOrderAddress(String string) throws ServiceException {
+        validate(string);
+        if (!string.matches(PATTERN_ORDER_ADDRESS)) {
+            throw new ServiceException("Invalid order address parameter.");
         }
     }
 

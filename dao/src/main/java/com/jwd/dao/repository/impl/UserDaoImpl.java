@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static java.util.Objects.nonNull;
+
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
@@ -29,7 +31,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public boolean addUser(Registration registration) throws DaoException {
         LOGGER.info("Start addUser(Registration registration). Login = " + registration.getLogin());
-        boolean isAdded = false;
+        boolean isAdded;
         PreparedStatement statement = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -60,13 +62,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     LOGGER.info("A login was added into user_logins.");
                     isAdded = true;
                 } else {
-                    throw new DaoException("User registration failed.");
+                    isAdded = false;
                 }
                 connection.commit();
             } else {
                 throw new DaoException("User with such login exists.");
             }
         } catch (SQLException e) {
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("Registration failed.", e);
         } finally {
             close(resultSet);
@@ -79,7 +88,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public boolean updateUserWithoutPassword(Long idUser, Registration userInfo) throws DaoException {
         LOGGER.info("Start updateUserWithoutPassword(Long idUser, Registration userInfo). Login = " + userInfo.getLogin());
-        boolean isUpdated = false;
+        boolean isUpdated;
         PreparedStatement statement = null;
         Connection connection = null;
         try {
@@ -96,10 +105,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 isUpdated = true;
             } else {
                 LOGGER.error("User was not updated.");
-                throw new DaoException("User was not updated.");
+                isUpdated  = false;
             }
             connection.commit();
         } catch (SQLException e) {
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("User was not updated.", e);
         } finally {
             close(statement);
@@ -111,7 +127,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public boolean updateUserWithPassword(Long idUser, Registration userInfo) throws DaoException {
         LOGGER.info("Start updateUserWithPassword(Long idUser, Registration userInfo). Login = " + userInfo.getLogin());
-        boolean isUpdated = false;
+        boolean isUpdated;
         PreparedStatement statement = null;
         Connection connection = null;
         try {
@@ -133,10 +149,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 isUpdated = true;
             } else {
                 LOGGER.error("User was not updated.");
-                throw new DaoException("User was not updated.");
+                isUpdated = false;
             }
             connection.commit();
         } catch (SQLException e) {
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("User was not updated.", e);
         } finally {
             close(statement);
@@ -286,7 +309,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public boolean deleteUserByLogin(String login) throws DaoException {
         LOGGER.info("Start deleteUserByLogin(String login).");
-        boolean isDeleted = false;
+        boolean isDeleted;
         PreparedStatement statement = null;
         Connection connection = null;
         ResultSet resultSet = null;
@@ -310,13 +333,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     LOGGER.info("User was deleted.");
                     isDeleted = true;
                 } else {
-                    throw new DaoException("User was not deleted.");
+                    isDeleted = false;
                 }
                 connection.commit();
             } else {
                 throw new DaoException("User with such login does not exist.");
             }
         } catch (SQLException e) {
+            try {
+                if (nonNull(connection)) {
+                    connection.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new DaoException(ex);
+            }
             throw new DaoException("User was deleted.");
         } finally {
             close(resultSet);

@@ -49,7 +49,7 @@ public class OrderServiceImplTest {
     private Order order = new Order("change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, new SimpleDateFormat("dd/MM/yyyy").parse("27/11/2021"));
     private Order invalidOrder = new Order("change roof", "esenina 1", ServiceType.ROOFING, ServiceStatus.FREE, null);
     private Order doneOrder = new Order("change roof", "esenina 21", ServiceType.ROOFING, ServiceStatus.DONE, new SimpleDateFormat("dd/MM/yyyy").parse("06/12/2021"));
-    private Registration registrationInfo = new Registration("arina", "artiukevich", "arina@gmail.com", "Minsk", "arinka", "arina", "arina", Gender.FEMALE, UserRole.CLIENT);
+    private Registration registrationInfo = new Registration("arina", "artiukevich", "arina@gmail.com", "Minsk", "arinka_test_order", "arina", "arina", Gender.FEMALE, UserRole.CLIENT);
 
     public OrderServiceImplTest() throws ParseException {
     }

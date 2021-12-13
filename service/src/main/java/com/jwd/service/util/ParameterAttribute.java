@@ -5,9 +5,10 @@ import java.util.List;
 
 public class ParameterAttribute {
     public static final String PATTERN_EMAIL = "^[a-z0-9._-]{1,25}@[a-z0-9.-]{1,14}\\.[a-z]{2,6}$",
-            PATTERN_LOGIN = "([A-Za-z#!^&_]{1,14}$)",
-            PATTERN_STRING = "([A-Za-z]{1,14}$)",
-            PATTERN_ORDER_STRING = "([A-Za-z/\\s]{1,20}$)",
+            PATTERN_LOGIN = "(^([A-Za-z#!^&_]*){1,30}$)",
+            PATTERN_STRING = "(^([A-Za-z]*){1,30}$)",
+            PATTERN_ORDER_STRING = "(^([A-Za-z\\s]*){1,30}$)",
+            PATTERN_ORDER_ADDRESS = "(^([A-Za-z\\s0-9]*){1,30}$)",
             ALL_ORDERS  = "ALL";
 
     public static final List<String> availableSortByParameters = Arrays.asList("order_creation_date", "address", "service_type",

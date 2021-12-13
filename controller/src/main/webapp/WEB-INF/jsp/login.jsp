@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <button type="submit" name="loginAction" class="btn" value="Submit">${login_button_enter}</button>
+                <button type="submit" name="loginAction" class="btn btn-light" value="Submit">${login_button_enter}</button>
             </div>
         </form>
     </body>
