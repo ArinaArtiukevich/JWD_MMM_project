@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idWorker);
             UserRole localRole = orderDao.findWorkerRoleByIdOrder(idOrder);
             validator.validate(localRole);
-            if (!localRole.equals(UserRole.WORKER)) {
+            if (!localRole.equals(UserRole.WORKER) || (!orderDao.findOrderById(idOrder).getIdWorker().equals(idWorker))) {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);
@@ -151,7 +151,7 @@ public class OrderServiceImpl implements OrderService {
             validator.validate(idClient);
             UserRole localRole = orderDao.findClientRoleByIdOrder(idOrder);
             validator.validate(localRole);
-            if (!localRole.equals(UserRole.CLIENT)) {
+            if (!localRole.equals(UserRole.CLIENT) || (orderDao.findOrderById(idOrder).getIdClient() != idClient)) {
                 throw new ServiceException("You are not allowed to do this operation.");
             }
             ServiceStatus localStatus = orderDao.getServiceStatusById(idOrder);

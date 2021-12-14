@@ -90,10 +90,12 @@
                 </c:if>
 
                 <c:if test="${sessionScope.order.status.toString() eq 'IN_PROCESS'}">
-                    <input type="hidden" name="command" value="close_order"/>
-                    <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
-                    <input type="hidden" name="idUser" value="${sessionScope.userId}"/>
-                    <button type="submit" class="btn btn-light">${button_close_order}</button>
+                    <c:if test="${sessionScope.userId eq sessionScope.order.idWorker}">
+                        <input type="hidden" name="command" value="close_order"/>
+                        <input type="hidden" name="idService" value="${sessionScope.order.idService}"/>
+                        <input type="hidden" name="idUser" value="${sessionScope.userId}"/>
+                        <button type="submit" class="btn btn-light">${button_close_order}</button>
+                    </c:if>
                 </c:if>
             </c:if>
             <c:if test="${sessionScope.userRole eq 'client'}">

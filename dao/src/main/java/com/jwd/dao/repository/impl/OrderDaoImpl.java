@@ -249,6 +249,9 @@ public class OrderDaoImpl extends AbstractDao implements OrderDao {
                 order.setServiceType(ServiceType.valueOf(resultSet.getString("service_type")));
                 order.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")));
                 order.setOrderCreationDate(format.parse(resultSet.getString("order_creation_date")));
+                if (resultSet.getLong("id_worker") > 0) {
+                    order.setIdWorker((resultSet.getLong("id_worker")));
+                }
             }
         } catch (ParseException e) {
             LOGGER.error("Invalid date format");

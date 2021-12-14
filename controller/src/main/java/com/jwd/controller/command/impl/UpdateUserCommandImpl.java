@@ -68,11 +68,11 @@ public class UpdateUserCommandImpl implements Command {
         return answer;
     }
 
-    private boolean validatePasswords(String password, String confirmPassword) {
+    private boolean validatePasswords(String password, String confirmPassword) throws ControllerException {
         boolean isValidated = false;
         if (nonNull(password) && !password.isEmpty() && nonNull(confirmPassword) && !confirmPassword.isEmpty()) {
-            if (password.equals(confirmPassword)) {
-                isValidated = true;
+            if (!password.equals(confirmPassword)) {
+                throw new ControllerException("Personal information was not updated. Passwords are not equal.");
             }
         }
         return isValidated;
